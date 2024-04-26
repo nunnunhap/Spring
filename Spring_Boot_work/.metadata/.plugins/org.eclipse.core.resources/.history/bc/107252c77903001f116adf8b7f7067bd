@@ -1,0 +1,4 @@
+spring.application.name=ex00
+
+# 포트변경 기본포트 8080
+server.port=9093

@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+org.springframework.ide.eclipse.boot.wizard.PopularityTracker.web=1
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.artifactId=study
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.bootVersion=3.2.5
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.description=Study Spring Boot
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.groupId=com.docmall
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.javaVersion=17
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.language=java
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.name=ex00
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.packageName=com.docmall.demo
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.packaging=jar
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.type=MAVEN
+org.springframework.ide.eclipse.boot.wizard.PreferredSelections.version=1.0.0
+org.springframework.ide.eclipse.boot.wizard.initializr.url=https\://start.spring.io\n

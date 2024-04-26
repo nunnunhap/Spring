@@ -1,0 +1,24 @@
+package com.docmall.demo.domain;
+
+// Oracle DB에 Product 테이블을 생성하고 구조를 정의한 클래스
+public class ProductVO {
+	private String name;
+	private double price;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	
+	
+	
+	
+}

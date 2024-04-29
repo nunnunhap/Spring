@@ -1,3 +1,7 @@
 INDEX VERSION 1.134
+C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3012140731.index
+\ex01\src\main\java
 C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3178133098.index
 \ex00\src\main\java
+C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3256341572.index
+\ex02\src\main\java

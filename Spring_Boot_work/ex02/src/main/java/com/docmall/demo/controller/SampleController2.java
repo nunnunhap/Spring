@@ -37,6 +37,7 @@ public class SampleController2 {
 		// 사용자가 입력한 게시판 db를 BoardVO vo로 받고 db의 게시판 테이블에 저장
 		// jsp명이 아닌 해당 주소로 이동.
 		// redirect는 꼭 String으로 써야 한다는 규칙이 있어서 method return타입도 String으로 쓰는 것.
+		logger.info("게시판 데이터 : " + vo); // vo.toString() 메서드 호출
 		return "redirect:/board/list";
 	}
 	

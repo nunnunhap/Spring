@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.demo.mapper.EmployeesMapper">
+	<select id="emp_list" resultType="com.docmall.demo.domain.EmployeeVO">
+		SELECT
+		    employee_id,
+		    emp_name,
+		    email,
+		    phone_number,
+		    hire_date,
+		    salary,
+		    manager_id,
+		    commission_pct,
+		    retire_date,
+		    department_id,
+		    job_id,
+		    create_date,
+		    update_date
+		FROM
+		    employees
+	</select>
+</mapper>

@@ -2,8 +2,11 @@ package com.docmall.demo.domain;
 
 import java.util.Date;
 
+// 용도? Employees테이블의 데이터를 저장하거나 불러올 때 사용하는 객체.
+// 사용자가 데이터 입력 -> 아래 클래스로 객체를 생성하여 메모리상 저장
+// Employees 테이블의 데이터를 읽어와서 EmployeeVO 클래스로 객체 생성하여 메모리상 저장
 public class EmployeeVO {
-	private Integer employee_id;
+	private Integer employee_id; // 이게 primary key니까 기본데이터타입이 아닌 wrapper class로 하자.
 	private String	emp_name;
 	private String	email;
 	private String	phone_number;

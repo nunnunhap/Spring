@@ -48,4 +48,8 @@
 		<section name="NewWizard.dialogBounds">
 		</section>
 	</section>
+	<section name="WORKBENCH_SETTINGS">
+		<list key="ENABLED_TRANSFERS">
+		</list>
+	</section>
 </section>

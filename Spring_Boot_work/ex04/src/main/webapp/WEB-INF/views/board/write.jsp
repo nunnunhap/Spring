@@ -25,7 +25,7 @@
                     <div class="card-header">
                         <h3 class="card-title">글쓰기 폼</h3>
                     </div>
-                    <form action="/board/writer" method="post">
+                    <form action="/board/write" method="post">
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="title">Title</label>

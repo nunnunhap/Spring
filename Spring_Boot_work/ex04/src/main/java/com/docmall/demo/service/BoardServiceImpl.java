@@ -1,5 +1,7 @@
 package com.docmall.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,5 +17,28 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void write(BoardVO vo) {
 		boardMapper.write(vo);
+	}
+
+	@Override
+	public List<BoardVO> list() {
+		return boardMapper.list();
+	}
+
+	@Override
+	public BoardVO get(Long bno) {
+		// 조회 수 증가
+		boardMapper.readCount(bno);
+		
+		return boardMapper.get(bno);
+	}
+
+	@Override
+	public void modify(BoardVO vo) {
+		boardMapper.modify(vo);
+	}
+
+	@Override
+	public void delete(Long bno) {
+		boardMapper.delete(bno);
 	}
 }

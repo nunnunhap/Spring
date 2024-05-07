@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.docmall.demo.domain.BoardVO;
+import com.docmall.demo.dto.Criteria;
 import com.docmall.demo.mapper.BoardMapper;
 
 @Service
@@ -40,5 +41,15 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void delete(Long bno) {
 		boardMapper.delete(bno);
+	}
+
+	@Override
+	public List<BoardVO> listWithPaging(Criteria cri) {
+		return boardMapper.listWithPaging(cri);
+	}
+
+	@Override
+	public int getTotalCount() {
+		return boardMapper.getTotalCount();
 	}
 }

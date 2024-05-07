@@ -24,6 +24,43 @@
 		DESC	
 	</select>
 	
+	<select id="listWithPaging" resultType="com.docmall.demo.domain.BoardVO" parameterType="com.docmall.demo.dto.Criteria">
+		<![CDATA[
+			SELECT
+			    bno,
+			    title,
+			    content,
+			    writer,
+			    regdate,
+			    updatedate,
+			    viewcount
+			FROM (
+			    SELECT /*+ INDEX_DESC(board pk_board) */
+			        ROWNUM AS rn,
+			        bno,
+			        title,
+			        content,
+			        writer,
+			        regdate,
+			        updatedate,
+			        viewcount
+			    FROM
+			        board
+			    WHERE
+			        ROWNUM <= (#{pageNum} * #{amount})
+			)
+			WHERE
+			    rn > (#{pageNum} - 1 ) * #{amount}
+		]]>
+	</select>
+	
+	<select id="getTotalCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			board		
+	</select>
+	
 	<!-- select문은 무조건 resultType(return타입)이 써있어야 함. 파라미터 타입은 생략 가능하지만 생략말고 쓰기 -->
 	<select id="get" resultType="com.docmall.demo.domain.BoardVO" parameterType="Long">
 		SELECT

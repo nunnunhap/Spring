@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.docmall.demo.domain.BoardVO;
+import com.docmall.demo.dto.Criteria;
+import com.docmall.demo.dto.PageDTO;
 import com.docmall.demo.service.BoardService;
 
 @RequestMapping("/board/*")
@@ -41,6 +43,7 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	/*
 	// 글 목록 저장
 	@GetMapping("list")
 	public void list(Model model) { // 어떤 데이터 소스(list)를 jsp에서 사용할 경우에는 Model 파라미터를 써줌.
@@ -48,6 +51,21 @@ public class BoardController {
 		model.addAttribute("list", list); // (jsp에서 사용할 이름, 데이터)
 		
 		logger.info("리스트");
+	}
+	*/
+	
+	@GetMapping("list")
+	// 자바에선 Criteria객체와 Model객체를 생성해서 대입해줘야 하지만 spring에선 알아서 해줌.
+	public void list(Criteria cri, Model model) {
+		List<BoardVO> list = boardService.listWithPaging(cri);
+		logger.info("게시물 목록 데이터 : " + list);
+		// 1) 게시물 목록 10건
+		model.addAttribute("list", list);
+		int total = boardService.getTotalCount();
+		PageDTO pageDTO = new PageDTO(cri, total);
+		logger.info("페이징 기능 데이터 : " + pageDTO);
+		// 2) 페이징 기능. 1 2 3 4 5 6 7 8 9 10 [next]
+		model.addAttribute("pageMaker", pageDTO);
 	}
 	
 	// 게시물 조회/ 게시물 수정
@@ -59,8 +77,6 @@ public class BoardController {
 		logger.info("게시물 번호 : " + bno);
 		
 		// 1) 조회 수 증가
-		
-		
 		// 2) 증가된 조회 수가 적용된 게시물 읽어오기
 		BoardVO boardVo = boardService.get(bno);
 		model.addAttribute("boardVO", boardVo);

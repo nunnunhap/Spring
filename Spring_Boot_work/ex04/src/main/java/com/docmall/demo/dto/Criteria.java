@@ -12,8 +12,8 @@ public class Criteria {
 	private int amount; // 페이지 마다 출력할 게시물 개수
 	
 	// 검색 필드
-	private String type; // 제목만, 글작성자, 등등 선택한 검색 종류
-	private String keyword; // 검색어
+	private String type; // 제목만, 글작성자, 등등 선택한 검색 종류(T, C, W, TC, TW, TWC) // null값
+	private String keyword; // 검색어 // null값
 	
 	// 생성자
 	public Criteria() {
@@ -28,4 +28,10 @@ public class Criteria {
 		System.out.println("pageNum : " + pageNum + ", amount" + amount);
 	}
 	
+	// 아래 메서드명은 무조건 getter방식으로 만들어주어야 함.
+	public String[] getTypeArr() {
+		// true면 검색파라미터가 없었단 뜻. 첫번째는 공백, 두번째는.. 만약에 type필드가 TWC로 넘어오면 "T", "W", "C"요소를 가지는 배열로 리턴
+		// type.split(""); -> "TWC".split("") -> "T" "W" "C"
+		return type == null ? new String[] {} : type.split("");
+	}
 }

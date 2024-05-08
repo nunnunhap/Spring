@@ -24,8 +24,31 @@
 		DESC	
 	</select>
 	
+	<!-- 검색조건 1) 목록 2) 총 데이터 개수 에서 공통사용됨. 검색조건이 두 군데 이상에서 사용되는 경우 sql로 만듦.-->
+	<!-- ID가 메서드명이었으나 sql에선 참조할 이름인 것임. -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+			<foreach collection="typeArr" item="type"> <!-- 필드명을 쓰면 이게 getter로 인식됨. -->
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'W'.toString()">
+							writer like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							content like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<!-- 공통사항 : 검색조건 추가 -->
+	<!-- getter에 의한 메서드 동작 -->
 	<select id="listWithPaging" resultType="com.docmall.demo.domain.BoardVO" parameterType="com.docmall.demo.dto.Criteria">
-		<![CDATA[
 			SELECT
 			    bno,
 			    title,
@@ -47,18 +70,27 @@
 			    FROM
 			        board
 			    WHERE
-			        ROWNUM <= (#{pageNum} * #{amount})
+					<include refid="criteria"></include>
+		<![CDATA[
+					ROWNUM <= (#{pageNum} * #{amount})
+		]]>
 			)
 			WHERE
 			    rn > (#{pageNum} - 1 ) * #{amount}
-		]]>
+		
 	</select>
 	
+	<!-- 공통사항 : 검색조건 추가 -->
+	<!-- 사용자가 검색을 사용 안하면 ""이 반환되어 WHERE절 뒤에 붙는 코드가 없어서 에러맞음.
+		그래서 조건식을 추가로 넣어줘서 에러 맞지 않도록 함. -->
 	<select id="getTotalCount" resultType="int">
 		SELECT
 			COUNT(*)
 		FROM
-			board		
+			board
+		WHERE
+			<include refid="criteria"></include>
+			bno > 0
 	</select>
 	
 	<!-- select문은 무조건 resultType(return타입)이 써있어야 함. 파라미터 타입은 생략 가능하지만 생략말고 쓰기 -->
@@ -100,11 +132,6 @@
 		WHERE
 			bno = #{bno}
 	</delete>
-	
-	
-	
-	
-	
 </mapper>
 
 

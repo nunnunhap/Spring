@@ -27,6 +27,13 @@
                     <div class="card-header">
                         <h3 class="card-title">글쓰기 폼</h3>
                     </div>
+                    <form id="actionForm" action="/board/list" method="get">
+                    	<input type="hidden" name="bno" value="${boardVO.bno}">
+                    	<input type="hidden" name="pageNum" value="${cri.pageNum}">
+                    	<input type="hidden" name="amount" value="${cri.amount}">
+                    	<input type="hidden" name="type" value="${cri.type}">
+                    	<input type="hidden" name="keyword" value="${cri.keyword}">
+                    </form>
                     <form action="/board/get" method="post">
                         <div class="card-body">
                             <div class="form-group">
@@ -59,9 +66,9 @@
                             </div>
                         </div>
                         <div class="card-footer">
-                            <a type="button" class="btn btn-primary" href="/board/modify?bno=${boardVO.bno}">Modify</a>
+                            <a type="button" class="btn btn-primary" href="/board/modify?bno=${boardVO.bno}" role="button">Modify</a>
                             <button type="button" class="btn btn-danger" onclick="fn_delete(${boardVO.bno})">Delete</button>
-                            <a class="btn btn-primary" href="/board/list">목록으로</a>
+                            <button type="button" class="btn btn-primary" onclick="fn_list()">List</button>
                         </div>
                     </form>
                 </div>
@@ -69,10 +76,20 @@
         </div>
     </div>
     <script>
+        let actionForm = document.getElementById("actionForm") // form태그 참조
+
         function fn_delete(bno) {
             if(!confirm(bno + " 번 게시물을 삭제하시겠습니까?")) return;
+            // location.href = "/board/delete?bno=" + bno; // location.href 해당 주소로 옮겨감.
 
-            location.href = "/board/delete?bno=" + bno; // location.href 해당 주소로 옮겨감.
+            // <form id="actionForm" action="/board/list" method="get">에서 delete키를 누르면 아래의 주소로 바뀜.
+            actionForm.setAttribute("action", "/board/delete");
+            actionForm.submit();
+        }
+
+        // list는 사실 bno값을 받을 필욘 없지만 그냥 있는 코드 같이 쓰고자 함.
+        function fn_list() {
+            actionForm.submit();
         }
     </script>
 </body>

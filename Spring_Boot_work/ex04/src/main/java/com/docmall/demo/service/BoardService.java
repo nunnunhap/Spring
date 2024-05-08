@@ -12,10 +12,12 @@ public interface BoardService {
 	
 	// 글 목록
 	List<BoardVO> list();
+	
+	// 검색조건이 추가되는 목록
 	List<BoardVO> listWithPaging(Criteria cri);
 	
 	// 테이블의 총 데이터 개수
-	int getTotalCount();
+	int getTotalCount(Criteria cri);
 	
 	// 게시물 조회
 	BoardVO get(Long bno);

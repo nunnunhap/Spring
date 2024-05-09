@@ -90,24 +90,26 @@ public class BoardController {
 	
 	// 게시글 수정하기
 	@PostMapping("modify")
-	public String modify(BoardVO vo) {
+	public String modify(BoardVO vo, Criteria cri) {
 		log.info("수정 데이터 : " + vo);
 		boardService.modify(vo);
-		return "redirect:/board/list";
+		return "redirect:/board/list" + cri.getListLink();
 	}
 	
 	// 게시글 삭제하기
 	@GetMapping("delete")
-	public String delete(Long bno, Criteria cri, RedirectAttributes rttr) {
+	public String delete(Long bno, Criteria cri) {
 		log.info("삭제 글 번호 : " + bno);
 		boardService.delete(bno);
 		
+		/* 이렇게 작업 안 하고 Criteria에서 작업해서 데려오는 것도 방법일듯?
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
 		rttr.addAttribute("type", cri.getType());
 		rttr.addAttribute("keyword", cri.getKeyword());
+		*/
 		
-		// 위의 rttr 작업을 해주면 아래 주소는 오른쪽과 같이 변함. "redirect:/board/list?pageNum=2&amount=10&type=T&keyword=사과"
-		return "redirect:/board/list";
+		// 위의 rttr 작업을 해주면 아래 주소("redirect:/board/list")는 오른쪽과 같이 변함. "redirect:/board/list?pageNum=2&amount=10&type=T&keyword=사과"
+		return "redirect:/board/list" + cri.getListLink();
 	}
 }

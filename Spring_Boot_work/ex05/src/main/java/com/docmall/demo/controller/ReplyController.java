@@ -39,7 +39,7 @@ public class ReplyController {
 		Map<String, Object> map = new HashMap<>();
 
 		// 1) 댓글 목록 작업
-		Criteria cri = new Criteria(1, 10);
+		Criteria cri = new Criteria(page, 5); // Criteria(1, 5)로 썼는데 1때문에 고정이 되어서 이걸 page로 변경해줌.
 		List<ReplyVO> list = replyService.getListPaging(cri, bno);
 		map.put("list", list);
 		

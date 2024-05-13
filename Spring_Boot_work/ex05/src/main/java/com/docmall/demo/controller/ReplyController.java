@@ -5,10 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 
 // 댓글 기능과 관련된 매핑주소를 관리하는 클래스
 // 게시판의 get.jsp에서 작업이 필요한 내용을 가지고 있는 것.
+// Rest API 개발 방법
 @Slf4j // log객체 지원
 @RequiredArgsConstructor
 @RestController
@@ -53,5 +58,46 @@ public class ReplyController {
 		
 		return entity;
 	}
+	
+	// 댓글 저장
+	// ajax의 경우 ResponseEntity를 사용함.
+	// consumes 클라이언트에서 보내는 데이터는 json이어야 함.
+	// produces {MediaType.TEXT_PLAIN_VALUE} : 서버에서 클라이언트로 보내는 응답데이터는 text임.
+	@PostMapping(value = "/new", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	// @RequestBody : json데이터를 ReplyVO vo로 변환해주는 기능. jackson-databind라이브러리가 실제 json 관련 작업수행.
+	public ResponseEntity<String> create(@RequestBody ReplyVO vo) {
+		ResponseEntity<String> entity = null; // create() 메서드의 리턴타입이 ResponseEntity<String>이므로 이걸로 변수를 하나 만들어줌.
+		
+		log.info("댓글 데이터 : " + vo);
+		
+		replyService.insert(vo);
+		
+		// 정상적으로 실행되면 ajax 호출한 곳으로 이 success값이 넘어가게 됨.
+		entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		
+		return entity;
+	}
+	
+	// 댓글 수정, put or patch
+	@PutMapping(value = "/modify", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	public ResponseEntity<String> modify(@RequestBody ReplyVO vo) {
+		ResponseEntity<String> entity = null; // create() 메서드의 리턴타입이 ResponseEntity<String>이므로 이걸로 변수를 하나 만들어줌.
+		
+		log.info("댓글수정 데이터 : " + vo);
+		
+		// 댓글 수정작업
+		replyService.update(vo);
+		
+		// 정상적으로 실행되면 ajax 호출한 곳으로 이 success값이 넘어가게 됨.
+		entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		
+		return entity;
+	}	
+	
+	
+	
+	
+	
+	
 	
 }

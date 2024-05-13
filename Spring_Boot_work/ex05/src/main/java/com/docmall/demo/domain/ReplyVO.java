@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class ReplyVO {
-	private Integer rno;
+	private Integer rno; // 참조타입이니 null값
 	private Long	bno; // bno는 게시판 테이블에서도 래퍼타입이었으니 그대로 참조
 	private String	retext;
 	private String	replyer;

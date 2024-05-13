@@ -30,5 +30,14 @@ public class ReplyServiceImpl implements ReplyService {
 		return replyMapper.getCountByBno(bno);
 	}
 	
+	@Override
+	public void insert(ReplyVO vo) {
+		replyMapper.insert(vo);
+	}
+	
+	@Override
+	public void update(ReplyVO vo) {
+		replyMapper.update(vo);
+	}
 	
 }

@@ -4,7 +4,6 @@
 
 	<!-- 댓글 기능 구현 -->
 	<select id="getListPaging" resultType="com.docmall.demo.domain.ReplyVO">
-		<![CDATA[
 			SELECT
 			    rno,
 			    bno,
@@ -13,7 +12,7 @@
 			    replydate,
 			    updatedate
 			FROM (
-			    SELECT /*+ INDEX_DESC(board pk_reply) */
+			    SELECT /*+ INDEX_DESC(reply pk_reply) */
 			        ROWNUM AS rn,
 			            rno,
 			            bno,
@@ -25,6 +24,7 @@
 			            reply
 			        WHERE
 			            bno = #{bno}
+				<![CDATA[
 			        AND
 						ROWNUM <= (#{cri.pageNum} * #{cri.amount})
 			)
@@ -43,8 +43,22 @@
 			bno = #{bno}
 	</select>
 	
+	<insert id="insert" parameterType="com.docmall.demo.domain.ReplyVO">
+		INSERT INTO
+			reply(rno, bno, retext, replyer)
+		VALUES
+			(seq_reply.NEXTVAL, #{bno}, #{retext}, #{replyer})
+	</insert>
 	
-	
+	<update id="update" parameterType="com.docmall.demo.domain.ReplyVO">
+		UPDATE
+			reply
+		SET
+			retext = #{retext},
+			updatedate = SYSDATE
+		WHERE
+			rno = #{rno}
+	</update>
 	
 
 </mapper>

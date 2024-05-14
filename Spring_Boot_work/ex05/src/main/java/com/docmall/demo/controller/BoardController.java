@@ -30,7 +30,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService; // 부모 인터페이스 타입으로 작업
 	
-	// 글쓰기 폼
+	// 글쓰기 폼 // Service -> Mapper 작업이 필요없음.
 	@GetMapping("write")
 	public void write() {
 		log.info("called write ...");
@@ -75,6 +75,7 @@ public class BoardController {
 	}
 	
 	// 게시물 조회/ 게시물 수정
+	// 클라이언트 측에서 get, modify 둘 중 아무거나 요청해도 이 get으로 받아짐. 근데 void형식이라서 get으로 요청받으면 get, modify면 modify로 작동
 	@GetMapping(value = {"get", "modify"})
 	// jsp에 보여주기 위해 Model파라미터 추가함. Model은 항상 맨 뒤에 추가해줌.
 	// 그래서 Select문이 들어간 쿼리가 있으면 controller에선 Model이 들어가게 되는 것이지.
@@ -86,6 +87,8 @@ public class BoardController {
 		// 2) 증가된 조회 수가 적용된 게시물 읽어오기
 		BoardVO boardVo = boardService.get(bno);
 		model.addAttribute("boardVO", boardVo);
+		
+		// Criteria는 게시물 조회 후 다시 기존의 list로 돌아가기 위하여 매개변수로 받음. @ModelAttribute("a")는 jsp에서 사용할 이름임.
 	}
 	
 	// 게시글 수정하기

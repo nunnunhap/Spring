@@ -60,5 +60,13 @@
 			rno = #{rno}
 	</update>
 	
+	<!-- mybatis에선 기본적으로 parameterType 안 적는데 공부하는 입장이니까. -->
+	<delete id="delete" parameterType="Integer">
+		DELETE
+			reply
+		WHERE
+			rno = #{rno}
+	</delete>
+	
 
 </mapper>

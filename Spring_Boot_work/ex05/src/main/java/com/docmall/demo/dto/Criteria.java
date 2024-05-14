@@ -31,7 +31,7 @@ public class Criteria {
 	}
 	
 	// 아래 메서드명은 무조건 getter방식으로 만들어주어야 함.
-	public String[] getTypeArr() {
+	public String[] getTypeArr() { // boardMapper.xml에서 사용. getter메서드 작동.
 		// true면 검색파라미터가 없었단 뜻. 첫번째는 공백, 두번째는.. 만약에 type필드가 TWC로 넘어오면 "T", "W", "C"요소를 가지는 배열로 리턴
 		// type.split(""); -> "TWC".split("") -> "T" "W" "C"
 		return type == null ? new String[] {} : type.split("");

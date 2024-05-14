@@ -27,7 +27,7 @@
 	<!-- 검색조건 1) 목록 2) 총 데이터 개수 에서 공통사용됨. 검색조건이 두 군데 이상에서 사용되는 경우 sql로 만듦.-->
 	<!-- ID가 메서드명이었으나 sql에선 참조할 이름인 것임. -->
 	<sql id="criteria">
-		<trim prefix="(" suffix=") AND" prefixOverrides="OR">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR"> <!-- prefixOverrides는 foreach결과 중 맨 앞 OR을 제거 -->
 			<foreach collection="typeArr" item="type"> <!-- 필드명을 쓰면 이게 getter로 인식됨. -->
 				<trim prefix="OR">
 					<choose>

@@ -50,7 +50,7 @@
             <tr>
                 <td>
                     <button type="button" name="btnReplyModify" data-rno="{{rno}}" class="btn btn-primary btn-sm">수정</button>
-                    <button type="button" name="btnReplyDelete" class="btn btn-danger btn-sm">삭제</button>
+                    <button type="button" name="btnReplyDelete" data-rno="{{rno}}" class="btn btn-danger btn-sm">삭제</button>
                 </td>
             </tr>
             {{/each}}
@@ -194,6 +194,15 @@
             $("#btnReplyWrite").on("click", function() {
                 // console.log("댓글 버튼 클릭");
 
+                // 초기화 작업
+                $("#reply_rno").html("");
+                $("#replyer").val(""); // val()은 내용을 읽어오는 것. ()는 내용 넣어줌. ""은 빈문자열로 내용 초기화
+                $("#retext").val("");
+
+                // 모달버튼 화면 숨김/보임작업. <button name="a"></button> name 속성[]에 a 값을 가지고 있는 버튼
+                $("button[name='btnModalReply']").hide(); // hide()는 jQuery. 등록, 수정, 삭제 3개버튼 화면에서 숨김
+                $("#btnModalReplySave").show(); // show()도 jQuery
+
                 $("#replyDialog").modal('show');
             });
 
@@ -274,32 +283,105 @@
                 });
             });
 
+            // 3) modal 대화상자 댓글 삭제(댓글 목록에서 삭제버튼 클릭 시)
+            $("#btnModalReplyDelete").on("click", function() {
+                console.log("댓글 삭제 버튼 클릭");
 
-        // 댓글 수정버튼을 클릭 시
-        // $("정적태그 선택자").on("이벤트명", "동적태그 선택자", function() {});
-        $("div#replyList").on("click", "button[name='btnReplyModify']", function() {
-            // console.log("수정버튼을 클릭");
+                // 댓글데이터를 json포맷으로 서버에 전송/ 정확한 그 게시물에 대한 댓글 데이터니까 bno값이 들어감.
+                // 1) 댓글수정데이터를 js의 Object문법으로 표현
+                // let replyData = {rno : $("#reply_rno").html()};
+                // 2) 위의 js object 문법을 JSON 표현법으로 변환. 댓글데이터를 JSON변환하여 서버에 전송
+                // console.log(JSON.stringify(replyData));
+                // return;
 
-            // $(this) : 클릭한 수정버튼 태그를 참조
-            let rno = $(this).data("rno"); // <button data-rno="500">수정</button>
-            // 이 find()는 children이랑 다르게 후손들을 찾아줌.
-            // 입력양식(<input>등)태그는 val메서드, 일반태그는 html()메서드 사용
-            let replyer = $(this).parents("table#replytable").find("#replyer_" + rno).html();
-            let retext = $(this).parents("table#replytable").find("#retext_" + rno).html();
+                $.ajax({
+                    type : 'delete', // REST API방식사용하여 수정엔 put방식 사용함.
+                    url : '/replies/delete/' + $("#reply_rno").html(), // 댓글 수정 주소
+                    headers : { // 이 데이터가 어떤 데이터인지. {MIME TYPE, 약속된 표현(나중에 설명)}
+                        "Content-Type" : "application/json", "X-HTTP-Method-Override" : "DELETE"
+                    },
+                    dataType : 'text', // 스프링 주소의 메서드 리턴타입. text, json, html 등이 들어갈 수 있음.
+                    // ReplyController의 메서드의 리턴값이 무엇이냐에 따라 다르게 작성. 우리는 String이라고 써서 text를 적어준 것.
+                    // data : JSON.stringify(replyData), // 서버로 전송할 JSON 데이터
+                    success : function(data) {
+                        if(data == "success") {
+                            alert("댓글 삭제됨");
+                            let url = "/replies/pages/" + bno + "/" + replyPage;
+                            getPage(url);
 
-            // console.log("rno", rno);
-            // console.log("replyer", replyer);
-            // console.log("retext", retext);
+                            // 댓글 번호, 작성자, 내용 초기화
+                            $("#reply_rno").html("");
+                            $("#replyer").val(""); // val()은 내용을 읽어오는 것. ()는 내용 넣어줌. ""은 빈문자열로 내용 초기화
+                            $("#retext").val(""); // 내용 초기화
 
-            // 모달 대화상자에 값을 출력하는 작업
-            // val은 form, input등에만 쓰고, 일반태그는 html()써야 함.
-            $("#reply_rno").html(rno); // 일반태그 <span>
-            $("#replyer").val(replyer); // 해당 위치의 replyer 값 변경
-            $("#retext").val(retext);
+                            $("#replyDialog").modal('hide'); // 모달 대화상자 숨기기
+                        }
+                    }
+                });
+            });
 
-            $("#replyDialog").modal('show');
+            // 댓글 수정버튼을 클릭 시
+            // $("정적태그 선택자").on("이벤트명", "동적태그 선택자", function() {});
+            $("div#replyList").on("click", "button[name='btnReplyModify']", function() {
+                // console.log("수정버튼을 클릭");
+
+                // $(this) : 클릭한 수정버튼 태그를 참조
+                let rno = $(this).data("rno"); // <button data-rno="500">수정</button>
+                // 이 find()는 children이랑 다르게 후손들을 찾아줌.
+                // 입력양식(<input>등)태그는 val메서드, 일반태그는 html()메서드 사용
+                let replyer = $(this).parents("table#replytable").find("#replyer_" + rno).html();
+                let retext = $(this).parents("table#replytable").find("#retext_" + rno).html();
+
+                // console.log("rno", rno);
+                // console.log("replyer", replyer);
+                // console.log("retext", retext);
+
+                // 모달버튼 화면 숨김/보임작업. <button name="a"></button> name 속성[]에 a 값을 가지고 있는 버튼
+                $("button[name='btnModalReply']").hide(); // hide()는 jQuery. 등록, 수정, 삭제 3개버튼 화면에서 숨김
+                $("#btnModalReplyUpdate").show(); // show()도 jQuery
+
+                // 모달 대화상자에 값을 출력하는 작업
+                // val은 form, input등에만 쓰고, 일반태그는 html()써야 함.
+                $("#reply_rno").html(rno); // 일반태그 <span>
+                $("#replyer").val(replyer); // 해당 위치의 replyer 값 변경
+                $("#retext").val(retext);
+
+                $("#replyDialog").modal('show');
+            });
+
+            // 댓글 삭제버튼을 클릭 시
+            // $("정적태그 선택자").on("이벤트명", "동적태그 선택자", function() {});
+            $("div#replyList").on("click", "button[name='btnReplyDelete']", function() {
+                console.log("삭제버튼을 클릭");
+
+                // $(this) : 클릭한 삭제버튼 태그를 참조
+                let rno = $(this).data("rno"); // <button data-rno="500">삭제</button>
+                // 이 find()는 children이랑 다르게 후손들을 찾아줌.
+                // 입력양식(<input>등)태그는 val메서드, 일반태그는 html()메서드 사용
+                let replyer = $(this).parents("table#replytable").find("#replyer_" + rno).html();
+                let retext = $(this).parents("table#replytable").find("#retext_" + rno).html();
+
+                console.log("rno", rno);
+                console.log("replyer", replyer);
+                console.log("retext", retext);
+
+                // 모달버튼 화면 숨김/보임작업. <button name="a"></button> name 속성[]에 a 값을 가지고 있는 버튼
+                $("button[name='btnModalReply']").hide(); // hide()는 jQuery. 등록, 수정, 삭제 3개버튼 화면에서 숨김
+                $("#btnModalReplyDelete").show(); // show()도 jQuery
+
+                // 모달 대화상자에 값을 출력하는 작업
+                // val은 form, input등에만 쓰고, 일반태그는 html()써야 함.
+                $("#reply_rno").html(rno); // 일반태그 <span>
+                $("#replyer").val(replyer); // 해당 위치의 replyer 값 변경
+                $("#retext").val(retext);
+
+                $("#replyDialog").modal('show');
+            });
         });
-});
+
+
+
+
 
 
         // 게시물 글 번호
@@ -416,9 +498,9 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
-                <button type="button" class="btn btn-primary" id="btnModalReplySave">등록</button>
-                <button type="button" class="btn btn-primary" id="btnModalReplyUpdate">수정</button>
-                <button type="button" class="btn btn-primary" id="btnModalReplyDelete">삭제</button>
+                <button type="button" class="btn btn-primary" name="btnModalReply" id="btnModalReplySave">등록</button>
+                <button type="button" class="btn btn-primary" name="btnModalReply" id="btnModalReplyUpdate">수정</button>
+                <button type="button" class="btn btn-primary" name="btnModalReply" id="btnModalReplyDelete">삭제</button>
             </div>
         </div>
     </div>

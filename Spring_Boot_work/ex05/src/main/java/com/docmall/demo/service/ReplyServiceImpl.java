@@ -40,4 +40,9 @@ public class ReplyServiceImpl implements ReplyService {
 		replyMapper.update(vo);
 	}
 	
+	@Override
+	public void delete(Integer rno) {
+		replyMapper.delete(rno);
+	}
+	
 }

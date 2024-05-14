@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -94,7 +95,18 @@ public class ReplyController {
 		return entity;
 	}	
 	
-	
+	// 댓글 삭제, delete/ 그동안은 /delete?rno=댓글번호 였는데 REST API에서 요구하는대로 경로형태 주소 사용함.
+	@DeleteMapping(value = "/delete/{rno}", consumes = "application/json", produces = {MediaType.TEXT_PLAIN_VALUE})
+	// @DeleteMapping에 써있던 rno값을 @PathVariable()이 받아서 그것을 Integer rno에 대입시켜줌.
+	public ResponseEntity<String> delete(@PathVariable("rno") Integer rno) {
+		ResponseEntity<String> entity = null;
+		
+		// 댓글 삭제작업
+		replyService.delete(rno);
+		entity = new ResponseEntity<String>("success", HttpStatus.OK);
+		
+		return entity;
+	}
 	
 	
 	

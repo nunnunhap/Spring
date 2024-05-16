@@ -58,6 +58,15 @@ public class ReplyController {
 		entity = new ResponseEntity<Map<String,Object>>(map, HttpStatus.OK);
 		
 		return entity;
+		/*
+		 * 일단 여기 보면 @RestController가 작성되어 있음. 본래는 @Controller였는데 이 @RestController는 @Controller와 @ResponseBody가 결합되어 있다고 보면 됨.
+		 * 그래서 사실상 지금 모든 메서드에 @ResponseBody가 붙여있는 것임. 그리고 Map<String, Object>인 이유는 List<>와 PageDTO를 같이 받기 위하여 Object를 쓴 것이고,
+		 * String은 map.put("list", list)에서 "list", "pageMaker"가 String 타입이기 때문임.
+		 * 이건 꼭 get.jsp랑 같이 봐야 함. 
+		 * 
+		 * 
+		 * 
+		 */
 	}
 	
 	// 댓글 저장

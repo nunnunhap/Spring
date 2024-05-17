@@ -2,7 +2,6 @@ package com.docmall.demo.service;
 
 import org.springframework.stereotype.Service;
 
-import com.docmall.demo.controller.UploadController;
 import com.docmall.demo.mapper.UploadMapper;
 
 import lombok.RequiredArgsConstructor;

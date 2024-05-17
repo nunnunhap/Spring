@@ -63,9 +63,11 @@ public class ReplyController {
 		 * 그래서 사실상 지금 모든 메서드에 @ResponseBody가 붙여있는 것임. 그리고 Map<String, Object>인 이유는 List<>와 PageDTO를 같이 받기 위하여 Object를 쓴 것이고,
 		 * String은 map.put("list", list)에서 "list", "pageMaker"가 String 타입이기 때문임.
 		 * 이건 꼭 get.jsp랑 같이 봐야 함. 
-		 * 
-		 * 
-		 * 
+		 * Spring Framework에서 제공하는 클래스 중 HttpEntity라는 클래스가 존재한다.
+		 * 이것은 응답자체의 독립된 값이나 표현형태로, 사용자의 HttpRequest에 대한 응답 데이터를 포함하는 클래스이다.
+		 * 따라서 HttpStatus, HttpHeaders, HttpBody를 포함함.
+		 * RestTemplate(서버와 서버간 통신을 쉽게 해줌) 및 @Controller 메서드에 사용함.
+		 * Response header : 웹서버가 웹브라우저에 응답하는 메시지, Reponse body : 데이터 값
 		 */
 	}
 	

@@ -15,13 +15,14 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 public class MultipartConfig {
 	
 	@Bean // 객체를 스프링시스템에서 관리하고 싶다면 이 어노테이션 달음. 스프링에서 자동으로 이 메소드를 호출해서 bean이란 성격으로 주입함.
-	// @Bean을 달지 않으면 이 메서드를 수동으로 호출해야만 함.
+	// @Bean을 달지 않으면 이 메서드를 수동으로 호출해야만 함. multipartResolver bean 등록 및 관리.
+	// 라이브러리에서 제공하는 클래스를 스프링에서 관리.
 	public MultipartResolver multipartResolver() {
 		
 		return new StandardServletMultipartResolver(); // 자바의 객체생성구문
 	}
 	
-	/*
+	/* properties 설정할 수 있고 아래처럼 설정도 가능함.
 	@Bean
 	public MultipartConfigElement multipartConfigElement() {
 		

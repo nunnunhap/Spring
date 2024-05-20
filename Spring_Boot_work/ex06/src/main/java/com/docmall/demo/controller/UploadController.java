@@ -1,6 +1,8 @@
 package com.docmall.demo.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,12 +80,14 @@ public class UploadController {
 	@ResponseBody
 	@PostMapping(value = "uploadAjaxAction", produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
 	// 리턴값은 List<AttachFileDTO> -> JSON으로 변환되어 클라이언트로 전송되어짐. 연관된 라이브러리는 jackson-databind임.
+	// 아래의 MultipartFile을 Controller에서 보면 MultipartConfig를 무조건 기억해야 함.
 	public ResponseEntity<List<AttachFileDTO>> uploadAjaxAction(MultipartFile[] uploadFile) {
 		ResponseEntity<List<AttachFileDTO>> entity = null;
 		// 사실상 List<AttachFileDTO>가 실제 리턴타입이고, 보내는 정보가 정상적인 작업에 의하여 보낸다는 상태코드, MIME-TYPE을
 		// 부가적으로 보내기 위하여 ResponseEntity클래스로 명시적으로 포장한 것이나 다름없음. 그래서 이 List<>를 따로 작업해줌.
 		List<AttachFileDTO> list = new ArrayList<>();
 		
+		// 업로드하는 날짜를 이용한 폴더
 		String uploadDateFolder = fileUtils.getDataFolder();
 		
 		for(MultipartFile multipartFile : uploadFile) {
@@ -130,14 +134,23 @@ public class UploadController {
 	// 파일삭제
 	@PostMapping(value = "deleteFile")
 	@ResponseBody
-	public ResponseEntity<String> deleteFile(String fileName, String type) {
+	public ResponseEntity<String> deleteFile(String dateFolderName, String fileName, String type) {
 		
+		try {
+			// 클라이언트에서 \ 문자 데이터를 인코딩으로 받아, 서버에서는 디코딩처리함.
+			// 2024%5C05%5C20 -> 2024\05\20
+			dateFolderName = URLDecoder.decode(dateFolderName, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		log.info("dateFolderName : " + dateFolderName);
 		log.info("fileName : " + fileName);
 		log.info("type : " + type);
 		
 		ResponseEntity<String> entity = null;
 		
-		fileUtils.delete(uploadFolder, fileName, type);
+		fileUtils.delete(uploadFolder, dateFolderName, fileName, type);
 		
 		entity = new ResponseEntity<String>("success", HttpStatus.OK);
 		return entity;

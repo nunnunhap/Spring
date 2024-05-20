@@ -8,8 +8,7 @@ import org.springframework.web.multipart.support.StandardServletMultipartResolve
 /*
  * 스프링 부트 2.7에선 multipart가 기본 bean으로 등록되어 있음.
  * 스프링 부트 3이상부터는 multipart에서 설정 클래스를 생정하고 bean으로 등록해야 함.
- * 
- * */
+ */
 
 @Configuration // 환경설정과 관련된 클래스는 이 어노테이션 사용함.
 public class MultipartConfig {

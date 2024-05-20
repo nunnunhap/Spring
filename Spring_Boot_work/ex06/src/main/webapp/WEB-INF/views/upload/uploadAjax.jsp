@@ -57,11 +57,36 @@
         <input type="file" name="uploadFile" multiple>
     </div>
 
+	<!-- 서버로부터 받아온 파일 목록 정보 출력 위치 -->
     <div class="uploadResult">
         <ul></ul>
     </div>
     <button id="uploadBtn">Upload</button>
 <script>
+
+    function checkExtension(fileName, fileSize) {
+        // 파일 확장자 제한, 파일 크기 제한
+        let regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$"); // 이런 정규식은 인터넷에 다 있음.
+        let maxSize = 5 * 1024 * 1024; // 5mb(기본 단위가 바이트)
+
+        if(fileSize >= maxSize) {
+            alert("파일 크기 용량 초과");
+            return false;
+        }
+
+        if(regex.test(fileName)) {
+            alert("해당 종류의 파일은 업로드 불가");
+            return false;
+        }
+
+        return true;
+    }
+
+    function showImage(fileCalpath) { // $("원본 이미지 보여줄 선택자").css("display", "flex").show();
+        $(".bigPictureWrapper").css("display", "flex").show();
+        $(".bigPicture").html("<img src='display?fileName=" + fileCalpath + "'>").animate({width: '100%', height: '100%'}, 1000);
+    }
+
     $(document).ready(function() {
         
         // 파일 전송 클릭버튼
@@ -78,11 +103,17 @@
             console.log(files);
 
             for(let i = 0; i < files.length; i++) {
+
+                // files[i].name : 파일 이름, files[i].size : 파일 크기
+                if(!checkExtension(files[i].name, files[i].size)) {
+                    return false;
+                }
+
                 formData.append("uploadFile", files[i]); // "uploadFile"이름을 스프링에서 참조
             }
 
             $.ajax({
-                url : '/upload/uploadAjaxAction',
+                url : '/upload/uploadAjaxAction', // ajax방식으로 주소 요청
                 processData : false, // 기본값 true. false의미? key:value값의 구조를 QueryString으로 변환
 	            /* 기본값 true. false의미? "application/x-www-form-urlencoded;charset=UTF-8"
 	               "multipart/form-data" 인코딩을 사용하여 전송. */
@@ -110,16 +141,22 @@
         $(".uploadResult").on("click", "span", function() {
             console.log("삭제이벤트"); // 언제나 log로 인식되나 확인할 것.
             
-            let targetFile = $(this).data("file"); // data-file
+            // 2024%5C05%5C20/s_b65f6012-5e40-404b-a89f-3e30a069e99e_publicdomainq-0065051lcdfvg.jpg에서 / 기준으로 나눔.
+            // 날짜와 파일명 분리
+            let targetFile = $(this).data("file").split('/'); // data-file
             let type = $(this).data("type"); // data-type
 
             // 파일명에서 날짜폴더명을 분리해야 함.
-            console.info("targetFile", targetFile);
+            console.info("targetFile[0]", targetFile[0]);
+            console.info("targetFile[1]", targetFile[1]);
             console.info("type", type);
 
+            // return;
+            
             $.ajax({
                 url : 'deleteFile',
-                data : {fileName : targetFile, type : type}, // JS Object 문법
+                // 날짜가 targetFile[0]이고 targetFile[1]이 파일명이게 됨.
+                data : {dateFolderName : targetFile[0], fileName : targetFile[1], type : type}, // JS Object 문법
                 dataType : 'text', // 스프링 메서드 리턴타입
                 type : 'post',
                 success : function(result) {
@@ -146,14 +183,14 @@
         $(uploadResultArr).each(function(i, obj) {
             if(!obj.image) { // 일반파일일 때
                 // encodeURIComponent()는 JS에서 중요하게 사용됨.
-                let fileCalpath = encodeURIComponent(obj.uploadPath + "/" + obj.uuid);
+                let fileCalpath = encodeURIComponent(obj.uploadPath) + "/" + obj.uuid;
 
                 // 태그에 데이터를 숨기고 싶을 때 <예 : <p data-이름="값">
                 str += "<li><div><a href='/upload/download?fileName=" + fileCalpath + "'><img src='/img/attach.png'>" +
                     obj.fileName + "</a><span style='cursor:pointer;' data-file=\'" + fileCalpath + "\' data-type='file'> X </span></div></li>";
             }else { // 이미지 파일일 때
                 // encodeURIComponent() : (에러발생 400)서버에서 \역슬래시를 허용하지 않아서 인코딩으로 /로 바꿔주는 것.
-                let fileCalpath = encodeURIComponent(obj.uploadPath + "/" + "s_" + obj.uuid);
+                let fileCalpath = encodeURIComponent(obj.uploadPath) + "/" + "s_" + obj.uuid;
                 let originPath = obj.uploadPath + "\\" + obj.uuid;
 
                 originPath = originPath.replace(new RegExp(/\\/g), "/");
@@ -164,6 +201,7 @@
             }
         });
 
+        // 파일 정보 리스트 형태의 작업한 태그 내용을 자식 레벨로 추가하는 작업
         uploadResult.append(str);
 
     }

@@ -61,7 +61,7 @@ public class FileUtils {
 		// 업로드할 폴더 file 객체
 		File file = new File(uploadFolder, dateFolder); // 예> "C:\\Dev\\upload\\pds" "2024\\05\\16"
 		
-		// 새로운 날짜에 첫 파일 업로드가 진행이 되면, 폴더생성되고, 두번째 파일 업로드부터 폴더가 생성됨.
+		// 새로운 날짜에 첫 파일 업로드가 진행이 되면, 폴더생성되고, 두번째 파일 업로드부터 폴더가 생성되지 않음.
 		// 2024\05\16 폴더가 존재하지 않는다면 해당 폴더 생성
 		if(file.exists() == false) {
 			file.mkdirs(); // .mkdir()은 폴더 한 개 생성, mkdirs()는 폴더 전부라서 보통 mkdirs()를 사용함.
@@ -103,7 +103,7 @@ public class FileUtils {
 			e.printStackTrace();
 		}
 		
-		return realUploadFileName;
+		return realUploadFileName; // 실제 업로드되는 파일명 반환
 	}
 
 	// 기능? 업로드 파일의 MIME타입 확인. 즉, 이미지파일 또는 일반파일 여부를 확인
@@ -161,15 +161,15 @@ public class FileUtils {
 	 * String folderName : 날짜 폴더명
 	 * String fileName : 파일명(날짜 폴더명 포함)
 	 */
-	public static void delete(String uploadPath, String fileName, String type) {
-		// 1) 원본파일
+	public static void delete(String uploadPath, String dateFolderName, String fileName, String type) {
+		// 1) thumbnail 파일
 		// 리눅스면 /로 바꿔주고 윈도우면 \로 바꿔주는 것.
-		File file1 = new File((uploadPath + "\\" + fileName).replace('\\', File.separatorChar));
+		File file1 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName).replace('\\', File.separatorChar));
 		if(file1.exists()) file1.delete();
 		
-		// 2) thumbnail 파일
-		if(type.equals("image")) {
-			File file2 = new File((uploadPath + "\\" + "_s" + fileName).replace('\\', File.separatorChar));
+		// 2) 원본 파일
+		if(type.equals("image")) { // s_~~~니까 substring(2)하면 s_가 빠짐.
+			File file2 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName.substring(2)).replace('\\', File.separatorChar));
 			if(file2.exists()) file2.delete();
 		}
 	}

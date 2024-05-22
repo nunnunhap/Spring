@@ -78,7 +78,7 @@ public class FileUtils {
 		// 예외처리작업
 		try {
 			File saveFile = new File(file, realUploadFileName);
-			uploadFile.transferTo(saveFile); // 파일복사(원본)
+			uploadFile.transferTo(saveFile); // 파일복사(원본), transferTo() 덕분에 이 saveFile은 실제 존재함.
 			
 			// Thumbnail 작업 (원본파일에서 해상도크기를 줄여, 썸네일 이미지 생성, 파일이 이미지가 아니면 이 작업이 진행될 수 없음)
 			if(checkImageType(saveFile)) {
@@ -87,13 +87,14 @@ public class FileUtils {
 				File thumbnailFile = new File(file, "s_" + realUploadFileName);
 				
 				// saveFile객체 : 업로드 '된' 파일정보.(파일객체를 넣는데 존재하지 않는 파일을 넣으면 에러 생김. 주의)
-				
+				// bo_img는 saveFile의 정보를 가지고 있긴 하지만 실존하지 않음.
 				BufferedImage bo_img = ImageIO.read(saveFile);
 				double ratio = 3;
 				int width = (int) (bo_img.getWidth() / ratio);
 				int height = (int) (bo_img.getHeight() / ratio);
 				
-				// saveFile을 size()를 활용하여 thumbnailFile로.
+				// saveFile(실존하는 파일)을 size()를 활용하여 thumbnailFile로.
+				// 체이닝 기술
 				Thumbnails.of(saveFile)
 						.size(width, height)
 						.toFile(thumbnailFile);

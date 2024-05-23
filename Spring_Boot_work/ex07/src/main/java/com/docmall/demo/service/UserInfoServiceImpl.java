@@ -13,6 +13,10 @@ public class UserInfoServiceImpl implements UserInfoService {
 	// DI
 	private final UserInfoMapper userInfoMapper;
 	
-	
+	// 아이디 중복체크
+	@Override
+	public String idCheck(String u_id) {
+		return userInfoMapper.idCheck(u_id);
+	}
 	
 }

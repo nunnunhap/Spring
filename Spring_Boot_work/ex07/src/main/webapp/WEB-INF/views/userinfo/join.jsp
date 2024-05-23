@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.101.0">
-    <title>Sticky Footer Navbar Template · Bootstrap v4.6</title>
+    <title>회원가입</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.6/examples/sticky-footer-navbar/">
 	<%@ include file="/WEB-INF/views/comm/config.jsp" %>
@@ -68,8 +68,9 @@
                   <input type="text" class="form-control" id="u_id" name="u_id" placeholder="아이디(이메일)">
                 </div>
                 <div class="col-sm-4">
-                  <button type="button" class="btn btn-outline-primary">ID Check</button>
+                  <button type="button" class="btn btn-outline-primary" id="btnIDCheck">ID Check</button>
                 </div>
+                <span class="col-sm-2" id="idCheckMsg" style="color: red;"></span>
               </div>
               <div class="form-group row">
                 <label for="u_pwd" class="col-sm-2 col-form-label">Password</label>
@@ -93,7 +94,7 @@
                   <input type="email" class="form-control" id="u_email" name="u_email" placeholder="이메일">
                 </div>
                 <div class="col-sm-2">
-                  <button type="button" class="btn btn-outline-primary">인증요청</button>
+                  <button type="button" class="btn btn-outline-primary" id="btnMailAuthcode">인증요청</button>
                 </div>
                 <div class="col-sm-3">
                   <input type="text" class="form-control" id="u_authcode" placeholder="인증코드">
@@ -240,6 +241,70 @@
           element_layer.style.top = (((window.innerHeight || document.documentElement.clientHeight) - height)/2 - borderWidth) + 'px';
       }
   </script>
+
+  <script>
+    $(document).ready(function() {
+      let useIDCheck = false; // 회원가입 시 사용자가 아이디 중복체크 기능을 사용했는지 여부를 확인
+
+      $("#btnIDCheck").on("click", function() {
+        
+        // val() : <form>. 예를 들어 value=""가 있으면 그 값을 가지고 와서 <input> 등에 사용.
+        // html() : html코드내용 자체를 get, html만 사용 가능
+        // text() : xml, html 모두 사용 가능. 문자열만 가지고 옴.
+        if($("#u_id").val() == "") {
+          alert("아이디를 입력하세요.");
+          $("#u_id").focus();
+
+          return; // 아이디가 없는 상태에서 아래 코드가 진행되면 안되므로 꼭 return; 넣어줌.
+        }
+
+        $.ajax({
+          url : '/userinfo/idCheck', // 보통 주소는 소문자를 권장함.
+          type : 'get',
+          data : {u_id : $("#u_id").val()}, // u_id가 위의 url에 있는 스프링 parameter와 일치되어야 함.
+          dataType : 'text', // JSON, text, html 등 올 수 있고, 이번 건은 Spring의 idUse가 String 타입이라 text.
+          // success는 '정상작동되었을 시' 란 뜻이며 String의 HttpStatus.OK가 200으로 클라이언트 측으로 넘어온다면. idUse값이 result로 들어옴.
+          success : function(result) {
+            if(result == "yes") {
+              alert("아이디 사용가능")
+              $("#idCheckMsg").html("사용가능");
+            }else {
+              alert("아이디 사용불가")
+              $("#idCheckMsg").html("사용불가");
+              $("#u_id").val(""); // val() : 선택자에 해당되는 내용 읽어옴. 내용 있으면 값을 넣어줌. 이번 건("")은 초기화.
+              $("#u_id").focus();
+            }
+          }
+        });
+      });
+
+      $("#btnMailAuthcode").on("click", function() {
+        if($("#u_email").val() == "") {
+          alert("메일을 입력하세요");
+          $("#u_email").focus();
+          
+          return;
+        }
+
+        $.ajax({
+          url : '/email/authcode',
+          type : 'get',
+          // Controller의 authcode()의 매개변수로 들어가는 EmailDTO의 receiverMail
+          data : {receiverMail : $("#u_email").val()},
+          dataType : 'text', // controller에서 return된 "success"가 text
+          success : function(result) {
+            if(result == "success") {
+              alert("메일로 인증코드가 발급되었습니다.");
+              $("#u_authcode").focus();
+            }
+          }
+        });
+      });
+
+
+
+
+    });
+  </script>
   </body>
 </html>
-    

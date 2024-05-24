@@ -100,7 +100,7 @@
                   <input type="text" class="form-control" id="u_authcode" placeholder="인증코드">
                 </div>
                 <div class="col-sm-2">
-                  <button type="button" class="btn btn-outline-primary">인증확인</button>
+                  <button type="button" class="btn btn-outline-primary" id="btnConfirmAuth">인증확인</button>
                 </div>
               </div>
               <div class="form-group row">
@@ -301,6 +301,35 @@
         });
       });
 
+      // 인증확인
+      $("#btnConfirmAuth").on("click", function() {
+        if($("#u_authcode").val() == "") {
+          alert("인증코드를 입력하세요.");
+          $("#u_authcode").focus();
+
+          return;
+        }
+
+        // ajax방식으로 스프링에 전송해야 함.
+        $.ajax({
+          url : '/email/confirm_authcode',
+          type : 'get',
+          data : {authcode : $("#u_authcode").val()},
+          dataType : 'text',
+          success : function(result) {
+            if(result == "success") {
+              alert("인증이 확인되었습니다.");
+            }else if(result == "fail") {
+              alert("인증코드값을 재확인해주세요");
+            }else if(result == "request") {
+              alert("인증코드가 만료되었습니다. 재발급 바랍니다.");
+            }
+          },
+          error : function() { // 스프링 쪽에서 error가 나서 에러정보가 클라이언트로 넘어오면 작동. 잘은 안 씀.
+
+          }
+        });
+      });
 
 
 

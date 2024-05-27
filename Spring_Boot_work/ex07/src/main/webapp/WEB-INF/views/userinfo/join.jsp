@@ -60,7 +60,7 @@
             <h3 class="card-title">Join Form</h3>
           </div>
           
-          <form class="form-horizontal">
+          <form class="form-horizontal" id="joinForm" action="/userinfo/join" method="post">
             <div class="card-body">
               <div class="form-group row">
                 <label for="u_id" class="col-sm-2 col-form-label">ID</label>
@@ -134,9 +134,10 @@
             </div>
             
             <div class="card-footer">
-              <button type="submit" class="btn btn-info">Sign up</button>
+              <button type="button" class="btn btn-info" id="btnJoin">Sign up</button>
               <button type="reset" class="btn btn-default float-right">Cancel</button>
             </div>
+
           </form>
         </div>
       </div>
@@ -326,14 +327,29 @@
             }
           },
           error : function() { // 스프링 쪽에서 error가 나서 에러정보가 클라이언트로 넘어오면 작동. 잘은 안 씀.
-
           }
         });
       });
 
+      // 회원 가입 클릭(두 코드는 절대 절대 양립할 수 없다.)
+      // 1) <button type="submit" class="btn btn-info">Sign up</button> -> 폼의 submit 이벤트 사용
+      /*
+      $("#joinForm").on("submit", function(e) {
+        e.preventDefault(); // 이거 넣기 전에는 "submit event"가 나왔다 바로 사라졌는데 이거 넣으니까 그대로 유지됨. 알아보기.
+        console.log("submit event");
+        return;
+      }); */
+
+      // 2) <button type="button" class="btn btn-info" id="btnJoin">Sign up</button> -> click이벤트 사용
+      $("#btnJoin").on("click", function() {
+        // console.log("click event");
+        $("#joinForm").submit();
+      });
 
 
-    });
+
+
+    }); // ready event end
   </script>
   </body>
 </html>

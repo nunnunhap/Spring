@@ -12,8 +12,45 @@
 		    u_id = #{u_id}
 	</select>
 	
-	
-	
+	<!-- 회원가입 저장 -->
+	<insert id="join" parameterType="com.docmall.demo.domain.UserInfoVO">
+		INSERT INTO
+		    userinfo(
+		        u_id,
+		        u_pwd,
+		        u_name,
+		        u_email,
+		        u_zip_code,
+		        u_addr,
+		        u_addrdetail,
+		        u_phone)
+		VALUES
+		    (#{u_id}, #{u_pwd}, #{u_name}, #{u_email}, #{u_zip_code}, #{u_addr}, #{u_addrdetail}, #{u_phone})
+	</insert>
+
+	<!-- 로그인 -->
+	<select id="login" resultType="com.docmall.demo.domain.UserInfoVO" parameterType="String">
+		SELECT
+		    u_id,
+		    u_pwd,
+		    u_name,
+		    u_email,
+		    u_zip_code,
+		    u_addr,
+		    u_addrdetail,
+		    u_phone
+		FROM
+		    userinfo
+		WHERE
+		    u_id = #{u_id}
+	</select>
+
+
+
+
+
+
+
 
 
 

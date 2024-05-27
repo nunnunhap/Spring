@@ -14,7 +14,7 @@
           <a class="nav-link" href="/userinfo/join">Join<!-- <span class="sr-only">(current)</span>--></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">LogIn</a>
+          <a class="nav-link" href="/userinfo/login">LogIn</a>
         </li>
         <li class="nav-item">
           <a class="nav-link disabled">Disabled</a>

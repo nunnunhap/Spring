@@ -73,6 +73,12 @@ public class EmailConfig {
 		properties.put("mail.smtp.auth", auth);
 		properties.put("mail.smtp.starttls.enable", starttls);
 		
+		/* 운영체제에 따라 아래의 코드로 대체해야 할 수 있음.
+		 * properties.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");
+		 * properties.setProperty("mail.smtp.ssl.enable", "true"); // ssl 사용
+		 */
+		
+		
 		// 본래 mailSender.setHost()가 지원되어야 하는데 안 되었는데 이 이유가 Java 업캐스팅 시 자식 클래스의 메서드 지원이 안되는 것 때문이었음.
 		mailSender.setHost(host);
 		mailSender.setUsername(username);

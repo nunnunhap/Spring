@@ -1,5 +1,7 @@
 package com.docmall.demo.mapper;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.docmall.demo.domain.UserInfoVO;
 
 // UserInfoMapper.xml mapper파일 구성이 정상적이어야 동작
@@ -14,6 +16,16 @@ public interface UserInfoMapper {
 	
 	// 로그인(아이디 먼저 비교)
 	UserInfoVO login(String u_id);
+	
+	// 회원정보 수정
+	void modify(UserInfoVO vo);
+	
+	// 비밀번호 변경 (암호화처리하여 들어와야 함) mybatis에서 파라미터가 두 개면 param처리 필요.
+	void changePw(@Param("u_id") String u_id, @Param("new_pwd") String new_pwd);
+	
+	// 계정 삭제
+	void delete(String u_id);
+	
 	
 	
 }

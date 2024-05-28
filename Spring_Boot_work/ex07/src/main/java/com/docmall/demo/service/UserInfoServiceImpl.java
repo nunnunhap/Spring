@@ -37,4 +37,19 @@ public class UserInfoServiceImpl implements UserInfoService {
 		return userInfoMapper.login(u_id);
 	}
 	
+	@Override
+	public void modify(UserInfoVO vo) {
+		userInfoMapper.modify(vo);
+	}
+	
+	@Override
+	public void changePw(String u_id, String new_pwd) {
+		userInfoMapper.changePw(u_id, new_pwd);
+	}
+
+	@Override
+	public void delete(String u_id) {
+		userInfoMapper.delete(u_id);
+	}
+	
 }

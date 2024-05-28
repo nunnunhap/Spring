@@ -65,13 +65,13 @@
               <div class="form-group row">
                 <label for="u_id" class="col-sm-4 col-form-label">ID</label>
                 <div class="col-sm-8">
-                  <input type="text" class="form-control" id="u_id" name="u_id" placeholder="아이디(이메일)">
+                  <input type="text" class="form-control" id="u_id" name="u_id" value="user02">
                 </div>
               </div>
               <div class="form-group row">
                 <label for="u_pwd" class="col-sm-4 col-form-label">Password</label>
                 <div class="col-sm-8">
-                  <input type="password" class="form-control" id="u_pwd" name="u_pwd" placeholder="u_pwd">
+                  <input type="password" class="form-control" id="u_pwd" name="u_pwd" value="1234">
                 </div>
               </div>
             </div>

@@ -52,4 +52,20 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfoMapper.delete(u_id);
 	}
 	
+	@Override
+	public String idfind(String u_name, String u_email) {
+		return userInfoMapper.idfind(u_name, u_email);
+	}
+	
+	@Override
+	public String pwfind(String u_id, String u_name, String u_email) {
+		return userInfoMapper.pwfind(u_id, u_name, u_email);
+	}
+	
+	@Override
+	public void tempPwUpdate(String u_id, String enc_tempPw) {
+		userInfoMapper.tempPwUpdate(u_id, enc_tempPw);
+	}
+	
+	
 }

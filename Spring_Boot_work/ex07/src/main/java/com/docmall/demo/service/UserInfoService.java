@@ -24,4 +24,14 @@ public interface UserInfoService {
 	// 계정 삭제
 	void delete(String u_id);
 	
+	// ID 찾기
+	String idfind(String u_name, String u_email);
+	
+	// PW 찾기
+	String pwfind(String u_id, String u_name, String u_email);
+	
+	// 비밀번호 업데이트 작업
+	void tempPwUpdate(String u_id, String enc_tempPw); // 강사님은 이걸 u_pwd로 하셨어.
+	
+	
 }

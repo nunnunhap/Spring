@@ -24,7 +24,7 @@ public class EmailServiceImpl implements EmailService {
 	private final SpringTemplateEngine templateEngine;
 	
 	@Override
-	public void sendMail(EmailDTO dto, String authcode) {
+	public void sendMail(String type, EmailDTO dto, String authcode) {
 		// 메일 구성정보 담당(받는 사람, 보내는 사람, 받는 사람 메일 주소, 본문 내용)
 		MimeMessage mimeMessage = mailSender.createMimeMessage();
 		
@@ -46,7 +46,7 @@ public class EmailServiceImpl implements EmailService {
 			mimeMessageHelper.setSubject(dto.getSubject()); // 메일 제목
 			// 메일 본문 내용, true는 HTML 태그사용여부 여부, "email"은 email.html을 가리킴.
 			// 지금은 email을 직접 썼지만, 나중엔 변수로 쓰고 위에서 매개변수를 받아서 넣을 생각을 하면 좋음.
-			mimeMessageHelper.setText(setContext(authcode, "email"), true);
+			mimeMessageHelper.setText(setContext(authcode, type), true);
 			
 			// 메일 발송 기능
 			mailSender.send(mimeMessage);

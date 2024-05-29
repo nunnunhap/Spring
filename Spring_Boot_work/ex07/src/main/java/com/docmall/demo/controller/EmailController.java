@@ -27,7 +27,7 @@ public class EmailController {
 	// 실은 이 EmailDTO dto는 receiverMail로 직접 받아도 됨.
 	// EmailDTO dto가 스프링에서 알아서 객체가 생성됨.
 	// EmailDTO dto = new EmailDTO(); 와 dto.setReceiverMail("입력한 메일주소"); 가 생성됨.
-	public ResponseEntity<String> authcode(EmailDTO dto, HttpSession session) {
+	public ResponseEntity<String> authcode(String type, EmailDTO dto, HttpSession session) {
 		log.info("dto : " + dto); // dto.toString() 호출
 		
 		ResponseEntity<String> entity = null;
@@ -46,7 +46,17 @@ public class EmailController {
 		session.setAttribute("authcode", authcode); // 톰캣 서버 내장 세션 30분(자동 소멸)
 		
 		try {
-			emailService.sendMail(dto, authcode);
+			// 메일 발송
+			// 메일 제목 변경
+			if(type.equals("emailJoin")) {
+				dto.setSubject("DocMall 회원가입 메일 인증코드입니다.");
+			}else if(type.equals("emailId")) {
+				dto.setSubject("DocMall 아이디 인증코드입니다.");
+			}else if(type.equals("emailPw")) {
+				dto.setSubject("DocMall 비밀번호 인증코드입니다.");
+			}
+			
+			emailService.sendMail(type, dto, authcode);
 			// HttpStatus.OK : 200
 			entity = new ResponseEntity<String> ("success", HttpStatus.OK);
 		} catch (Exception e) {

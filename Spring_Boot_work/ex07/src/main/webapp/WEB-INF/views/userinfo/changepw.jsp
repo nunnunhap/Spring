@@ -110,21 +110,15 @@
           alert("현재 비밀번호를 입력하시오.");
           $("#cur_pwd").focus();
           return;
-        }
-
-        if($("#new_pwd").val() == "") {
+        } else if($("#new_pwd").val() == "") {
           alert("신규 비밀번호를 입력하시오.");
           $("#new_pwd").focus();
           return;
-        }
-
-        if($("#new_pwd2").val() == "") {
+        } else if($("#new_pwd2").val() == "") {
           alert("비밀번호 확인란을 입력하시오.");
           $("#new_pwd2").focus();
           return;
-        }
-
-        if($("#new_pwd").val() != $("#new_pwd2").val()) {
+        } else if($("#new_pwd").val() != $("#new_pwd2").val()) {
           alert("신규 비밀번호가 일치하지 않습니다.");
           $("#new_pwd2").focus();
           $("#new_pwd2").val("");

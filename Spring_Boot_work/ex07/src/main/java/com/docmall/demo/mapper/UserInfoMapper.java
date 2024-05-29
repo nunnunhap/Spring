@@ -26,6 +26,15 @@ public interface UserInfoMapper {
 	// 계정 삭제
 	void delete(String u_id);
 	
+	// ID 찾기
+	String idfind(@Param("u_name") String u_name, @Param("u_email") String u_email);
+	
+	// PW 찾기
+	String pwfind(@Param("u_id") String u_id, @Param("u_name") String u_name, @Param("u_email") String u_email);
+	
+	// 비밀번호 업데이트 작업
+	void tempPwUpdate(@Param("u_id") String u_id, @Param("enc_tempPw") String enc_tempPw);
+	
 	
 	
 }

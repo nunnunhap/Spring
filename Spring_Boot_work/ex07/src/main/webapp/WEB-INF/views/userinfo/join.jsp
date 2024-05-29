@@ -279,6 +279,7 @@
         });
       });
 
+      // 메일 인증코드 요청
       $("#btnMailAuthcode").on("click", function() {
         if($("#u_email").val() == "") {
           alert("메일을 입력하세요");
@@ -291,7 +292,7 @@
           url : '/email/authcode',
           type : 'get',
           // Controller의 authcode()의 매개변수로 들어가는 EmailDTO의 receiverMail
-          data : {receiverMail : $("#u_email").val()},
+          data : {receiverMail : $("#u_email").val(), type : "emailJoin"},
           dataType : 'text', // controller에서 return된 "success"가 text
           success : function(result) {
             if(result == "success") {

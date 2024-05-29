@@ -1,5 +1,7 @@
 package com.docmall.demo.controller;
 
+import java.util.UUID;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -11,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.docmall.demo.domain.UserInfoVO;
+import com.docmall.demo.dto.EmailDTO;
+import com.docmall.demo.service.EmailService;
 import com.docmall.demo.service.UserInfoService;
 
 import jakarta.servlet.http.HttpSession;
@@ -27,6 +31,7 @@ public class UserInfoController {
 	// DI
 	private final UserInfoService userInfoService;
 	private final PasswordEncoder passwordEncoder;
+	private final EmailService emailService;
 	
 	// 회원가입폼
 	@GetMapping("join")
@@ -211,12 +216,94 @@ public class UserInfoController {
 		return "redirect:" + url;
 	}
 	
+	// 아이디 찾기
+	@GetMapping("idfind")
+	public void idfind() {
+		
+	}
 	
+	// 아이디 찾기 버튼 클릭 시
+	@PostMapping("idfind") // rttr은 메세지 추가시키기 위하여 넣어줌.
+	public String idfind(String u_name, String u_email, String authcode, HttpSession session, RedirectAttributes rttr) throws Exception {
+		String url = "";
+		String msg = "";
+		
+		// 인증코드 확인
+		if(authcode.equals(session.getAttribute("authcode"))) {
+			// 아이디를 찾아 메일 발송
+			String u_id = userInfoService.idfind(u_name, u_email);
+			if(u_id != null) {
+				// 아이디 내용으로 메일 발송 작업(EmailService에 대한 주입작업을 따로 받아야 함.)
+				// emailService.sendMail("검색아이디: 타임리프 파일명", EmailDTO dto, msg); dto객체는 수동으로 작업함.
+				String subject = "DocMall 아이디 찾기 인증 코드";
+				EmailDTO dto = new EmailDTO("DocMall", "DocMall", u_email, subject, u_id);
+				// EmailDTO dto = new EmailDTO("DocMallManager", "DocMall", u_email, subject, msg);
+				emailService.sendMail("emailIdResult", dto, u_id);
+				
+				// 인증코드를 메모리 상에서 꼭 제거해줄 것
+				session.removeAttribute("authcode");
+				
+				msg = "success";
+				url = "/userinfo/login";
+				rttr.addFlashAttribute("msg", msg); // 이건 왜 들어가야 하지?
+				
+			}else {
+				msg = "nameFail"; // jsp 이름 일치 필요
+				url = "/userinfo/idfind";
+			}
+			
+		} else {
+			msg = "failAuthCode"; // jsp 이름 일치 필요
+			url = "/userinfo/idfind";
+		}
+		rttr.addFlashAttribute("msg", msg);
+
+		return "redirect:" + url;
+	}
 	
+	@GetMapping("pwfind")
+	public void pwfind() {
+		
+	}
 	
-	
-	
-	
+	@PostMapping("pwfind")
+	public String pwfind(String u_id, String u_name, String u_email, String authcode, HttpSession session, RedirectAttributes rttr) {
+		String url = "";
+		String msg = "";
+		
+		// 인증코드 확인
+		if(authcode.equals(session.getAttribute("authcode"))) {
+			
+			// 사용자가 입력한 3개 정보(아이디, 이름, 이메일)를 조건으로 사용하여, 이메일을 DB에서 가져옴.
+			String d_email = userInfoService.pwfind(u_id, u_name, u_email);
+			if(d_email != null) {
+				// 임시 비밀번호 생성(UUID 이용)
+				String tempPw = UUID.randomUUID().toString().replaceAll("-", ""); // -를 제거
+				tempPw = tempPw.substring(0, 10); // 10자리
+				
+				// 암호화된 비밀번호
+				String enc_tempPw = passwordEncoder.encode(tempPw);
+				userInfoService.tempPwUpdate(u_id, enc_tempPw);
+				
+				EmailDTO dto = new EmailDTO("DocMall", "DocMall", d_email, "DocMall 임시비밀번호", tempPw);
+				
+				emailService.sendMail("emailPwResult", dto, tempPw); // 타임리프파일명, null, 암호화되지 않은 번호
+				
+				session.removeAttribute("authcode");
+				
+				url = "/userinfo/login";
+			}else {
+				url = "/userinfo/pwfind";
+				msg = "failInput";
+			}
+			
+		}else {
+			url = "/userinfo/pwfind";
+			msg = "failAuth";
+		}
+		
+		return "redirect:" + url;
+	}
 	
 	
 }

@@ -77,10 +77,16 @@
             </div>
             
             <div class="card-footer text-center">
-              <button type="submit" class="btn btn-info" id="btnLogin">Login</button>
+              <button type="submit" class="btn btn-info btn-block" id="btnLogin">Login</button>
             </div>
 
           </form>
+
+          <div class="card-footer text-center">
+            <a href="/userinfo/idfind">아이디 찾기</a>
+            <a href="/userinfo/pwfind">비밀번호 찾기</a>
+          </div>
+
         </div>
       </div>
     </div>
@@ -98,6 +104,8 @@
     } else if(msg == "failPW") {
       alert("비밀번호를 정확히 입력해주세요.");
       document.getElementById("u_id").focus();
+    } else if(msg == "success") {
+    	alert("아이디를 메일로 발송하였습니다.");
     }
 
 

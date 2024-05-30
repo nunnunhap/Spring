@@ -98,7 +98,12 @@
                             </div>
                             <div class="form-group">
                                 <label for="content">Content</label>
-                                <textarea class="form-control" rows="3" id="content" name="content" readonly>${boardVO.content}</textarea>
+                                <div>
+                                <!-- escapeXml은 기본값이 true, 태그를 브라우저가 해석할 때 이스케이프 처리를 해줌.
+                                 HTML Entity로 변환해줌. <는 &lt; >는 &gt; -->
+                                	<c:out value="${boardVO.content}" escapeXml="false"></c:out>
+                                	<c:out value="${boardVO.content}" escapeXml="true"></c:out>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="writer">Writer</label>

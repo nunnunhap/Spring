@@ -32,7 +32,6 @@ public class UploadController {
 	
 	// 주입작업
 	private final UploadService uploadService;
-	
 	private FileUtils fileUtils;
 	
 	// properties에서 가지고 온 주소

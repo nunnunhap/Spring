@@ -41,6 +41,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                	<a href="/board/write">게시글 작성하기</a>
                     <c:forEach items="${list}" var="boardVO"><!-- 이 var가 jsp에서 객체라고 보면 됨. -->
                         <tr>
                             <td>${boardVO.bno}</td>
@@ -48,9 +49,9 @@
                             글번호 1번에 대한 내용을 볼 수 있음. bno파라미터에 사용자가 선택한 글 번호를 넘겨 get을 요청함. -->
                             <td>
                             	<%-- <a href="/board/get?bno=${boardVO.bno}&type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.cri.pageNum}&amount=${pageMaker.cri.amount}">${boardVO.title}</a> --%>
-                            	<a class="move" href="${boardVO.bno}">${boardVO.title}</a>
+                            	<a class="move" href="${boardVO.bno}"><c:out value="${boardVO.title}"></c:out></a>
                             </td>
-                            <td>${boardVO.writer}</td> <!-- getter가 동작됨. -->
+                            <td><c:out value="${boardVO.writer}"></c:out></td> <!-- getter가 동작됨. -->
                             <td><fmt:formatDate value="${boardVO.regdate}" pattern="yyyy-MM-dd" /></td>
                             <td>${boardVO.viewcount}</td>
                         </tr>

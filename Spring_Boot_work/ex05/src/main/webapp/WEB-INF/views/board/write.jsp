@@ -18,6 +18,10 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- ckdeitor -->
+<script src="/js/ckeditor.js"></script>
+
 </head>
 <body>
     <div class="container-fluid" style="padding: 20px;">
@@ -50,5 +54,23 @@
             </div>
         </div>
     </div>
+    <script>
+    $(document).ready(function() {
+        // ckeditor 환경설정. 자바스크립트 Ojbect문법
+        var ckeditor_config = {
+                resize_enabled : true, // 화면칸 크기 조절
+                enterMode : CKEDITOR.ENTER_BR, // 엔터 시 <br>
+                shiftEnterMode : CKEDITOR.ENTER_P, // 쉬프트 엔터 시 <p>
+                toolbarCanCollapse : true,
+                removePlugins : "elementspath", 
+                //업로드 탭기능추가 속성. CKEditor에서 파일업로드해서 서버로 전송클릭하면 , 이 주소가 동작된다.
+                filebrowserUploadUrl: '/board/imageupload' // 업로드 역할의 매핑주소
+        }
+
+        CKEDITOR.replace("content", ckeditor_config); // textarea의 "name"
+
+        console.log("ckediotr 버전: ", CKEDITOR.version); // 일부러 version도 쳤음. 버젼이 안 맞으면 동작이 안 될 수도 있어서. 4.12.1(Standard)
+      });
+    </script>
 </body>
 </html>

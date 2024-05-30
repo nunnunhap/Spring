@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.demo.mapper.UserInfoMapper">
+	
+	<!-- 아이디 중복체크 -->
+	<select id="idCheck" parameterType="String" resultType="String">
+		SELECT
+		    u_id
+		FROM
+		    userinfo
+		WHERE
+		    u_id = #{u_id}
+	</select>
+	
+	<!-- 회원가입 저장 -->
+	<insert id="join" parameterType="com.docmall.demo.domain.UserInfoVO">
+		INSERT INTO
+		    userinfo(
+		        u_id,
+		        u_pwd,
+		        u_name,
+		        u_email,
+		        u_zip_code,
+		        u_addr,
+		        u_addrdetail,
+		        u_phone)
+		VALUES
+		    (#{u_id}, #{u_pwd}, #{u_name}, #{u_email}, #{u_zip_code}, #{u_addr}, #{u_addrdetail}, #{u_phone})
+	</insert>
+
+	<!-- 로그인 -->
+	<select id="login" resultType="com.docmall.demo.domain.UserInfoVO" parameterType="String">
+		SELECT
+		    u_id,
+		    u_pwd,
+		    u_name,
+		    u_email,
+		    u_zip_code,
+		    u_addr,
+		    u_addrdetail,
+		    u_phone,
+		    u_regdate
+		FROM
+		    userinfo
+		WHERE
+		    u_id = #{u_id}
+	</select>
+
+	<!-- 수정 -->
+	<update id="modify" parameterType="com.docmall.demo.domain.UserInfoVO">
+		UPDATE
+		    userinfo
+		SET
+			u_email = #{u_email},
+			u_zip_code = #{u_zip_code},
+		    u_addr = #{u_addr},
+		    u_addrdetail = #{u_addrdetail},
+		    u_phone = #{u_phone}
+		WHERE
+		    u_id = #{u_id}
+	</update>
+
+	<!-- 비밀번호 변경/ 파라미터가 두 개면 map으로 들어옴. -->
+	<update id="changePw" parameterType="map">
+		UPDATE
+		    userinfo
+		SET
+			u_pwd = #{new_pwd}
+		WHERE
+		    u_id = #{u_id}
+	</update>
+
+	<!-- 계정 삭제 -->
+	<delete id="delete" parameterType="map">
+		DELETE FROM
+			userinfo
+		WHERE
+			u_id = #{u_id}
+	</delete>
+
+	<!-- 아이디 찾기 -->
+	<select id="idfind" resultType="String">
+		SELECT u_id
+		FROM userinfo
+		WHERE u_name = #{u_name}
+		AND u_email = #{u_email}
+	</select>
+
+	<!-- 비밀번호 찾기 -->
+	<select id="pwfind" resultType="String">
+		SELECT u_email
+		FROM userinfo
+		WHERE u_id = #{u_id}
+		AND u_name = #{u_name}
+		AND u_email = #{u_email}
+	</select>
+
+	<!-- 비밀번호 업데이트 : 파라미터 타입은 생략해도 상관없으나 map임. -->
+	<update id="tempPwUpdate" parameterType="map">
+		UPDATE userinfo
+		SET u_pwd = #{enc_tempPw}
+		WHERE u_id = #{u_id}
+	</update>
+
+
+
+
+
+</mapper>

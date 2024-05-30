@@ -1,21 +1,30 @@
 package com.docmall.demo.controller;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.docmall.demo.domain.BoardVO;
 import com.docmall.demo.dto.Criteria;
 import com.docmall.demo.dto.PageDTO;
 import com.docmall.demo.service.BoardService;
+import com.docmall.demo.util.FileUtils;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 
 // 클라이언트로부터 요청받는 클래스
@@ -25,6 +34,11 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 	// 로그객체
 //	private static final log log = logFactory.getlog(BoardController.class);
+	
+	// CKeditor 파일 업로드 경로
+	@Value("${file.ckdir}")
+	private String uploadCkPath;
+	
 	
 	// 의존성 주입
 	@Autowired
@@ -46,6 +60,75 @@ public class BoardController {
 		
 		return "redirect:/board/list";
 	}
+	
+	// CKeditor 업로드
+	// MultipartFile upload의 upload이름은 '파일선택'의 이름이 이것이기 때문.
+	// HttpServletRequest request : 클라이언트의 요청정보를 가지고 응답하는 객체
+	// HttpServletResponse response : 서버에서 클라이언트에게 보낼 정보를 응답하는 객체
+	@PostMapping("imageupload") // upload 주소
+	public void imageupload(HttpServletRequest request, HttpServletResponse response, MultipartFile upload) {
+		OutputStream out = null; // 클라이언트에 내용을 내보이고 싶을 때 출력스트림 사용. 이건 바이트기반 스트림.
+		// 자바의 입출력 스트림에 대한 이론적 공부를 다시 할 필요성이 있음.
+		PrintWriter printWriter = null;// 서버에서 클라이언트에게 응답정보를 보낼 때 사용(업로드한 이미지 정볼르 브라우저
+		
+		try {
+			// 1) CKeditor를 통한 파일 업로드 처리
+			String fileName = upload.getOriginalFilename(); // 업로드할 클라이언트 파일 이름
+			byte[] bytes = upload.getBytes(); // 업로드할 생각의 바이너리배열
+			
+			// "C:\\Dev\\upload\\ckeditor\\" + "abc.gif" 이걸 위해서 \\를 마지막에 넣어주었음.
+			String ckUploadPath = uploadCkPath + fileName;
+			
+		// "C:\\Dev\\upload\\ckeditor\\abc.gif" 생성(크기는 0byte). 나중에 사용자가 첨부한 이미지파일의 바이트배열을 안에 채워주는 것임.
+			out = new FileOutputStream(ckUploadPath);
+			
+			out.write(bytes); // Stream의 공간에 업로드할 파일의 바이트를 채운 상태.
+			// flush()에 의하여 크기가 채워진 정상적인 파일로 인식
+			out.flush();
+			
+			// 2) 업로드한 이미지파일에 대한 정보를 클라이언트에게 보내는 작업
+			
+			printWriter = response.getWriter();
+			
+			String fileUrl = "/board/display/" + fileName; // 매핑주소/이미지파일명
+			// String fileUrl = fileName;
+			
+			//CKeditor 4.12 에서 파일 정볼를 다음과 같이 구성하여 보내야 함.
+			// js의 json문법구조로 발송해달라 함.
+			// {"filename" + "abc.gif", "uploaded":1, "url": "/ckupload/abc.gif"}
+			// {"filename" + 변수, "uploaded":1, "url": 변수}
+			printWriter.println("{\"filename\" :\"" + fileName + "\", \"uploaded\":1, \"url\":\"" + fileUrl
+					+ "\"}"); // 이스케이프 시퀀스(\) 사용
+			printWriter.flush(); // 클라이언트로 보내줌.
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();			
+		} finally {
+			if(out != null) {
+				try {
+					out.close();
+				} catch (Exception e) {
+				}
+			}
+			if(printWriter != null) printWriter.close();
+		}
+	}
+	
+	@GetMapping("display/{fileName}") // 사실 static은 class.~~으로 접근하는게 좋음.
+	public ResponseEntity<byte[]> getFile(@PathVariable("fileName") String fileName) {
+		
+		log.info("파일 이미지 : " + fileName);
+		
+		ResponseEntity<byte[]> entity = null;
+		
+		try {
+			entity = FileUtils.getFile(uploadCkPath, fileName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return entity;
+	}
+	
 	
 	/*
 	// 글 목록 저장

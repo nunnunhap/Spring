@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="&quot;login_status&quot;"/>
+		<item key="selection" value="targetUrl"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="targetUrl"/>
+			<item value="login_status"/>
+			<item value="seta"/>
+			<item value="addInterceptors"/>
 			<item value="&quot;login_status&quot;"/>
 			<item value="printWriter"/>
 			<item value="filename"/>
@@ -19,10 +23,6 @@
 			<item value="@Param("/>
 			<item value="회원정보"/>
 			<item value="createCode"/>
-			<item value="create"/>
-			<item value="sticky"/>
-			<item value="sticky-footer-navbar.css"/>
-			<item value="ooter-navbar/sticky-footer-navbar.css"/>
 		</list>
 		<list key="replacehistory">
 			<item value=";"/>
@@ -30,8 +30,8 @@
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1272"/>
-		<item key="DIALOG_Y_ORIGIN" value="512"/>
+		<item key="DIALOG_X_ORIGIN" value="1373"/>
+		<item key="DIALOG_Y_ORIGIN" value="275"/>
 		<item key="DIALOG_WIDTH" value="322"/>
 		<item key="DIALOG_HEIGHT" value="391"/>
 		<item key="DIALOG_FONT_NAME" value="1|맑은 고딕|9.0|0|WINDOWS|1|-12|0|0|0|400|0|0|0|1|0|0|0|0|맑은 고딕"/>

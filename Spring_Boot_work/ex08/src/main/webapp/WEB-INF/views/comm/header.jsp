@@ -22,6 +22,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/userinfo/login">LogIn</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">MemberList</a>
+        </li>
         </c:if>
         <!-- MyPage/ LogOut은 인증 후 표시(현재 세션 방식 사용) -->
         <c:if test="${sessionScope.login_status != null}">
@@ -30,6 +33,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/userinfo/logout">LogOut</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="btnAjax" href="#">Ajax</a>
         </li>
         </c:if>
         <li class="nav-item">
@@ -43,3 +49,28 @@
     </div>
   </nav>
 </header>
+<script>
+	$(document).ready(function() { // <a>가 링크 기능이 있어서 그걸 취소시켜주고자 e 집어넣음.
+		$("#btnAjax").on("click", function(e) {
+			e.preventDefault(); // <a>의 링크기능 제거
+
+        $.ajax({
+          url : '/userinfo/ajax',
+          type : 'get',
+          dataType : 'text', // JSON, text, html 값이 사용
+          beforeSend : function(xhr) { // xhr(xml http request)객체는 브라우저에 내장되어 있으며 ajax기능 담당.
+          // 이 두 이름은 임의로 정함. 데이터는 head와 body가 있는데 이렇게 지정해서 보내면 스프링에서 이건 ajax요청이라고 알아듣는 것.
+            xhr.setRequestHeader("AJAX", "true"); // "AJAX"란 이름으로 true값을 읽어옴.
+          },
+          success : function(result) {
+          },
+          error : function(xhr, status, error) {
+            alert(status); // response.sendError(400)
+            alert("로그인 페이지로 이동합니다.");
+            location.href = "/userinfo/login";
+          }
+        });
+
+		})
+	});
+</script>

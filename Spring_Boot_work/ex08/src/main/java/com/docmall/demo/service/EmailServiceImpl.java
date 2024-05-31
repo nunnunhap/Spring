@@ -21,6 +21,7 @@ public class EmailServiceImpl implements EmailService {
 	private final JavaMailSender mailSender;
 	
 	// 타임리프 템플릿 객체가 자동으로 제공해줌.
+	// 뷰 템플릿 중 타임리프 템플릿을 메일템플릿으로 사용하기 위하여 아래 필드가 선언됨.
 	private final SpringTemplateEngine templateEngine;
 	
 	@Override
@@ -40,6 +41,7 @@ public class EmailServiceImpl implements EmailService {
 			mimeMessage.setText(authcode, "utf-8");
 			*/
 			
+			// 메일 템플릿으로 타임리프 사용목적으로 아래 코드가 구성됨.
 			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
 			mimeMessageHelper.setTo(dto.getReceiverMail()); // 메일 수신자
 			mimeMessageHelper.setFrom(new InternetAddress(dto.getSenderMail(), dto.getSenderName()));
@@ -49,7 +51,7 @@ public class EmailServiceImpl implements EmailService {
 			mimeMessageHelper.setText(setContext(authcode, type), true);
 			
 			// 메일 발송 기능
-			mailSender.send(mimeMessage);
+			mailSender.send(mimeMessage); // send메서드 호출하고자 mimeMessage가 만들어짐.
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

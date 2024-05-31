@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.docmall.demo.domain.UserInfoVO;
@@ -92,15 +93,17 @@ public class UserInfoController {
 		if(vo != null) { // 아이디가 존재하는 경우
 			// 비밀번호 비교 // vo.getU_pwd()는 db에서 읽어온 암호화된 비밀번호
 			if(passwordEncoder.matches(u_pwd, vo.getU_pwd())) { // 사용자가 입력한 비밀번호가 암호화된 형태에 해당하는 것이라면
+				// setAttribute(String name, Object value)/ vo가 Object형으로 형변환된 것임.
 				session.setAttribute("login_status", vo); // 서버에 세션 방식으로 저장, 로그인한 사용자로 구분
 				
 				// 원래 요청한 주소가 세션으로 존재하면
+				// "targetUrl"은 LoginInterceptor.java에 들어있음.
 				if(session.getAttribute("targetUrl") != null) {
 					url = (String) session.getAttribute("targetUrl");
 				}
 				
 			}else { // 사용자가 입력한 비밀번호가 암호화된 형태에 해당하지 않는 것이라면
-				msg = "failPW";
+				msg = "failPW"; // 이런 메시지가 겹치면 동작이 이상해질 가능성이 높음. 주의
 				url = "/userinfo/login"; // 로그인폼 주소
 			}
 		}else { // 아이디가 존재하지 않을 경우
@@ -262,7 +265,7 @@ public class UserInfoController {
 			msg = "failAuthCode"; // jsp 이름 일치 필요
 			url = "/userinfo/idfind";
 		}
-		rttr.addFlashAttribute("msg", msg);
+		rttr.addFlashAttribute("msg", msg); // JSP에서 사용하기 위한 목적
 
 		return "redirect:" + url;
 	}
@@ -310,6 +313,14 @@ public class UserInfoController {
 		
 		return "redirect:" + url;
 	}
+	
+	// /userinfo/ajax 인증된 사용자만 사용가능한 주소
+	@GetMapping("ajax")
+	@ResponseBody
+	public String ajax() {
+		return "ajax";
+	}
+	
 	
 	
 }

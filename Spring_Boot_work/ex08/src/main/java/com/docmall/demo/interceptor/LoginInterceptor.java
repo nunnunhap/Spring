@@ -85,7 +85,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	}
 	
 
-	// 컨트롤러의 url주소에 해당하는 메서드의 실행이 끝나고 return 값의 뷰(view) 화면을 처리하기 저넹 이 메서드가 호출됨.
+	// 컨트롤러의 url주소에 해당하는 메서드의 실행이 끝나고 return 값의 뷰(view) 화면을 처리하기 전에 이 메서드가 호출됨.
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {

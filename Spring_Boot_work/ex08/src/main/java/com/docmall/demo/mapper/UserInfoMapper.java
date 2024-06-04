@@ -1,8 +1,11 @@
 package com.docmall.demo.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.docmall.demo.domain.UserInfoVO;
+import com.docmall.demo.dto.Criteria;
 
 // UserInfoMapper.xml mapper파일 구성이 정상적이어야 동작
 // 스프링은 이 인터페이스를 구현한 프록시 클래스가 내부적으로 bean으로 자동생성되어 의존성 주입하게 됨. 인터페이스는 객체 생성 불가능.
@@ -35,6 +38,9 @@ public interface UserInfoMapper {
 	// 비밀번호 업데이트 작업
 	void tempPwUpdate(@Param("u_id") String u_id, @Param("enc_tempPw") String enc_tempPw);
 	
+	// 회원목록 리스트
+	List<UserInfoVO> userList(Criteria cri);
 	
-	
+	// 회원 게시물 총 갯수
+	int getTotalCount(Criteria cri);
 }

@@ -22,9 +22,6 @@
         <li class="nav-item">
           <a class="nav-link" href="/userinfo/login">LogIn</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">MemberList</a>
-        </li>
         </c:if>
         <!-- MyPage/ LogOut은 인증 후 표시(현재 세션 방식 사용) -->
         <c:if test="${sessionScope.login_status != null}">
@@ -36,6 +33,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" id="btnAjax" href="#">Ajax</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/userinfo/memberlist">MemberList</a>
         </li>
         </c:if>
         <li class="nav-item">

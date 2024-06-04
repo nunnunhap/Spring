@@ -1,5 +1,6 @@
 package com.docmall.demo.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.docmall.demo.domain.UserInfoVO;
+import com.docmall.demo.dto.Criteria;
 import com.docmall.demo.dto.EmailDTO;
+import com.docmall.demo.dto.PageDTO;
 import com.docmall.demo.service.EmailService;
 import com.docmall.demo.service.UserInfoService;
 
@@ -320,6 +323,20 @@ public class UserInfoController {
 	public String ajax() {
 		return "ajax";
 	}
+	
+	// memberlist 리스트 구현
+	@GetMapping("memberlist")
+	public void list(Criteria cri, Model model) {
+		List<UserInfoVO> list = userInfoService.userList(cri);
+		
+		model.addAttribute("list", list);
+		
+		int total = userInfoService.getTotalCount(cri);
+		PageDTO pageDTO = new PageDTO(cri, total);
+		
+		model.addAttribute("pageMaker", pageDTO);
+	}
+	
 	
 	
 	

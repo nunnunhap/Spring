@@ -1,8 +1,9 @@
 package com.docmall.demo.service;
 
-import org.apache.ibatis.annotations.Param;
+import java.util.List;
 
 import com.docmall.demo.domain.UserInfoVO;
+import com.docmall.demo.dto.Criteria;
 
 public interface UserInfoService {
 
@@ -33,5 +34,10 @@ public interface UserInfoService {
 	// 비밀번호 업데이트 작업
 	void tempPwUpdate(String u_id, String enc_tempPw); // 강사님은 이걸 u_pwd로 하셨어.
 	
+	// 회원목록 리스트
+	List<UserInfoVO> userList(Criteria cri);
+	
+	// 회원 게시물 총 갯수
+	int getTotalCount(Criteria cri);
 	
 }

@@ -103,6 +103,45 @@
 	</update>
 
 
+	<!-- 회원목록 리스트 -->
+	<select id="userList" resultType="com.docmall.demo.domain.UserInfoVO" parameterType="com.docmall.demo.dto.Criteria">
+		SELECT
+		    u_id,
+		    u_name,
+		    u_email,
+		    u_zip_code,
+		    u_addr,
+		    u_addrdetail,
+		    u_phone,
+		    u_regdate
+		FROM
+		    (
+		    SELECT /*+ INDEX_DESC(userinfo pk_userinfo) */
+		    	ROWNUM AS rn,
+		    	u_id,
+			    u_name,
+			    u_email,
+			    u_zip_code,
+			    u_addr,
+			    u_addrdetail,
+			    u_phone,
+			    u_regdate
+		    FROM
+		    	userinfo
+		    WHERE
+			<![CDATA[
+					ROWNUM <= (#{pageNum} * #{amount})
+			]]>
+			)
+		WHERE
+		    rn > (#{pageNum} - 1 ) * #{amount}
+	</select>
+
+	<!-- 회원 게시물 총 갯수 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*)
+		FROM userinfo
+	</select>
 
 
 

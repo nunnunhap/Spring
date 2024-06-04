@@ -1,9 +1,12 @@
 package com.docmall.demo.service;
 
+import java.util.List;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.docmall.demo.domain.UserInfoVO;
+import com.docmall.demo.dto.Criteria;
 import com.docmall.demo.mapper.UserInfoMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -67,5 +70,14 @@ public class UserInfoServiceImpl implements UserInfoService {
 		userInfoMapper.tempPwUpdate(u_id, enc_tempPw);
 	}
 	
+	@Override
+	public List<UserInfoVO> userList(Criteria cri) {
+		return userInfoMapper.userList(cri);
+	}
+	
+	@Override
+	public int getTotalCount(Criteria cri) {
+		return userInfoMapper.getTotalCount(cri);
+	}
 	
 }

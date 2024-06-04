@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="getTotalCount"/>
 			<item value="뷰"/>
 			<item value="targetUrl"/>
 			<item value="login_status"/>
@@ -22,7 +23,6 @@
 			<item value="failPW"/>
 			<item value="flash"/>
 			<item value="@Param("/>
-			<item value="회원정보"/>
 		</list>
 		<list key="replacehistory">
 			<item value=";"/>

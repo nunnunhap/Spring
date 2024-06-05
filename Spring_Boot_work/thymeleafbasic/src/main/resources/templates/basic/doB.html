@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Spring EL표현식</h1>
+	<h3>User 객체를 데이터 출력</h3>	
+	<ul> <!-- 텍스트가 들어갈 수 있는 태그면 다 th텍스트 사용 가능함. getter메서드 동작 -->
+		<li>이름 : <span th:text="${user.username}"></span></li>
+		<li>나이 : <span th:text="${user.age}"></span></li>
+	</ul>
+</body>
+</html>

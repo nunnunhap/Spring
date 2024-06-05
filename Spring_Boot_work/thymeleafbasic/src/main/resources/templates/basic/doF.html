@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>URL링크와 쿼리스트링 작업</h2>
+	<ul>
+		<li><a th:href="@{/home/testA}">기본링크</a></li>
+		<!-- /home/test?userid=user01&pwd=1234 -->
+		<li><a th:href="@{/home/testB(userid=${param1}, pwd=${param2})}">기본링크+쿼리스트링</a></li>
+		<!-- /home/testC/user01/1234 -->
+		<li><a th:href="@{/home/testC/{userid}/{pwd}(userid=${param1}, pwd=${param2})}">Path 주소</a></li>
+		<!-- /home/testD/user01?pwd=1234 -->
+		<li><a th:href="@{/home/testD/{userid}(userid=${param1}, pwd=${param2})}">Path 주소 + 쿼리스트링</a></li>
+	</ul>
+</body>
+</html>

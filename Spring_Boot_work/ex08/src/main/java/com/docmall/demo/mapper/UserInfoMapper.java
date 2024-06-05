@@ -43,4 +43,10 @@ public interface UserInfoMapper {
 	
 	// 회원 게시물 총 갯수
 	int getTotalCount(Criteria cri);
+	
+	
+	
+	
+	
+	
 }

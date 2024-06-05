@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h3>map 데이터 출력</h3>
+<ul>
+	<li>userA 이름 : <span th:text="${userMap['userA'].username}"></span></li>
+	<li>userA 나이 : <span th:text="${userMap['userA'].age}"></span></li>
+</ul>
+<hr>
+<ul>
+	<li>userB 이름 : <span th:text="${userMap['userB'].username}"></span></li>
+	<li>userB 나이 : <span th:text="${userMap['userB'].age}"></span></li>
+</ul>
+<hr>
+<ul><!-- 한 쌍의 구조 : entry -->
+	<li th:each="entry : ${userMap}">
+		<span th:text="${entry.key}"></span>
+		<span th:text="${entry.value}"></span> <!-- toString()이 작동되며 출력 -->
+		<span th:text="${entry.value.username}"></span>
+		<span th:text="${entry.value.age}"></span>
+	</li>
+</ul>
+</body>
+</html>

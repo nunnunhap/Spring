@@ -328,11 +328,13 @@ public class UserInfoController {
 	@GetMapping("memberlist")
 	public void list(Criteria cri, Model model) {
 		List<UserInfoVO> list = userInfoService.userList(cri);
+		log.info("게시물 목록 데이터 : " + list);
 		
 		model.addAttribute("list", list);
 		
 		int total = userInfoService.getTotalCount(cri);
 		PageDTO pageDTO = new PageDTO(cri, total);
+		log.info("페이징 기능 데이터 : " + pageDTO);
 		
 		model.addAttribute("pageMaker", pageDTO);
 	}

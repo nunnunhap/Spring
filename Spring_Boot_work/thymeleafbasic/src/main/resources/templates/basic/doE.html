@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- <link rel="stylesheet" href="/style.css"> /가 static임. -->
+<link rel="stylesheet" th:href="@{/style.css}"> <!-- thymeleaf 문법: 컨텍스트 패스가 달라질 경우를 대비 -->
+</head>
+<body>
+	<h1>List객체 데이터 출력 시 if조건문 사용하기</h1>
+	<table>
+		<tr>
+			<th>번호</th>
+			<th>이름</th>
+			<th>나이</th>
+			<th>구분1</th>
+			<th>구분2</th>
+		</tr>
+		<tr th:each="user, status : ${list}">
+			<td th:text="${status.count}"></td>
+			<td th:text="${user.username}"></td>
+			<td th:text="${user.age}"></td>
+			<td th:text="${user.age >= 18 ? '성년' : '미성년'}"></td>
+			<td>
+				<span th:text="성년" th:if="${user.age ge 18}"></span> <!-- if와 unless는 조건이 같음.  -->
+				<span th:text="미성년" th:unless="${user.age ge 18}"></span> <!-- unless : else개념, 조건이 '아니면' -->
+			</td> <!-- ge : great equals -->
+		</tr>
+	</table>
+</body>
+</html>

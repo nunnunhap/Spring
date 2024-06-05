@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>text vs utext</h1>
+	<ul>
+		<!-- th:text를 하면 홍길동이 지워지고 ${data}가 들어오게 됨. -->
+		<!-- 1) Escape 처리가 되어 태그효과가 적용안됨. <가 &lt; >가 &gt;-->
+		<li>th:text = <span th:text="${data}"></span></li>
+		<!-- 2) UnEscape 상태로 태그효과 적용 -->
+		<li>th:utext = <span th:utext="${data}"></span></li>
+	</ul>
+	<!-- th:inline="none"하면 <span>안의 내용을 문법처리하지 않음. -->
+	<h1><span th:inline="none">[[...]] vs [(...)]</span></h1>
+	<ul>
+		<li><span th:inline="none">[[...]] = </span>[[${data}]]</li>
+		<li><span th:inline="none">[(...)] = </span>[(${data})]</li>
+	</ul>
+	
+</body>
+</html>

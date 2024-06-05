@@ -49,19 +49,35 @@
                 </table>
             </div>
             <div class="card-footer clearfix">
+	            <div class="float-left">
+	                    <form id="searchForm" action="/userinfo/memberlist" method="get">
+	                        <div class="form-group">
+	                            <select name="type">
+	                                <option value="" <c:out value="${pageMaker.cri.type == null ? 'selected' : ''}" />>----</option>
+	                                <option value="I" <c:out value="${pageMaker.cri.type == 'I' ? 'selected' : ''}" />>아이디</option>
+	                                <option value="N" <c:out value="${pageMaker.cri.type == 'N' ? 'selected' : ''}" />>이름</option>
+	                                <option value="P" <c:out value="${pageMaker.cri.type == 'P' ? 'selected' : ''}" />>전화번호</option>
+	                            </select>
+	                            <input type="text" name="keyword" placeholder="검색어를 입력하시오" value="${pageMaker.cri.keyword}">
+	                            <input type="hidden" name="pageNum" value="1">
+	                            <input type="hidden" name="amount" value="${pageMaker.cri.amount}">
+	                            <input type="submit" class="btn btn-primary btn-sm" value="Search">
+	                        </div>
+	                    </form>
+	                </div>
                 <ul class="pagination pagination-sm m-0 float-right">
 	                <c:if test="${pageMaker.prev}">
 	                    <li class="page-item">
-	                        <a class="page-link" href="/userinfo/memberlist?pageNum=${pageMaker.startPage - 1}&amount=${pageMaker.cri.amount}">[이전]</a>
+	                        <a class="page-link" href="/userinfo/memberlist?type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.startPage - 1}&amount=${pageMaker.cri.amount}">[이전]</a>
 	                    </li>
 	                </c:if>
                     <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="page">
                         <li class='page-item ${pageMaker.cri.pageNum == page ? "active" : ""}'>
-                            <a class="page-link" href="/userinfo/memberlist?pageNum=${page}&amount=${pageMaker.cri.amount}">${page}</a>
+                            <a class="page-link" href="/userinfo/memberlist?type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${page}&amount=${pageMaker.cri.amount}">${page}</a>
                         </li>
                     </c:forEach>
                     <c:if test="${pageMaker.next}">
-                        <li class="page-item"><a class="page-link" href="/userinfo/memberlist?pageNum=${pageMaker.endPage + 1}&amount=${pageMaker.cri.amount}">[다음]</a></li>
+                        <li class="page-item"><a class="page-link" href="/userinfo/memberlist?type=${pageMaker.cri.type}&keyword=${pageMaker.cri.keyword}&pageNum=${pageMaker.endPage + 1}&amount=${pageMaker.cri.amount}">[다음]</a></li>
                     </c:if>
                 </ul>
             </div>

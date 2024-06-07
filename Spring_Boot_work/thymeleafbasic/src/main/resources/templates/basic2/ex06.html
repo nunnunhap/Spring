@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	
+	<h3>타임리프 : 유틸리티 numbers</h3>
+	<select>
+		<th:block th:each="num : ${#numbers.sequence(1,10,2)}">
+			<option th:value="${num}" th:text="${num}" th:selected="${num} == ${number}"></option>
+		</th:block>
+	</select>
+	
+</body>
+</html>

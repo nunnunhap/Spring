@@ -15,6 +15,7 @@
 			<th>나이</th>
 			<th>구분1</th>
 			<th>구분2</th>
+			<th>구분3</th>
 		</tr>
 		<tr th:each="user, status : ${list}">
 			<td th:text="${status.count}"></td>
@@ -25,6 +26,11 @@
 				<span th:text="성년" th:if="${user.age ge 18}"></span> <!-- if와 unless는 조건이 같음.  -->
 				<span th:text="미성년" th:unless="${user.age ge 18}"></span> <!-- unless : else개념, 조건이 '아니면' -->
 			</td> <!-- ge : great equals -->
+			<td th:switch="${user.age}">
+				<span th:case="10">10살</span>
+				<span th:case="20">20살</span>
+				<span th:case="*">기타</span>
+			</td>
 		</tr>
 	</table>
 </body>

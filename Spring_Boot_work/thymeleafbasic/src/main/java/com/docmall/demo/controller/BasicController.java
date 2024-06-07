@@ -72,12 +72,12 @@ public class BasicController {
 	}
 	
 	// if문 사용목적. 나이가 18세 이상이면 성년, 이하면 미성년
-	@GetMapping("doE")
+	@GetMapping("/doE")
 	public String doE(Model model) {
-		User user1 = new User("이몽룡", 33);
-		User user2 = new User("춘향이", 15);
+		User user1 = new User("이몽룡", 20);
+		User user2 = new User("춘향이", 10);
 		
-		List<User> list = new ArrayList<User>(Arrays.asList(user1, user2));
+		List<User> list = new ArrayList<>(Arrays.asList(user1, user2));
 		model.addAttribute("list", list);
 		
 		return "basic/doE"; // thymeleaf 파일명. /basic/doE.html

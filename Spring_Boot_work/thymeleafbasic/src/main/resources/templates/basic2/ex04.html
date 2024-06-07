@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>param, session, bean 객체 사용</h3>
+	<!-- session.login_status는 null이 아니므로 로그인 중 출력됨. -->
+	<div th:if="${session.login_status} != null">
+		<ul>
+			<li><span th:text="|${session.login_status} 님이 로그인중입니다.|"></span></li>
+		</ul>
+	</div>
+	<div th:if="${session.login_status2} == null">
+		<ul>
+			<li>로그인</span></li>
+		</ul>
+	</div>
+	
+	<!-- param -->
+	<p th:text="${param.userid}"></p>
+	
+	<!-- spring bean 사용 -->
+	<p th:text="${@helloBean.hello('Spring!!')}">
+	
+</body>
+</html>

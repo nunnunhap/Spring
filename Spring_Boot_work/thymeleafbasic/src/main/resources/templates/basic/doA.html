@@ -20,5 +20,10 @@
 		<li><span th:inline="none">[(...)] = </span>[(${data})]</li>
 	</ul>
 	
+	<!-- 타임리프 변수 선언 -->
+	<div th:with="name=${'홍길동'}">
+		<h3 th:text="${name}"></h3>
+	</div>
+	
 </body>
 </html>

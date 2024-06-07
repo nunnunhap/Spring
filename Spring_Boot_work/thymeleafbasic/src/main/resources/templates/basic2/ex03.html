@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h3>타임리프 내장객체</h3>
+	<ul>
+		<li>request = <span th:text="${request}"></span></li>
+		<li>response = <span th:text="${response}"></span></li>
+		<li>servletContext = <span th:text="${servletContext}"></span></li>
+		<li>locale = <span th:text="${#locale}"></span></li>
+	</ul>
+	
+	<!-- spring bean 사용 -->
+	<p th:text="${@helloBean.hello('Spring!!')}">
+</body>
+</html>

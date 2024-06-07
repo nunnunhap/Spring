@@ -51,6 +51,20 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		
+		<!-- 스프링부트 2.3 이전에는 spring-boot-starter-web에 포함되어 있었음. -->
+		<dependency>
+      		<groupId>org.springframework.boot</groupId>
+      		<artifactId>spring-boot-starter-validation</artifactId>
+    	</dependency>
+    	
+    	<!-- thymeleaf layout 라이브러리 -->
+    	<!-- https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect -->
+		<dependency>
+		    <groupId>nz.net.ultraq.thymeleaf</groupId>
+		    <artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
+    	
 	</dependencies>
 
 	<build>

@@ -6,10 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @MapperScan(basePackages = {"com.docmall.demo.mapper"})
 @SpringBootApplication
-public class ThboardApplication {
+public class ThBoardApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ThboardApplication.class, args);
+		SpringApplication.run(ThBoardApplication.class, args);
 	}
 
 }

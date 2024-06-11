@@ -11,13 +11,13 @@ import lombok.ToString;
 @ToString
 public class BoardVO {
 	
-	private Integer idx;
+	private Integer idx; // 오라클의 시퀀스로 처리함.
 	
 	@NotBlank(message = "제목은 필수항목입니다.") // pom.xml에 추가한 validation에서 지원해주는 어노테이션
 	@Size(max = 200)
 	private String title;
 
-	@NotBlank(message = "저자는 필수항목입니다.")
+	@NotBlank(message = "저자는 필수항목입니다.") // null, 빈 문자열(""), 공백(" ") 허용안함.
 	@Size(max = 30)
 	private String author;
 

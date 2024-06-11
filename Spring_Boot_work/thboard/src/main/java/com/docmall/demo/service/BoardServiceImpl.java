@@ -6,28 +6,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.docmall.demo.domain.BoardVO;
-import com.docmall.demo.dto.Criteria;
 import com.docmall.demo.mapper.BoardMapper;
 
 @Service
 public class BoardServiceImpl implements BoardService {
-	// 의존성 주입
+
+	//의존성 주입
 	@Autowired
 	private BoardMapper boardMapper;
 
 	@Override
 	public void write(BoardVO vo) {
 		boardMapper.write(vo);
+		
 	}
 
 	@Override
 	public List<BoardVO> list() {
+		// TODO Auto-generated method stub
 		return boardMapper.list();
 	}
 
 	@Override
 	public BoardVO get(Long bno) {
-		// 조회 수 증가
+		
+		// 조회수증가
 		boardMapper.readCount(bno);
 		
 		return boardMapper.get(bno);
@@ -35,21 +38,15 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public void modify(BoardVO vo) {
+		// TODO Auto-generated method stub
 		boardMapper.modify(vo);
+		
 	}
 
 	@Override
 	public void delete(Long bno) {
+		// TODO Auto-generated method stub
 		boardMapper.delete(bno);
 	}
-
-	@Override
-	public List<BoardVO> listWithPaging(Criteria cri) {
-		return boardMapper.listWithPaging(cri);
-	}
-
-	@Override
-	public int getTotalCount(Criteria cri) {
-		return boardMapper.getTotalCount(cri);
-	}
+	
 }

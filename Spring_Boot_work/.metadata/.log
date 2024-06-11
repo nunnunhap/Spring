@@ -9672,3 +9672,352 @@ org.eclipse.debug.core.DebugException: Launch configuration thboard - thboardApp
 
 !ENTRY org.eclipse.wildwebdeveloper.xml 2 0 2024-06-10 16:40:16.112
 !MESSAGE The given URI http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_1.xsd from org.eclipse.jst.standard.schemas could not be resolved for local access
+!SESSION 2024-06-10 17:01:42.502 -----------------------------------------------
+eclipse.buildId=4.22.0.202403071427
+java.version=17.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY org.eclipse.emf.ecore 2 0 2024-06-10 17:01:45.247
+!MESSAGE Both 'org.eclipse.jst.j2ee.core' and 'org.eclipse.jst.j2ee.core' register a package for 'application.xmi'
+
+!ENTRY ch.qos.logback.classic 1 0 2024-06-10 17:01:45.544
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-06-10 17:01:46.901
+!MESSAGE Logback config file: C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.0.20240217-1525.xml
+
+!ENTRY org.eclipse.ui 2 0 2024-06-10 17:01:47.423
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-06-10 17:01:47.423
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2024-06-10 17:01:47.884
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-06-10 17:01:47.884
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.egit.ui 2 0 2024-06-10 17:01:54.640
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\i7C-06'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.836
+!MESSAGE Boot project ADDED: board
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.837
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.840
+!MESSAGE Started Boot LS process
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.846
+!MESSAGE Boot project ADDED: ex00
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.852
+!MESSAGE Boot project ADDED: ex01
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.859
+!MESSAGE Boot project ADDED: ex02
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.866
+!MESSAGE Boot project ADDED: ex03
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.874
+!MESSAGE Boot project ADDED: ex04
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2024-06-10 17:01:54.876
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.10.v20240120-1143\jre\bin\javaw.exe
+-cp
+C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.53.0.202403071323\servers\spring-boot-language-server\BOOT-INF\classes;C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.53.0.202403071323\servers\spring-boot-language-server\BOOT-INF\lib\*
+-Dsts.lsp.client=eclipse
+-Dlsp.completions.indentation.enable=true
+-Xmx1024m
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:TieredStopAtLevel=1
+-Xlog:jni+resolve=off
+-Dspring.config.location=file:C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.53.0.202403071323\servers\spring-boot-language-server\BOOT-INF\classes\application.properties
+-XX:ErrorFile=C:/Dev/Spring_work/Spring_Boot_work/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1718006514875
+org.springframework.ide.vscode.boot.app.BootLanguageServerBootApp
+--languageserver.hover-timeout=225
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.877
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.884
+!MESSAGE Boot project ADDED: ex05
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.891
+!MESSAGE Boot project ADDED: ex06
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2024-06-10 17:01:54.893
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 10032
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.902
+!MESSAGE Boot project ADDED: ex07
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.910
+!MESSAGE Boot project ADDED: ex08
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.917
+!MESSAGE Boot project ADDED: ex09
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.924
+!MESSAGE Boot project ADDED: layoutdemo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.933
+!MESSAGE Boot project ADDED: layoutdemo01
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.940
+!MESSAGE Boot project ADDED: sboard
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.955
+!MESSAGE Boot project ADDED: thboard
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:01:54.956
+!MESSAGE Boot project ADDED: thymeleafbasic
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2024-06-10 17:01:56.166
+!MESSAGE Could not read settingsCacheMap.xml, assuming default values
+!STACK 0
+org.apache.maven.settings.building.SettingsBuildingException: 1 problem was encountered while building the effective settings
+[FATAL] Non-parseable settings C:\Users\i7C-06\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar: only whitespace content allowed before start tag and not P (position: START_DOCUMENT seen P... @1:2)  @ C:\Users\i7C-06\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar, line 1, column 2
+
+	at org.apache.maven.settings.building.DefaultSettingsBuilder.build(DefaultSettingsBuilder.java:115)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl$MavenSettings.getSettings(MavenImpl.java:1117)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.getSettings(MavenImpl.java:279)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.getSettings(MavenImpl.java:273)
+	at org.eclipse.m2e.core.internal.repository.RepositoryRegistry.updateRegistry(RepositoryRegistry.java:229)
+	at org.eclipse.m2e.core.internal.repository.RepositoryRegistryUpdateJob.run(RepositoryRegistryUpdateJob.java:50)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:26:03.172
+!MESSAGE Classpath changed for project: thymeleaflayout
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:26:04.696
+!MESSAGE Classpath changed for project: thymeleaflayout
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:26:31.144
+!MESSAGE Classpath changed for project: thymeleaflayout
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-10 17:26:31.145
+!MESSAGE Boot project ADDED: thymeleaflayout
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-10 17:56:19.869
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/2.1.2/content.jar
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-10 17:56:20.411
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/3.0.0/content.jar
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-10 17:56:20.836
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/3.0.1/content.jar
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-10 17:56:20.981
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/3.1.0/content.jar
+!SESSION 2024-06-11 09:02:25.706 -----------------------------------------------
+eclipse.buildId=4.22.0.202403071427
+java.version=17.0.10
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ko_KR
+Framework arguments:  -product org.springframework.boot.ide.branding.sts4
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.springframework.boot.ide.branding.sts4
+
+!ENTRY org.eclipse.emf.ecore 2 0 2024-06-11 09:02:35.682
+!MESSAGE Both 'org.eclipse.jst.j2ee.core' and 'org.eclipse.jst.j2ee.core' register a package for 'application.xmi'
+
+!ENTRY ch.qos.logback.classic 1 0 2024-06-11 09:02:36.050
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2024-06-11 09:02:38.916
+!MESSAGE Logback config file: C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.m2e.logback\logback.2.6.0.20240217-1525.xml
+
+!ENTRY org.eclipse.ui 2 0 2024-06-11 09:02:39.741
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-06-11 09:02:39.741
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.eclipse.ui 2 0 2024-06-11 09:02:40.608
+!MESSAGE Warnings while parsing the commands from the 'org.eclipse.ui.commands' and 'org.eclipse.ui.actionDefinitions' extension points.
+!SUBENTRY 1 org.eclipse.ui 2 0 2024-06-11 09:02:40.608
+!MESSAGE Commands should really have a category: plug-in='org.springframework.tooling.boot.ls', id='spring.initializr.addStarters', categoryId='org.eclipse.lsp4e.commandCategory'
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2024-06-11 09:02:51.895
+!MESSAGE Command list starting LS: org.springframework.tooling.boot.ls
+START:
+C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.eclipse.justj.openjdk.hotspot.jre.full.win32.x86_64_17.0.10.v20240120-1143\jre\bin\javaw.exe
+-cp
+C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.53.0.202403071323\servers\spring-boot-language-server\BOOT-INF\classes;C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.53.0.202403071323\servers\spring-boot-language-server\BOOT-INF\lib\*
+-Dsts.lsp.client=eclipse
+-Dlsp.completions.indentation.enable=true
+-Xmx1024m
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:TieredStopAtLevel=1
+-Xlog:jni+resolve=off
+-Dspring.config.location=file:C:\Spring\spring-tool-suite-4-4.22.0\contents\sts-4.22.0.RELEASE\plugins\org.springframework.tooling.boot.ls_1.53.0.202403071323\servers\spring-boot-language-server\BOOT-INF\classes\application.properties
+-XX:ErrorFile=C:/Dev/Spring_work/Spring_Boot_work/.metadata/.plugins/org.springframework.tooling.boot.ls/fatal-error-spring-boot_1718064171895
+org.springframework.ide.vscode.boot.app.BootLanguageServerBootApp
+--languageserver.hover-timeout=225
+END
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:51.895
+!MESSAGE DelegatingStreamConnectionProvider - Starting Boot LS
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2024-06-11 09:02:51.910
+!MESSAGE Started org.springframework.tooling.boot.ls LS process 2000
+
+!ENTRY org.eclipse.egit.ui 2 0 2024-06-11 09:02:53.540
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\i7C-06'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.754
+!MESSAGE Boot project ADDED: board
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.756
+!MESSAGE Starting Boot LS...
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.759
+!MESSAGE Started Boot LS process
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.767
+!MESSAGE Boot project ADDED: ex00
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.773
+!MESSAGE Boot project ADDED: ex01
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.780
+!MESSAGE Boot project ADDED: ex02
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.786
+!MESSAGE Boot project ADDED: ex03
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.792
+!MESSAGE Boot project ADDED: ex04
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.799
+!MESSAGE Boot project ADDED: ex05
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.809
+!MESSAGE Boot project ADDED: ex06
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.817
+!MESSAGE Boot project ADDED: ex07
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.819
+!MESSAGE Boot project ADDED: ex08
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.826
+!MESSAGE Boot project ADDED: ex09
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.833
+!MESSAGE Boot project ADDED: layoutdemo
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.836
+!MESSAGE Boot project ADDED: layoutdemo01
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.843
+!MESSAGE Boot project ADDED: sboard
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.858
+!MESSAGE Boot project ADDED: thboard
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.865
+!MESSAGE Boot project ADDED: thymeleafbasic
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:02:53.866
+!MESSAGE Boot project ADDED: thymeleaflayout
+
+!ENTRY org.eclipse.m2e.logback.appender 4 0 2024-06-11 09:02:55.752
+!MESSAGE Could not read settingsCacheMap.xml, assuming default values
+!STACK 0
+org.apache.maven.settings.building.SettingsBuildingException: 1 problem was encountered while building the effective settings
+[FATAL] Non-parseable settings C:\Users\i7C-06\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar: only whitespace content allowed before start tag and not P (position: START_DOCUMENT seen P... @1:2)  @ C:\Users\i7C-06\.m2\repository\com\oracle\database\jdbc\ojdbc11\21.9.0.0\ojdbc11-21.9.0.0.jar, line 1, column 2
+
+	at org.apache.maven.settings.building.DefaultSettingsBuilder.build(DefaultSettingsBuilder.java:115)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl$MavenSettings.getSettings(MavenImpl.java:1117)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.getSettings(MavenImpl.java:279)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.getSettings(MavenImpl.java:273)
+	at org.eclipse.m2e.core.internal.repository.RepositoryRegistry.updateRegistry(RepositoryRegistry.java:229)
+	at org.eclipse.m2e.core.internal.repository.RepositoryRegistryUpdateJob.run(RepositoryRegistryUpdateJob.java:50)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.eclipse.wildwebdeveloper.xml 2 0 2024-06-11 09:22:20.083
+!MESSAGE The given URI https://jakarta.ee/xml/ns/jakartaee/application-client_9.xsd from org.eclipse.jst.standard.schemas could not be resolved for local access
+
+!ENTRY org.eclipse.wildwebdeveloper.xml 2 0 2024-06-11 09:22:20.085
+!MESSAGE The given URI https://jakarta.ee/xml/ns/jakartaee/jobXML_2_0.xsd from org.eclipse.jst.standard.schemas could not be resolved for local access
+
+!ENTRY org.eclipse.wildwebdeveloper.xml 2 0 2024-06-11 09:22:20.087
+!MESSAGE The given URI https://jakarta.ee/xml/ns/jakartaee/beans_3_0.xsd from org.eclipse.jst.standard.schemas could not be resolved for local access
+
+!ENTRY org.eclipse.wildwebdeveloper.xml 2 0 2024-06-11 09:22:20.088
+!MESSAGE The given URI https://jakarta.ee/xml/ns/jaxb/bindingschema_3_0.xsd from org.eclipse.jst.standard.schemas could not be resolved for local access
+
+!ENTRY org.eclipse.wildwebdeveloper.xml 2 0 2024-06-11 09:22:20.104
+!MESSAGE The given URI https://jakarta.ee/xml/ns/validation/validation-configuration-3.0.xsd from org.eclipse.jst.standard.schemas could not be resolved for local access
+
+!ENTRY org.eclipse.wildwebdeveloper.xml 2 0 2024-06-11 09:22:20.112
+!MESSAGE The given URI http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_1.xsd from org.eclipse.jst.standard.schemas could not be resolved for local access
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:24:30.169
+!MESSAGE Classpath changed for project: thboard
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:24:53.836
+!MESSAGE Classpath changed for project: thboard0000000
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 4 0 2024-06-11 09:24:54.052
+!MESSAGE Cannot invoke "org.eclipse.m2e.core.project.IMavenProjectFacade.getArtifactKey()" because "facade" is null
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "org.eclipse.m2e.core.project.IMavenProjectFacade.getArtifactKey()" because "facade" is null
+	at org.springframework.tooling.jdt.ls.commons.classpath.ClasspathUtil.createProjectBuild(ClasspathUtil.java:235)
+	at org.springframework.tooling.jdt.ls.commons.classpath.SendClasspathNotificationsJob.run(SendClasspathNotificationsJob.java:146)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:24:54.104
+!MESSAGE Classpath changed for project: thboard0000000
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 4 0 2024-06-11 09:24:54.107
+!MESSAGE Cannot invoke "org.eclipse.m2e.core.project.IMavenProjectFacade.getArtifactKey()" because "facade" is null
+!STACK 0
+java.lang.NullPointerException: Cannot invoke "org.eclipse.m2e.core.project.IMavenProjectFacade.getArtifactKey()" because "facade" is null
+	at org.springframework.tooling.jdt.ls.commons.classpath.ClasspathUtil.createProjectBuild(ClasspathUtil.java:235)
+	at org.springframework.tooling.jdt.ls.commons.classpath.SendClasspathNotificationsJob.run(SendClasspathNotificationsJob.java:146)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:24:56.496
+!MESSAGE Classpath changed for project: thboard0000000
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:24:56.498
+!MESSAGE Boot project ADDED: thboard0000000
+
+!ENTRY org.eclipse.core.resources 4 1 2024-06-11 09:25:02.270
+!MESSAGE Problems occurred refreshing resources
+!SUBENTRY 1 org.eclipse.core.resources 4 1 2024-06-11 09:25:02.270
+!MESSAGE Problem finding next change, code: 5
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:25:02.379
+!MESSAGE Classpath changed for project: thboard0000000
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2024-06-11 09:25:02.382
+!MESSAGE Boot project REMOVED: thboard0000000
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-11 09:52:17.577
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/2.1.2/content.jar
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-11 09:52:18.623
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/3.0.0/content.jar
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-11 09:52:19.347
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/3.0.1/content.jar
+
+!ENTRY org.eclipse.equinox.p2.repository 2 0 2024-06-11 09:52:19.481
+!MESSAGE Server returned lastModified <= 0 for https://raw.githubusercontent.com/thymeleaf/thymeleaf-extras-eclipse-plugin/update-site/3.1.0/content.jar

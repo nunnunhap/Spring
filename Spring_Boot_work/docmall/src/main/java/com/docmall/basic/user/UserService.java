@@ -1,8 +1,20 @@
 package com.docmall.basic.user;
 
-public interface UserService {
+import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class UserService {
 	
-	public void join(UserVo vo);
+	private final UserMapper userMapper;
 	
+	public void join(UserVo vo) {
+		userMapper.join(vo);
+	}
 	
+	public String idCheck(String mbsp_id) {
+		return userMapper.idCheck(mbsp_id);
+	}
 }

@@ -1,0 +1,110 @@
+
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{layout/baselayout}">
+
+  <body>
+
+  <th:block layout:fragment = "content">    
+<!-- Begin page content -->
+<main role="main" class="flex-shrink-0">
+  <div class="container">
+    <h1 class="mt-5">임시비밀번호 설정</h1>
+    <div class="row">
+      <div class="col">
+        <div class="card card-info">
+          <div class="card-header">
+            <h3 class="card-title">PW Find Form</h3>
+          </div>
+          
+          <form class="form-horizontal" id="pwFindForm" action="/user/pwfind" method="post">
+            <div class="card-body">
+              <div class="form-group row">
+                <label for="mbsp_id" class="col-sm-4 col-form-label">ID</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="mbsp_id" name="mbsp_id" value="user01">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="mbsp_name" class="col-sm-4 col-form-label">Name</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="mbsp_name" name="mbsp_name" value="홍길동">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="mbsp_email" class="col-sm-4 col-form-label">이메일</label>
+                <div class="col-sm-6">
+                  <input type="text" class="form-control" id="mbsp_email" name="mbsp_email" value="yyewkor@naver.com">
+                </div>
+                <div class="col-sm-2">
+                  <button type="button" class="btn btn-link" id="btnMailAuthcode">인증번호 발송</button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="authcode" class="col-sm-4 col-form-label">인증코드</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control" id="authcode" name="authcode" placeholder="authcode">
+                </div>
+              </div>
+            </div>
+            
+            <div class="card-footer text-center">
+              <button type="submit" class="btn btn-info btn-block" id="btnPw">비밀번호 재설정</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+</th:block>
+<th:block layout:fragment="script">
+  <script th:inline="javascript"> // th:inline="javascript" 속성값을 주면 tymeleaf에서 객체 데이터를 받아올 수 있다.
+    let msg = [[${msg}]];
+
+    if(msg == "success") {
+      alert("임시 비밀번호가 메일로 발송되었습니다.");
+      location.href = "/user/login";
+
+    } else if(msg == "failInput") {
+      alert("입력정보를 확인하세요.");
+      document.getElementById("mbsp_id").focus();
+
+    } else if(msg == "failAuth") {
+      alert("인증코드를 확인하세요.");
+      document.getElementById("mbsp_id").focus();
+      
+    }
+
+
+    $(document).ready(function() {
+      // 메일 인증코드 요청
+      $("#btnMailAuthcode").on("click", function() {
+        if($("#mbsp_email").val() == "") {
+          alert("메일을 입력하세요");
+          $("#mbsp_email").focus();
+          
+          return;
+        }
+
+        $.ajax({
+          url : '/email/authcode',
+          type : 'get',
+          // Controller의 authcode()의 매개변수로 들어가는 EmailDTO의 receiverMail
+          data : {receiverMail : $("#mbsp_email").val(), type : "emailPw"}, // type이 thymeleaf 파일명
+          dataType : 'text', // controller에서 return된 "success"가 text
+          success : function(result) {
+            if(result == "success") {
+              alert("메일로 인증코드가 발급되었습니다.");
+              $("#authcode").focus();
+            }
+          }
+        });
+      });
+    }); // ready event end
+  </script>
+</th:block>
+</body>
+</html>

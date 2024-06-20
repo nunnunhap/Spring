@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -201,6 +202,68 @@ public class UserController {
 		rttr.addFlashAttribute("msg", msg);
 		
 		return "redirect:" + url;
+	}
+	
+	@GetMapping("mypage")
+	public void mypage(HttpSession session, Model model) throws Exception {
+		
+		// getAttribute() return타입이 Object라서 UserInfoVO로 형변환
+		String mbsp_id = ((UserVo) session.getAttribute("login_status")).getMbsp_id();
+		// 인증된 사용자만 사용 가능한게 mypage다 보니 id를 세션에서 가지고 옴.
+		UserVo vo = userService.login(mbsp_id);
+		
+		model.addAttribute("user", vo);
+	}
+	
+	// 내 정보 수정하기
+	@PostMapping("modify") // 인증된 사용자만 수정하게 하기 위하여 session가지고 옴.
+	public String modify(UserVo vo, HttpSession session, RedirectAttributes rttr) throws Exception {
+		
+		log.info("회원정보 수정 내역 : " + vo);
+		
+		// 인터셉터 기능 구현 전까지만 사용 예정
+		if(session.getAttribute("login_status") == null) return "redirect:/user/login";
+		
+		String mbsp_id = ((UserVo) session.getAttribute("login_status")).getMbsp_id();
+		vo.setMbsp_id(mbsp_id);
+		
+		userService.modify(vo);
+		
+		rttr.addFlashAttribute("msg", "success");
+		
+		return "redirect:/user/mypage";
+	}
+	
+	@GetMapping("changepw")
+	public void changepw() {
+		
+	}
+	
+	@PostMapping("changepw")
+	public String changepw(String cur_mbsp_password, String new_mbsp_password, HttpSession session, RedirectAttributes rttr) {
+		
+		String mbsp_id = ((UserVo) session.getAttribute("login_status")).getMbsp_id(); // 세션을 통해 아이디 참조
+		
+		UserVo vo = userService.login(mbsp_id);
+		
+		String msg = "";
+		
+		if(vo != null) { // 아이디가 존재하는 경우
+			// 비밀번호 비교
+			if(passwordEncoder.matches(cur_mbsp_password, vo.getMbsp_password())) { // 사용자가 입력한 비밀번호가 암호화된 형태에 해당하는 것이라면
+				// 신규 비밀번호 변경 작업
+				String enc_new_mbsp_password = passwordEncoder.encode(new_mbsp_password); // 암호화
+				userService.changePw(mbsp_id, enc_new_mbsp_password);
+				msg = "success";
+				
+			}else { // 사용자가 입력한 비밀번호가 암호화된 형태에 해당하지 않는 것이라면
+				msg = "failPW";
+			}
+		}
+		
+		rttr.addFlashAttribute("msg", msg); // JSP에서 msg변수 사용 목적
+		
+		return "redirect:/user/changepw";
 	}
 	
 	

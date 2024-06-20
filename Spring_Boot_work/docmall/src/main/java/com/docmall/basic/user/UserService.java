@@ -43,4 +43,16 @@ public class UserService {
 		userMapper.tempPwUpdate(mbsp_id, temp_enc_pw);
 	}
 	
+	// 회원정보 수정
+	public void modify(UserVo vo) {
+		userMapper.modify(vo);
+	}
+	
+	public void changePw(String mbsp_id, String new_mbsp_password) {
+		userMapper.changePw(mbsp_id, new_mbsp_password);
+	}
+	
+	
+	
+	
 }

@@ -29,7 +29,7 @@
 		    (#{mbsp_id}, #{mbsp_name}, #{mbsp_email}, #{mbsp_password}, #{mbsp_zipcode}, #{mbsp_addr}, #{mbsp_deaddr}, #{mbsp_phone}, #{mbsp_nick} )
 	</insert>
 	
-	<!-- 로그인(파라미터 타입 생략 가능) -->
+	<!-- 로그인(파라미터 타입 생략 가능), 마이페이지 사용 -->
 	<select id="login" resultType="UserVo" parameterType="String">
 		SELECT
 		    mbsp_id,
@@ -79,6 +79,34 @@
 		SET mbsp_password = #{temp_enc_pw}
 		WHERE mbsp_id = #{mbsp_id}
 	</update>
+	
+	<!-- 수정 -->
+	<update id="modify" parameterType="UserVo">
+		UPDATE
+		    mbsp_tbl
+		SET
+			mbsp_email = #{mbsp_email},
+			mbsp_zipcode = #{mbsp_zipcode},
+		    mbsp_addr = #{mbsp_addr},
+		    mbsp_deaddr = #{mbsp_deaddr},
+		    mbsp_phone = #{mbsp_phone}
+		WHERE
+		    mbsp_id = #{mbsp_id}
+	</update>
+	
+	<!-- 비밀번호 변경/ 파라미터가 두 개면 map으로 들어옴. -->
+	<update id="changePw" parameterType="map">
+		UPDATE
+		    mbsp_tbl
+		SET
+			mbsp_password = #{new_mbsp_password}
+		WHERE
+		    mbsp_id = #{mbsp_id}
+	</update>
+	
+	
+	
+	
 	
 	
 

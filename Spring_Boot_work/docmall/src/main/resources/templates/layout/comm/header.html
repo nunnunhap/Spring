@@ -11,7 +11,7 @@
   <th:block th:if="${session.login_status != null}">
     <!-- session.login_status.필드명  : getter가 동작 -->
 	<span th:text="${session.login_status.mbsp_name}"></span>
-	<span>[[ ${session.login_status.mbsp_name} ]]</span>
+	<span>[[ ${session.login_status.mbsp_email} ]]</span>
     <a class="p-2 text-dark" th:href="@{/user/logout}">로그아웃</a>
     <a class="p-2 text-dark" th:href="@{/user/mypage}">마이페이지</a>
   </th:block>

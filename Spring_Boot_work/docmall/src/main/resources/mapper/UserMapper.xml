@@ -104,6 +104,13 @@
 		    mbsp_id = #{mbsp_id}
 	</update>
 	
+	<delete id="delete">
+		DELETE FROM
+			mbsp_tbl
+		WHERE
+			mbsp_id = #{mbsp_id}
+	</delete>
+	
 	
 	
 	

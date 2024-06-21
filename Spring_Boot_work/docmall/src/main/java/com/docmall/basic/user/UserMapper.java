@@ -27,6 +27,9 @@ public interface UserMapper {
 	// 비밀번호 변경 (암호화처리하여 들어와야 함) mybatis에서 파라미터가 두 개면 param처리 필요.
 	void changePw(@Param("mbsp_id") String mbsp_id, @Param("new_mbsp_password") String new_mbsp_password);
 	
+	// 회원정보 삭제
+	void delete(String mbsp_id);
+	
 	
 	
 }

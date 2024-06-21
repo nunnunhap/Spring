@@ -28,7 +28,7 @@ public class UserController {
 	private final EmailService emailService;
 	
 	@GetMapping("join")
-	public void joinForm() throws Exception {
+	public void joinForm() {
 		log.info("join");
 	}
 	
@@ -163,7 +163,7 @@ public class UserController {
 	}
 	
 	@PostMapping("pwfind")
-	public String pwfind(String mbsp_id, String mbsp_name, String mbsp_email, String authcode, HttpSession session, RedirectAttributes rttr) {
+	public String pwfind(String mbsp_id, String mbsp_name, String mbsp_email, String authcode, HttpSession session, RedirectAttributes rttr) throws Exception {
 		String url = "";
 		String msg = "";
 		
@@ -217,7 +217,7 @@ public class UserController {
 	
 	// 내 정보 수정하기
 	@PostMapping("modify") // 인증된 사용자만 수정하게 하기 위하여 session가지고 옴.
-	public String modify(UserVo vo, HttpSession session, RedirectAttributes rttr) throws Exception {
+	public String modifyOk(UserVo vo, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
 		log.info("회원정보 수정 내역 : " + vo);
 		
@@ -235,12 +235,12 @@ public class UserController {
 	}
 	
 	@GetMapping("changepw")
-	public void changepw() {
+	public void changepwForm() {
 		
 	}
 	
 	@PostMapping("changepw")
-	public String changepw(String cur_mbsp_password, String new_mbsp_password, HttpSession session, RedirectAttributes rttr) {
+	public String changepwOk(String cur_mbsp_password, String new_mbsp_password, HttpSession session, RedirectAttributes rttr) throws Exception {
 		
 		String mbsp_id = ((UserVo) session.getAttribute("login_status")).getMbsp_id(); // 세션을 통해 아이디 참조
 		
@@ -265,6 +265,49 @@ public class UserController {
 		
 		return "redirect:/user/changepw";
 	}
+	
+	@GetMapping("delete")
+	public void deleteForm() {
+		
+	}
+	
+	// 계정 삭제
+	@PostMapping("delete")
+	public String deleteOk(String mbsp_password, HttpSession session, RedirectAttributes rttr) throws Exception {
+		
+		String mbsp_id = ((UserVo) session.getAttribute("login_status")).getMbsp_id();
+		
+		// 사실 컬럼 하나만 가지고 와도 되는데 굳이 다 가져올 필요 없음. 근데 성능 중요하다면 쿼리 다시 만들어야 함.(비밀번호 하나만 필요함)
+		
+		// 주석 예시 : 비밀번호 컬럼 한 개만 필요하지만, 로그인 정보 사용해도 기능에 문제 없어 사용함.(오해의 소지가 없도록 작성)
+		UserVo vo = userService.login(mbsp_id);
+		
+		String msg = "";
+		String url = "/"; // "/" 메인주소
+		
+		if(vo != null) { // 아이디가 존재하는 경우
+			// 비밀번호 비교 // vo.getU_pwd()는 db에서 읽어온 암호화된 비밀번호
+			// paswordEncoder.matches(평문텍스트, db에 저장된 암호화된 비밀번호)
+			if(passwordEncoder.matches(mbsp_password, vo.getMbsp_password())) { // 사용자가 입력한 비밀번호가 암호화된 형태에 해당하는 것이라면
+				// 회원 db 삭제
+				userService.delete(mbsp_id);
+				session.invalidate();
+				
+				msg = "success";
+				url = "/";
+				
+			}else {
+				msg = "failPW";
+				url = "/user/delete";
+			}
+		}
+		
+		rttr.addFlashAttribute("msg", msg);
+		
+		return "redirect:" + url;
+	}
+	
+	
 	
 	
 	

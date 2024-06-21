@@ -52,6 +52,10 @@ public class UserService {
 		userMapper.changePw(mbsp_id, new_mbsp_password);
 	}
 	
+	// 회원정보 삭제
+	void delete(String mbsp_id) {
+		userMapper.delete(mbsp_id);
+	}
 	
 	
 	

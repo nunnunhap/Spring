@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.docmall.basic.kakaologin.KakaoUserInfo;
 import com.docmall.basic.mail.EmailDTO;
 import com.docmall.basic.mail.EmailService;
 
@@ -204,15 +205,28 @@ public class UserController {
 		return "redirect:" + url;
 	}
 	
+	// 일반 로그인 또는 카카오 로그인인지를 체크하는 작업
 	@GetMapping("mypage")
-	public void mypage(HttpSession session, Model model) throws Exception {
+	public void mypage(HttpSession session, RedirectAttributes rttr, Model model) throws Exception {
 		
-		// getAttribute() return타입이 Object라서 UserInfoVO로 형변환
-		String mbsp_id = ((UserVo) session.getAttribute("login_status")).getMbsp_id();
-		// 인증된 사용자만 사용 가능한게 mypage다 보니 id를 세션에서 가지고 옴.
-		UserVo vo = userService.login(mbsp_id);
-		
-		model.addAttribute("user", vo);
+		if(session.getAttribute("login_status") != null) {
+			// getAttribute() return타입이 Object라서 UserInfoVO로 형변환
+			String mbsp_id = ((UserVo) session.getAttribute("login_status")).getMbsp_id();
+			// 인증된 사용자만 사용 가능한게 mypage다 보니 id를 세션에서 가지고 옴.
+			UserVo vo = userService.login(mbsp_id);
+			log.info("수정할 아이디 정보" + vo);
+			model.addAttribute("user", vo);
+		} else if(session.getAttribute("kakao_status") != null) {
+			KakaoUserInfo kakaoUserInfo = (KakaoUserInfo)session.getAttribute("kakao_status");
+			
+			// MyPage에서 보여줄 정보를 선택적으로 작업
+			UserVo vo = new UserVo();
+			vo.setMbsp_name(kakaoUserInfo.getNickname());
+			vo.setMbsp_email(kakaoUserInfo.getEmail());
+			
+			model.addAttribute("user", vo);
+			rttr.addAttribute("msg", "kakao_login");
+		}
 	}
 	
 	// 내 정보 수정하기

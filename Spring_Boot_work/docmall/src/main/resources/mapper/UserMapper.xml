@@ -111,7 +111,14 @@
 			mbsp_id = #{mbsp_id}
 	</delete>
 	
-	
+	<select id="existsUserInfo" resultType="String">
+		SELECT
+			sns_login_type
+		FROM
+			mbsp_tbl
+		WHERE
+			mbsp_email = #{sns_email}
+	</select>
 	
 	
 	

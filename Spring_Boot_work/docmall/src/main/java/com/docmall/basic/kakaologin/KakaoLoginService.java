@@ -14,11 +14,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
+@RequiredArgsConstructor
 @Slf4j
 public class KakaoLoginService {
+	
+	private final KakaoMapper kakaoMapper;
 	
 	@Value("${kakao.client.id}")
 	private String clientId;
@@ -34,6 +38,9 @@ public class KakaoLoginService {
 	
 	@Value("${kakao.oauth.userinfouri}")
 	private String userinfoUri;
+	
+	@Value("${kakao.user.logout}")
+	private String kakaologout;
 	
 	// 엑세스 토큰을 받기 위한 정보
 	// https://kauth.kakao.com/oauth/token 주소 호출
@@ -108,17 +115,54 @@ public class KakaoLoginService {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(responseBody);
 		
+		// 인증토큰을 이용한 카카오 사용자에 대한 정보를 받아옴.
 		Long id = jsonNode.get("id").asLong();
 		String email = jsonNode.get("kakao_account").get("email").asText();
 		String nickname = jsonNode.get("properties").get("nickname").asText();
 		
-		
 		return new KakaoUserInfo(id, nickname, email);
 	}
 	
+	// 카카오 로그아웃 	https://kauth.kakao.com/oauth/logout
+	// 헤더 Authorization: Bearer ${ACCESS_TOKEN}
+	// 헤더는 있고 파라미터는 없는 경우
+	public void kakaoLogout(String accessToken) throws JsonProcessingException {
+		
+		// Http Header 생성
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Bearer " + accessToken); // " " 스페이스바 잊지 말기
+		headers.add("Content-type", "application/x-www-form-urlencoded");
+		
+		// Http 요청작업
+		HttpEntity<MultiValueMap<String, String>> kakaoLogoutRequest = new HttpEntity<>(headers);
+		
+		// Http 요청하기
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<String> response = restTemplate.exchange(kakaologout, HttpMethod.POST, kakaoLogoutRequest, String.class);
+		
+		// 리턴된 정보 : JSON포맷의 문자열
+		String responseBody = response.getBody();
+		log.info("responseBody : " + responseBody);
+		
+		// JSON문자열을 Java객체로 역직렬화하거나 Java객체를 JSON으로 직렬화할 때 사용하는 jackson library클래스
+		// ObjectMapper 생성 비율이 비싸기 때문에 bena/static으로 처리하는 것이 성능에 좋다.
+		ObjectMapper objectMapper = new ObjectMapper();
+		JsonNode jsonNode = objectMapper.readTree(responseBody);
+		
+		Long id = jsonNode.get("id").asLong();
+		
+		log.info("id : " + id);
+	}
 	
+	// 카카오 정보 존재유무
+	public KakaoUserInfo existsKakaoInfo(String sns_email) {
+		return kakaoMapper.existsKakaoInfo(sns_email);
+	}
 	
-	
+	// 카카오 정보 삽입
+	public void kakao_insert(KakaoUserInfo kakaoUserInfo) {
+		kakaoMapper.kakao_insert(kakaoUserInfo);
+	}
 	
 	
 }

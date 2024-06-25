@@ -2,6 +2,8 @@ package com.docmall.basic.user;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.docmall.basic.kakaologin.KakaoUserInfo;
+
 public interface UserMapper {
 	
 	void join(UserVo vo);
@@ -30,6 +32,8 @@ public interface UserMapper {
 	// 회원정보 삭제
 	void delete(String mbsp_id);
 	
+	// SNS 계정 존재유무
+	String existsUserInfo(String sns_email);
 	
 	
 }

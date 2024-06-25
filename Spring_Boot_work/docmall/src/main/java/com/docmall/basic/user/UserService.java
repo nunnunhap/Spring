@@ -53,10 +53,13 @@ public class UserService {
 	}
 	
 	// 회원정보 삭제
-	void delete(String mbsp_id) {
+	public void delete(String mbsp_id) {
 		userMapper.delete(mbsp_id);
 	}
 	
+	public String existsUserInfo(String sns_email) {
+		return userMapper.existsUserInfo(sns_email);
+	}
 	
 	
 }

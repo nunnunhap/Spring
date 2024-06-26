@@ -120,6 +120,25 @@
 			mbsp_email = #{sns_email}
 	</select>
 	
+	<select id="sns_user_check" parameterType="String" resultType="String">
+		SELECT
+			email
+		FROM
+			sns_user_tbl
+		WHERE
+			email = #{sns_email}
+	</select>
+	
+	<insert id="sns_user_insert" parameterType="SNSUserDto">
+			INSERT INTO
+			    sns_user_tbl( id,
+							  name,
+							  email,
+							  sns_type)
+			VALUES
+			    (#{id}, #{name}, #{email}, #{sns_type})
+	</insert>
+	
 	
 	
 	

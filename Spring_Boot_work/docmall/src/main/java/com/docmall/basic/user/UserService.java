@@ -61,5 +61,20 @@ public class UserService {
 		return userMapper.existsUserInfo(sns_email);
 	}
 	
+	// SNS USER 중복체크
+	public String sns_user_check(String sns_email) {
+		return userMapper.sns_user_check(sns_email);
+	}
+	
+	public void sns_user_insert(SNSUserDto dto) {
+		userMapper.sns_user_insert(dto);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 }

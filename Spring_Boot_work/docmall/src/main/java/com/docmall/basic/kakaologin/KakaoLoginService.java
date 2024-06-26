@@ -154,15 +154,7 @@ public class KakaoLoginService {
 		log.info("id : " + id);
 	}
 	
-	// 카카오 정보 존재유무
-	public KakaoUserInfo existsKakaoInfo(String sns_email) {
-		return kakaoMapper.existsKakaoInfo(sns_email);
-	}
 	
-	// 카카오 정보 삽입
-	public void kakao_insert(KakaoUserInfo kakaoUserInfo) {
-		kakaoMapper.kakao_insert(kakaoUserInfo);
-	}
 	
 	
 }

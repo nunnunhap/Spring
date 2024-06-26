@@ -6,6 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.docmall.basic.user.SNSUserDto;
+import com.docmall.basic.user.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
@@ -19,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class NaverLoginController {
 	
 	private final NaverLoginService naverLoginService;
+	private final UserService userService;
 	
 	// STEP1
 	@GetMapping("/naverlogin")
@@ -51,17 +55,47 @@ public class NaverLoginController {
 		String responseUser = naverLoginService.getNaverUserByToken(naverToken);
 		NaverResponse naverResponse = objectMapper.readValue(responseUser, NaverResponse.class);
 		
-		log.info("사용자 정보 :" + naverResponse.toString());
+		log.info("사용자 정보 :" + naverResponse.toString()); // 전체정보가 naverResponse에서 관리됨.
+		
+		String sns_email = naverResponse.getResponse().getEmail();
 		
 		if(naverResponse != null) {
 			session.setAttribute("naver_status", naverResponse);
 			session.setAttribute("accessToken", naverToken.getAccess_token());
+			
+			if(userService.existsUserInfo(sns_email) == null && userService.sns_user_check(sns_email) == null) {
+				SNSUserDto dto = new SNSUserDto();
+				dto.setId(naverResponse.getResponse().getId());
+				dto.setEmail(naverResponse.getResponse().getEmail());
+				dto.setName(naverResponse.getResponse().getName());
+				dto.setSns_type("naver");
+				
+				userService.sns_user_insert(dto);
+			}
 		}
 		
 		return "redirect:/";
 	}
 	
-	
+	@GetMapping("/naverlogout")
+	public String naverlogout(HttpSession session) {
+		
+		String accessToken = (String)session.getAttribute("accessToken");
+		
+		naverLoginService.getNaverTokenDelete(accessToken);
+		
+		if(accessToken != null && !"".equals(accessToken)) {
+//			try {
+//				kakaoLoginService.kakaoLogout(accessToken);
+//			} catch (JsonProcessingException ex) {
+//				throw new RuntimeException(ex);
+//			}
+			session.removeAttribute("naver_status");
+			session.removeAttribute("accessToken");
+		}
+		
+		return "redirect:/";
+	}
 	
 	
 	

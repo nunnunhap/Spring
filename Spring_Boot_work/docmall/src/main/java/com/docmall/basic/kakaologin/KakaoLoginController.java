@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.docmall.basic.user.SNSUserDto;
 import com.docmall.basic.user.UserService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -49,7 +50,7 @@ public class KakaoLoginController {
 		return "redirect:" + url.toString();
 	}
 	
-	// Step2 카카오 로그인 API에서 형재 개발사이트 callback 주소 호출
+	// Step2 카카오 로그인 API에서 현재 개발사이트 callback 주소 호출
 	// 카카오개발자 사이트에서 애플리케이션 등록과정에서 아래 주소를 설정을 이미 한 상태.
 	@GetMapping("/callback/kakao") // 기본주소는 이미 있으니 .properties에서 나머지 주소 가지고 오기
 	public String callback(String code, HttpSession session) { // code : 토큰 받기 요청에 필요한 인가 코드
@@ -90,7 +91,7 @@ public class KakaoLoginController {
 			String sns_login_type = userService.existsUserInfo(sns_email);
 //			session.setAttribute("sns_type", sns_login_type);
 			
-			KakaoUserInfo kakaoUser = kakaoLoginService.existsKakaoInfo(sns_email);
+//			KakaoUserInfo kakaoUser = kakaoLoginService.existsKakaoInfo(sns_email);
 			
 			// 둘 다 데이터가 존재하지 않으면(회원테이블에도 존재 안하고, 카카오테이블에도 존재 안하면)
 			// (userService.existUserInfo(sns_email) = null) && (kakaoLoginService.existskakaoInfo(sns_email) = null)
@@ -99,9 +100,19 @@ public class KakaoLoginController {
 			// 					두번째는 true가 되고 우측은 false가 되어 전체 조건이 false가 되어 데이터 삽입이 진행되지 않음.
 			// 회원테이블에 존재하면 카카오테이블에 존재하지 않도록 작업 예정.
 			//if(!(userService.existUserInfo(sns_email) != null) && (kakaoLoginService.existskakaoInfo(sns_email) != null)) {
-			if(userService.existsUserInfo(sns_email) == null && kakaoLoginService.existsKakaoInfo(sns_email) == null) {
+			if(userService.existsUserInfo(sns_email) == null && userService.sns_user_check(sns_email) == null) {
 				// 카카오 테이블에 데이터 삽입작업
-				kakaoLoginService.kakao_insert(kakaoUserInfo);
+//				kakaoLoginService.kakao_insert(kakaoUserInfo);
+				
+				// SNS 테이블 데이터 삽입
+				SNSUserDto dto = new SNSUserDto();
+				dto.setId(kakaoUserInfo.getId().toString()); // 카카오 측에서 요구한 데이터타입이 Long이라서 변환해줌.
+				dto.setEmail(kakaoUserInfo.getEmail());
+				dto.setName(kakaoUserInfo.getNickname());
+				dto.setSns_type("kakao");
+				
+				userService.sns_user_insert(dto);
+				
 			}
 			
 		}

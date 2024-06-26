@@ -105,6 +105,7 @@ public class NaverLoginService {
 		Authorization: {토큰 타입] {접근 토큰]
 		Authorization: Bearer AAAAPIuf0L+qfDkMABQ3IJ8heq2mlw71DojBj3oc2Z6OxMQESVSrtR0dbvsiQbPbP1/cxva23n7mQShtfK4pchdk/rc=
 	 */
+	// 사용자 정보 받아오기
 	public String getNaverUserByToken(NaverToken naverToken) {
 		String accessToken = naverToken.getAccess_token();
 		String tokenType = naverToken.getToken_type();
@@ -136,7 +137,7 @@ public class NaverLoginService {
 			
 			br.close();
 			
-			log.info("응답데이터 : " + response.toString());
+			log.info("사용자 정보 응답데이터 : " + response.toString());
 			
 			return response.toString();
 			
@@ -148,7 +149,30 @@ public class NaverLoginService {
 	}
 	
 	
-	
+	public void getNaverTokenDelete (String access_token) {
+		
+		try {
+			
+			UriComponents uriComponents = UriComponentsBuilder // 쿼리 스트링 만들 때 사용하는 클래스
+					.fromUriString("https://nid.naver.com/oauth2.0/token")
+					.queryParam("grant_type", "delete")
+					.queryParam("client_id", clientId)
+					.queryParam("client_secret", clientSecret)
+					.queryParam("access_token", URLEncoder.encode(access_token, "UTF-8"))
+					.build();
+			
+			URL url = new URL(uriComponents.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("GET");
+			
+			int responseCode = conn.getResponseCode();
+			log.info("상태코드 : " + responseCode);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 	
 	
 	

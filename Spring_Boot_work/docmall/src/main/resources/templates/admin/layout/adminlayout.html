@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:insert="~{admin/layout/comm/plugin_1}"> <!-- 이번은 fragment이름이 안 만들어져서 :: 가 없음.-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <header th:replace="~{admin/layout/comm/header}"></header>
+        <aside th:replace="~{admin/layout/comm/nav}"></aside>
+        
+        <th:block layout:fragment="content"> <!-- layout:fragment는 상속받아 구현 -->
+            <!-- 각각의 페이지에서 구현하고자 하는 컨텐츠를 작성 -->
+        </th:block>
+
+        <footer th:replace="~{admin/layout/comm/footer}"></footer>
+        <aside th:replace="~{admin/layout/comm/aside}"></aside>
+
+        <th:block th:replace="~{admin/layout/comm/plugin_2}"></th:block>
+
+        <th:block layout:fragment="script">
+            <!-- 각각의 페이지에서 필요한 자바스크립트 작성 -->
+        </th:block>
+    </div><!-- ./wrapper -->
+</body>
+</html>

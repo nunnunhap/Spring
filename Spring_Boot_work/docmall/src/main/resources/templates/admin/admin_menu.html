@@ -1,12 +1,35 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-    <h3>관리자 매뉴화면입니다.</h3>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+				xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+				layout:decorate="~{admin/layout/adminlayout}">
 
-
-</body>
-</html>
+    <body>
+      <th:block layout:fragment="content">
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+          <!-- Content Header (Page header) -->
+          <section class="content-header">
+            <h1>
+              Page Header
+              <small>Optional description</small>
+            </h1>
+            <ol class="breadcrumb">
+              <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+              <li class="active">Here</li>
+            </ol>
+          </section>
+  
+          <!-- Main content -->
+          <section class="content">
+  
+            <!-- Your Page Content Here -->
+  
+          </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+      </th:block>
+      <th:block layout:fragment="script">
+        <!-- 각각의 페이지에서 필요한 자바스크립트 작성 -->
+      </th:block>
+    </body>
+  </html>
+  

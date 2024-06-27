@@ -51,6 +51,14 @@ public class AdminController {
 		
 	}
 	
+	@GetMapping("/admin_logout")
+	public String admin_logout(HttpSession session) {
+//		session.invalidate(); // 세션방식 작업 모두 제거
+		session.removeAttribute("admin_state");
+		
+		return "redirect:/admin/";
+	}
+	
 	
 	
 	

@@ -23,6 +23,8 @@ C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\
 \ex00\src\main\java
 C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3753814858.index
 \ex02\src\main\java
+C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3366617470.index
+\board\src\main\java
 C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1110306641.index
 \ex02\src\main\java
 C:\Dev\Spring_work\Spring_Boot_work\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3731166530.index

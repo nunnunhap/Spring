@@ -13,7 +13,7 @@
 
 	<select id="getSecondCategoryList" resultType="com.docmall.basic.admin.category.AdminCategoryVo">
 		SELECT
-			cat_name, cat_prtcode, cat_name
+			cat_code, cat_prtcode, cat_name
 		FROM
 			category_tbl
 		WHERE

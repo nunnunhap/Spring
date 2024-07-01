@@ -20,6 +20,14 @@
 			cat_prtcode = #{cat_prtcode}
 	</select>
 
+	<select id="getFirstCategoryBySecondCategory" parameterType="int" resultType="com.docmall.basic.admin.category.AdminCategoryVo">
+		SELECT
+			cat_code, cat_prtcode, cat_name
+		FROM
+			category_tbl
+		WHERE
+			cat_code = #{cat_code}
+	</select>
 
 
 

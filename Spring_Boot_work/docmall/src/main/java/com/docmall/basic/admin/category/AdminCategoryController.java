@@ -20,6 +20,7 @@ public class AdminCategoryController {
 	
 	private final AdminCategoryService adminCategoryService;
 	
+	// 2차 카테고리 목록
 	@GetMapping("/secondcategory/{cat_prtcode}")
 	public ResponseEntity<List<AdminCategoryVo>> getSecondCategoryList(@PathVariable("cat_prtcode") int cat_prtcode) throws Exception {
 		log.info("1차 카테고리코드 : " + cat_prtcode);

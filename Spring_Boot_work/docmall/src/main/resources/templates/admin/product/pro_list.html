@@ -29,7 +29,7 @@
               <div class="col-12">
                 <div class="box box-info">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Horizontal Form</h3>
+                    <h3 class="box-title">상품목록</h3>
                   </div><!-- /.box-header -->
                   <!-- List start -->
                   <div class="row">
@@ -72,19 +72,19 @@
                             <td>
                               <!-- /admin/product/image_display?dateFolderName=값1&fileName=값2 -->
                               <!-- /*/ /*/-->
-                              <a class="move" href="#"><img th:src="${'/admin/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=' + product.pro_img}"></a>
+                              <a class="move" href="#"><img th:src="${'/admin/product/image_display?dateFolderName=' + product.pro_up_folder + '&fileName=s_' + product.pro_img}"></a>
                               
                               <a class="move pro_name" href="#" th:text="${product.pro_name}" ></a>
                             </td>
                             <td><input type="text" name="pro_price" th:value="${product.pro_price }"></td>
-                            <td th:text="${product.pro_date}"></td>
+                            <td th:text="${#dates.format(product.pro_date, 'yyyy-MM-dd HH:mm:ss')}"></td>
                             <td>
                               <select id="pro_buy" name="pro_buy">
-                                <option value="Y">판매가능</option>
-                                <option value="N">판매불가능</option>
+                                <option value="Y" th:selected="${product.pro_buy == 'Y'}">판매가능</option>
+                                <option value="N" th:selected="${product.pro_buy == 'N'}">판매불가능</option>
                               </select>
-                            </td>
-                            <td><button type="button" class="btn btn-primary" name="btn_pro_edit">수정</button></td>
+                            </td> <!-- data-이름="값" -->
+                            <td><button type="button" class="btn btn-primary" name="btn_pro_edit" th:data-pro_num="${product.pro_num}">수정</button></td>
                             <td><button type="button" class="btn btn-danger btn_pro_del">삭제</button></td>
                           </tr>
                           </tbody></table>
@@ -94,14 +94,14 @@
                           <div class="col-md-4">
                             <button type="button" class="btn btn-primary" id="btn_check_modify1" role="button">체크상품수정1</button>	
                             <button type="button" class="btn btn-primary" id="btn_check_modify2" role="button">체크상품수정2</button>	
-                          <!--1)페이지번호 클릭할 때 사용  [이전]  1	2	3	4	5 [다음]  -->
+                          <!-- Criteria 클래스 필드 사용 목적 -->
+                            <!--1)페이지번호 클릭할 때 사용  [이전]  1	2	3	4	5 [다음]  -->
                           <!--2)목록에서 상품이미지 또는 상품명 클릭할 때 사용   -->
                             <form id="actionForm" action="" method="get">
-                            <input type="hidden" name="pageNum" id="pageNum" th:value="${pageMaker.cri.pageNum}" />
-                            <input type="hidden" name="amount"  id="amount" th:value="${pageMaker.cri.amount}" />
-                            <input type="hidden" name="type" id="type" th:value="${pageMaker.cri.type}" />
-                            <input type="hidden" name="keyword" id="keyword" th:value="${pageMaker.cri.keyword}" />
-                            
+                              <input type="hidden" name="pageNum" id="pageNum" th:value="${pageMaker.cri.pageNum}" />
+                              <input type="hidden" name="amount"  id="amount" th:value="${pageMaker.cri.amount}" />
+                              <input type="hidden" name="type" id="type" th:value="${pageMaker.cri.type}" />
+                              <input type="hidden" name="keyword" id="keyword" th:value="${pageMaker.cri.keyword}" />
                             </form>
                           </div>
                           <div class="col-md-6 text-center">
@@ -134,7 +134,7 @@
                             </ul>
                             </nav>
                           </div>
-                          <div class="col-md-2 text-right"><button type="button" class="btn btn-primary" id="btn_pro_insert" role="button">상품등록</button></div>
+                          <div class="col-md-2 text-right"><a th:href="@{/admin/product/pro_insert}" class="btn btn-primary" id="btn_pro_insert" role="button">상품등록</a></div>
                         </div>
                         
                       </div>
@@ -149,6 +149,43 @@
         </div><!-- /.content-wrapper -->
       </th:block>
       <th:block layout:fragment="script">
+        <script>
+          $(document).ready(function() {
+            let actionForm = $("#actionForm"); // actionForm을 전역으로 접근해야 하니 따로 뺌.
+
+            // 페이지 번호 클릭 시
+            $(".movepage").on("click", function(e) {
+              e.preventDefault(); // <a>의 링크가 동작되지 않도록 무력화
+              // 주소변경
+              actionForm.attr("action", "/admin/product/pro_list");
+              // 클릭한 페이지 번호 작업
+              actionForm.find("input[name='pageNum']").val($(this).attr("href"));
+              actionForm.submit();
+            });
+
+            // 수정버튼 클릭 시 name="btn_pro_edit"
+            $("button[name='btn_pro_edit']").on("click", function() {
+              let pro_num = $(this).data("pro_num"); // $(this)는 수정버튼
+              console.log("상품코드", pro_num);
+              actionForm.find("input[name='pro_num']").remove(); // 뒤로 버튼 클릭 시 사용되어 문제를 일으킴.
+
+              // 1) JS의 스트링 템플릿 : 백틱(`) 사용
+              let str = `<input type="hidden" name="pro_num" id="pro_num" value="${pro_num}" />`;
+              console.log(str);
+
+              // 2) + 사용
+              actionForm.append('<input type="hidden" name="pro_num" id="pro_num" value="' + pro_num + '" />');
+              actionForm.attr("method", "get");
+              actionForm.attr("action", "/admin/product/pro_edit");
+
+              actionForm.submit();
+            });
+
+          }); // ready end
+
+
+
+        </script>
       </th:block>
     </body>
   </html>

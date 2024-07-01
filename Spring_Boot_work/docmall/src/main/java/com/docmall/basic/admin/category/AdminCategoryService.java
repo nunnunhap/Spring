@@ -20,8 +20,13 @@ public class AdminCategoryService {
 	}
 	
 	// 2차 카테고리 목록
-	List<AdminCategoryVo> getSecondCategoryList(int cat_prtcode) {
+	public List<AdminCategoryVo> getSecondCategoryList(int cat_prtcode) {
 		return admincategoryMapper.getSecondCategoryList(cat_prtcode);
+	}
+	
+	// 2차 카테고리 정보를 이용한 1차 카테고리 정보
+	public AdminCategoryVo getFirstCategoryBySecondCategory(int cat_code) {
+		return admincategoryMapper.getFirstCategoryBySecondCategory(cat_code);
 	}
 	
 	

@@ -165,13 +165,13 @@ public class FileManagerUtils {
 	public static void delete(String uploadPath, String dateFolderName, String fileName, String type) {
 		// 1) thumbnail 파일
 		// 리눅스면 /로 바꿔주고 윈도우면 \로 바꿔주는 것.
-		File file1 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName).replace('\\', File.separatorChar));
-		if(file1.exists()) file1.delete();
+		File file2 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName.substring(2)).replace('\\', File.separatorChar));
+		if(file2.exists()) file2.delete();
 		
 		// 2) 원본 파일
 		if(type.equals("image")) { // s_~~~니까 substring(2)하면 s_가 빠짐.
-			File file2 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName.substring(2)).replace('\\', File.separatorChar));
-			if(file2.exists()) file2.delete();
+			File file1 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName).replace('\\', File.separatorChar));
+			if(file1.exists()) file1.delete();
 		}
 	}
 	

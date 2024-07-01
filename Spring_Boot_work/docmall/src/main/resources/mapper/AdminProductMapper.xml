@@ -102,6 +102,45 @@
 			pro_num > 0
 	</select>
 
+	<select id="pro_edit" parameterType="Integer" resultType="com.docmall.basic.admin.product.ProductVo">
+		SELECT
+		    pro_num,
+		    cat_code,
+		    pro_name,
+		    pro_price,
+		    pro_discount,
+		    pro_publisher,
+		    pro_content,
+		    pro_up_folder,
+		    pro_img,
+		    pro_amount,
+		    pro_buy,
+		    pro_date,
+		    pro_updatedate
+		FROM
+		    product_tbl
+		WHERE
+			pro_num = #{pro_num}
+	</select>
+
+	<update id="pro_edit_ok" parameterType="com.docmall.basic.admin.product.ProductVo">
+		UPDATE
+			product_tbl
+		SET
+		    cat_code = #{cat_code},
+		    pro_name = #{pro_name},
+		    pro_price = #{pro_price},
+		    pro_discount = #{pro_discount},
+		    pro_publisher = #{pro_publisher},
+		    pro_content = #{pro_content},
+		    pro_up_folder = #{pro_up_folder},
+		    pro_img = #{pro_img},
+		    pro_amount = #{pro_amount},
+		    pro_buy = #{pro_buy},
+		    pro_updatedate = SYSDATE
+		WHERE
+			pro_num = #{pro_num}
+	</update>
 
 
 

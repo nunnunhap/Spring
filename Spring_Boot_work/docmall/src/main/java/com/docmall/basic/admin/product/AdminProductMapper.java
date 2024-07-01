@@ -12,8 +12,9 @@ public interface AdminProductMapper {
 	
 	int getTotalCount(Criteria cri);
 	
+	ProductVo pro_edit(Integer pro_num);
 	
-	
+	void pro_edit_ok(ProductVo vo);
 	
 	
 }

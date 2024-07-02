@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -217,7 +219,52 @@ public class AdminProductController {
 		return "redirect:/admin/product/pro_list" + cri.getListLink();
 	}
 	
+	// 상품 삭제하기
+	@PostMapping("/pro_delete") // 원래의 리스트 상태로 돌아가기 위하여 Criteria를 받아야 함.
+	public String pro_delete(Criteria cri, Integer pro_num) throws Exception {
+		
+		adminProductService.pro_delete(pro_num);
+		
+		return "redirect:/admin/product/pro_list" + cri.getListLink();
+	}
 	
+	// 체크상품 수정작업1
+	@PostMapping("/pro_checked_modify1")
+	public ResponseEntity<String> pro_checked_modify1(
+			@RequestParam("pro_num_arr") List<Integer> pro_num_arr,
+			@RequestParam("pro_price_arr") List<Integer> pro_price_arr,
+			@RequestParam("pro_buy_arr") List<String> pro_buy_arr
+			) throws Exception {
+		log.info("상품코드 : " + pro_num_arr);
+		log.info("상품가격 : " + pro_price_arr);
+		log.info("상품진열 : " + pro_buy_arr);
+
+		adminProductService.pro_checked_modify1(pro_num_arr, pro_price_arr, pro_buy_arr);
+		
+		ResponseEntity<String> entity = null;
+		entity = new ResponseEntity<> ("success", HttpStatus.OK);
+		
+		return entity;
+	}
+	
+	// 체크상품 수정작업2
+	@PostMapping("/pro_checked_modify2")
+	public ResponseEntity<String> pro_checked_modify2(
+			@RequestParam("pro_num_arr") List<Integer> pro_num_arr,
+			@RequestParam("pro_price_arr") List<Integer> pro_price_arr,
+			@RequestParam("pro_buy_arr") List<String> pro_buy_arr
+			) throws Exception {
+		log.info("상품코드 : " + pro_num_arr);
+		log.info("상품가격 : " + pro_price_arr);
+		log.info("상품진열 : " + pro_buy_arr);
+		
+		adminProductService.pro_checked_modify2(pro_num_arr, pro_price_arr, pro_buy_arr);
+		
+		ResponseEntity<String> entity = null;
+		entity = new ResponseEntity<> ("success", HttpStatus.OK);
+		
+		return entity;
+	}
 	
 	
 }

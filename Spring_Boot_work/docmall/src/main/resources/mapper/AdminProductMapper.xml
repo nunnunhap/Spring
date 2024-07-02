@@ -142,6 +142,36 @@
 			pro_num = #{pro_num}
 	</update>
 
+	<delete id="pro_delete" parameterType="Integer">
+		DELETE FROM
+			product_tbl
+		WHERE
+			pro_num = #{pro_num}
+	</delete>
+
+	<update id="pro_checked_modify1" parameterType="map">
+		UPDATE
+			product_tbl
+		SET
+			pro_price = #{pro_price},
+			pro_buy = #{pro_buy}
+		WHERE
+			pro_num = #{pro_num}
+	</update>
+
+	<update id="pro_checked_modify2" parameterType="list">
+		<foreach collection="list" item="item" open="declare begin" separator=";" close="; end;">
+			UPDATE
+				product_tbl
+			SET
+				pro_price = #{item.pro_price},
+				pro_buy = #{item.pro_buy}
+			WHERE
+				pro_num = #{item.pro_num}
+		</foreach>
+	</update>
+
+
 
 
 

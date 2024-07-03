@@ -153,7 +153,7 @@ public class AdminProductController {
 		List<ProductVo> pro_list = adminProductService.pro_list(cri);
 		// 클라이언트에 \를 /로 변환하여 model작업 전에 처리
 		pro_list.forEach(vo -> {
-			vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "//")); // 역슬래시 하나만 쓰면 에러맞음.
+			vo.setPro_up_folder(vo.getPro_up_folder().replace("\\", "/")); // 역슬래시 하나만 쓰면 에러맞음.
 		});
 		
 		int totalCount = adminProductService.getTotalCount(cri);

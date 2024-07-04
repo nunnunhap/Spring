@@ -14,7 +14,7 @@ public class Criteria {
 	private int amount; // 페이지 마다 출력할 게시물 개수
 	
 	// 검색 필드
-	private String type; // 제목만, 글작성자, 등등 선택한 검색 종류(T, C, W, TC, TW, TWC) // null값
+	private String type; // 제목만, 글작성자, 등등 선택한 검색 종류 // null값
 	private String keyword; // 검색어 // null값
 	
 	// 생성자

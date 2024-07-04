@@ -61,7 +61,7 @@ public class AdminProductController {
 	public String pro_insertOk(ProductVo vo, MultipartFile uploadFile) throws Exception {
 		
 		// 1) 상품이미지 업로드
-		String dateFoler = FileManagerUtils.getDataFolder();
+		String dateFoler = FileManagerUtils.getDateFolder();
 		String saveFileName = FileManagerUtils.uploadFile(uploadPath, dateFoler, uploadFile);
 		
 		vo.setPro_img(saveFileName);
@@ -205,7 +205,7 @@ public class AdminProductController {
 			FileManagerUtils.delete(uploadPath, vo.getPro_up_folder(), vo.getPro_img(), "image");
 			
 			// 변경 이미지 업로드
-			String dateFoler = FileManagerUtils.getDataFolder();
+			String dateFoler = FileManagerUtils.getDateFolder();
 			String saveFileName = FileManagerUtils.uploadFile(uploadPath, dateFoler, uploadFile);
 			
 			// 새로운 이미지 파일명, 날짜폴더명

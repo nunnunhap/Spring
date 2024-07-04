@@ -13,7 +13,6 @@ import javax.imageio.ImageIO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +25,7 @@ public class FileManagerUtils {
 	
 	// pds폴더 안에 날짜별로 폴더를 정리할 수 있도록
 	// 기능? 현재 폴더를 운영체제에 맞게 문자열로 반환하는 기능
-	public static String getDataFolder() {
+	public static String getDateFolder() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date date = new Date(); // 오늘 날짜 정보
 		
@@ -163,15 +162,15 @@ public class FileManagerUtils {
 	 * String fileName : 파일명(날짜 폴더명 포함)
 	 */
 	public static void delete(String uploadPath, String dateFolderName, String fileName, String type) {
-		// 1) thumbnail 파일
-		// 리눅스면 /로 바꿔주고 윈도우면 \로 바꿔주는 것.
+		//2)원본 파일 fileName.substring(2) s_를 빼고 원본파일명 2f48f241-9d64-4d16-bf56-70b9d4e0e79a_abc.png
 		File file2 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName.substring(2)).replace('\\', File.separatorChar));
 		if(file2.exists()) file2.delete();
 		
-		// 2) 원본 파일
-		if(type.equals("image")) { // s_~~~니까 substring(2)하면 s_가 빠짐.
+		if(type.equals("image")) {
+			//1)thumnail파일.   예> "C:/Dev/upload/pds"  "2024/05/16" s_2f48f241-9d64-4d16-bf56-70b9d4e0e79a_abc.png
 			File file1 = new File((uploadPath + "\\" + dateFolderName + "\\" + fileName).replace('\\', File.separatorChar));
 			if(file1.exists()) file1.delete();
+						
 		}
 	}
 	

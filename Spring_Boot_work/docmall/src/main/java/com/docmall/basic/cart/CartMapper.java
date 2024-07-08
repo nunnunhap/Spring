@@ -14,7 +14,7 @@ public interface CartMapper {
 	
 	void cart_change(@Param("cart_code")Long cart_code, @Param("cart_amount") int cart_amount);
 	
-	
+	void cart_empty(String mbsp_id);
 	
 	
 	

@@ -13,6 +13,8 @@ public interface ProductMapper {
 	
 	int getCountProductByCategory(int cat_code); // 페이징에선 항상 데이터 갯수가 따라다녀야 함.
 	
-	ProductVo pro_info(int pro_num);
+	ProductVo pro_info(int pro_num); // 상품 팝업 및 상세설명
+	
+	
 	
 }

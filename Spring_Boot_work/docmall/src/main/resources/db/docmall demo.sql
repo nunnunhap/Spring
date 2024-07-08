@@ -547,14 +547,9 @@ commit;
 
 -- 장바구니 목록 join
 SELECT
-    c.mbsp_id,
-    p.pro_up_folder,
-    p.pro_img,
-    p.pro_price,
-    p.pro_name
-    c.cart_code,
-    c.pro_num,
-    c.cart_amount
+    c.mbsp_id, p.pro_up_folder, p.pro_img,
+    p.pro_price, p.pro_name, c.cart_code,
+    c.pro_num, c.cart_amount
 FROM cart_tbl c INNER JOIN product_tbl P
 ON c.pro_num = p.pro_num
 WHERE c.mbsp_id = 'user01';
@@ -876,21 +871,21 @@ END;
 DROP TABLE REVIEW_TBL;
 --7.리뷰 테이블
 CREATE TABLE REVIEW_TBL(
-        RE_CODE        NUMBER,
+        REV_CODE        NUMBER,
         MBSP_ID        VARCHAR2(15)                NOT NULL,
         PRO_NUM        NUMBER                      NOT NULL,
-        RE_TITLE       VARCHAR2(50)               NOT NULL,
-        RE_CONTENT     VARCHAR2(200)               NOT NULL,
-        RE_RATE        NUMBER                      NOT NULL,
-        RE_REGDATE     DATE DEFAULT SYSDATE
+        REV_TITLE       VARCHAR2(50)               NOT NULL,
+        REV_CONTENT     VARCHAR2(200)               NOT NULL,
+        REV_RATE        NUMBER                      NOT NULL,
+        REV_DATE     DATE DEFAULT SYSDATE
 );
 
 -- 시퀀스 생성
-CREATE SEQUENCE SEQ_RE_CODE;
+CREATE SEQUENCE SEQ_REVIEW_CODE;
 
 ALTER TABLE REVIEW_TBL
 ADD CONSTRAINTS PK_REVIEW_CODE
-PRIMARY KEY(RE_CODE);
+PRIMARY KEY(REV_CODE);
 
 ALTER TABLE REVIEW_TBL
 ADD CONSTRAINTS FK_RE_CODE

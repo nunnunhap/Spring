@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.basic.review.ReviewMapper">
+	
+	<!-- 공통사항 : 검색조건 추가 / 인덱스힌트, 인라인뷰-->
+	<!-- getter에 의한 메서드 동작 -->
+	<select id="rev_list" resultType="com.docmall.basic.review.ReviewVo" parameterType="map">
+			SELECT
+			    rev_code,
+			    mbsp_id,
+			    pro_num,
+			    rev_title,
+			    rev_content,
+			    rev_rate,
+			    rev_date
+			FROM (
+			    SELECT /*+ INDEX_DESC(review_tbl PK_REVIEW_CODE) */
+			        ROWNUM AS rn,
+			        rev_code,
+				    mbsp_id,
+				    pro_num,
+				    rev_title,
+				    rev_content,
+				    rev_rate,
+				    rev_date
+			    FROM
+			        review_tbl
+			    WHERE
+		<![CDATA[
+					ROWNUM <= (#{cri.pageNum} * #{cri.amount})
+		]]>
+			)
+			WHERE
+			    rn > (#{cri.pageNum} - 1 ) * #{cri.amount}
+	</select>
+	
+	<!-- 공통사항 : 검색조건 추가 -->
+	<!-- 사용자가 검색을 사용 안하면 ""이 반환되어 WHERE절 뒤에 붙는 코드가 없어서 에러맞음.
+		그래서 조건식을 추가로 넣어줘서 에러 맞지 않도록 함. -->
+	<select id="getCountReviewByPro_num" resultType="int" parameterType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			review_tbl
+	</select>
+
+
+</mapper>

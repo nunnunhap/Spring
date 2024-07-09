@@ -6,6 +6,40 @@
 
 <th:block layout:fragment="css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+  <!-- 1) Include Handlebars from a CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+  
+  <!-- 2) Handlebar Template -->
+  <!-- {{}}가 핸들바 문법임. 데이터를 반복시킬 때 each 문법 사용, <tr>이 10개가 만들어짐! 데이터가 여러개면 each작업해주기. -->
+  <!-- convertDate가 함수, replydate가 값 -->
+  <script id="review-template" type="text/x-handlebars-template">
+    <table id="revtable" class="table">
+      <thead>
+        <tr>
+          <th scope="col">번호</th>
+          <th scope="col">제목</th>
+          <th scope="col">내용</th>
+          <th scope="col">평점</th>
+          <th scope="col">작성자</th>
+          <th scope="col">등록일</th>
+          <th scope="col">비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each .}}
+          <tr>
+            <th scope="row">{{rev_code}}</th>
+            <td>{{mbsp_id}}</td>
+            <td>{{pro_num}}</td>
+            <td>{{rev_title}}</td>
+            <td>{{rev_content}}</td>
+            <td>{{rev_rate}}</td>
+            <td>{{rev_date}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </script>
 </th:block>
 <body>
   
@@ -44,15 +78,15 @@
       <div class="col">
         <div id="pro_info">
           <ul>
-            <li><a href="#tabs-1">상세정보</a></li>
-            <li><a href="#tabs-2">상품리뷰(0)</a></li>
-            <li><a href="#tabs-3">Q&A</a></li>
+            <li><a href="#pro_detail">상세정보</a></li>
+            <li><a href="#pro_review">상품리뷰(0)</a></li>
+            <li><a href="#pro_qna">Q&A</a></li>
           </ul>
           <div id="pro_detail">
             <p th:utext="${product.pro_content}"></p>
           </div>
           <div id="pro_review">
-            <p>M</p>
+            <div id="review_list"></div>
           </div>
           <div id="pro_qna">
             <p>M</p>
@@ -69,7 +103,7 @@
 </th:block>
 <th:block layout:fragment="script">
   <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
-  <script>
+  <script th:inline="javascript">
     $(document).ready(function() {
 
       $( function() {
@@ -108,6 +142,37 @@
 
         $("#popup_info").load("/product/pro_info_2?pro_num=" + pro_num);
       });
+
+      // 상품 후기와 페이징 정보를 호출하는 작업
+      let reviewPage = 1;
+      let url = "/review/revlist/" + [[${product.pro_num}]] + "/" + reviewPage; // 상품후기와 페이징 정보를 요청하는 주소
+      console.log("상품후기 주소", url);
+
+      getReviewList(url);
+
+      // ajax 문법을 통한 주소요청 작업 $.ajax, load(), getJSON()
+      function getReviewList(url) {
+        $.getJSON(url, function(reviewlist) { // reviewlist는 임의적으로 적음.
+//          console.log("reviewlist", reviewlist.revlist);
+//          console.log("reviewlist", reviewlist.pageMaker);
+
+//        print_reviewlist(reviewlist.revlist, "상품후기목록이 출력될 위치", "핸들바템플릿");
+          print_reviewlist(reviewlist.revlist, $("#review_list"), $("#review-template"));
+        });
+      }
+
+      // 상품후기 UI 작업
+      let print_reviewlist = function(reviewData, target, template) {
+        let templateObj = Handlebars.compile(template.html()); // 템플릿 문법 검사 및 참조
+        let reviewHtml = templateObj(reviewData);
+        target.children().remove(); // ajax가 계속 쌓이지 않도록
+        target.append(reviewHtml);
+
+      }
+
+
+      // 페이징 UI작업
+
 
 
     }); // ready end

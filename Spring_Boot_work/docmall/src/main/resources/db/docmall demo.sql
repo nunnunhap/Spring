@@ -879,7 +879,16 @@ CREATE TABLE REVIEW_TBL(
         REV_RATE        NUMBER                      NOT NULL,
         REV_DATE     DATE DEFAULT SYSDATE
 );
-
+SELECT
+    rev_code,
+    mbsp_id,
+    pro_num,
+    rev_title,
+    rev_content,
+    rev_rate,
+    rev_date
+FROM
+    review_tbl;
 -- 시퀀스 생성
 CREATE SEQUENCE SEQ_REVIEW_CODE;
 
@@ -902,8 +911,15 @@ REFERENCES PRODUCT_TBL(PRO_NUM);
 --상품후기 입력
 SELECT * FROM ORDETAIL_TBL;
 
-INSERT INTO review_tbl (rew_num,mbsp_id,pro_num,rew_content,rew_score)
-    VALUES (1, 'user01',5,'무난하다.', 4 );
+INSERT INTO review_tbl 
+(   rev_code,
+    mbsp_id,
+    pro_num,
+    rev_title,
+    rev_content,
+    rev_rate)
+    VALUES (SEQ_REVIEW_CODE.nextval, 'user01',6,'후기3', '후기내용333', 4);
+    
 INSERT INTO review_tbl (rew_num,mbsp_id,pro_num,rew_content,rew_score)
     VALUES (2, 'user01',7,'아주 좋다.', 5 );
     

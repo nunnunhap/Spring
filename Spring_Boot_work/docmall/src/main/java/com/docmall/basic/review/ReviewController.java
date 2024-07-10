@@ -39,6 +39,7 @@ public class ReviewController {
 		// 1) 후기 목록
 		// 이번에는 Criteria를 파라미터에 안 쓰고 메서드 안에서 클래스 안의 pageNum 하나만 사용하겠음.
 		Criteria cri = new Criteria();
+		cri.setAmount(5);
 		cri.setPageNum(page);
 		
 		List<ReviewVo> revlist = reviewService.rev_list(pro_num, cri);

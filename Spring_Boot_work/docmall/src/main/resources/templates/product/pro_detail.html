@@ -29,12 +29,12 @@
         {{#each .}}
           <tr>
             <th scope="row">{{rev_code}}</th>
-            <td>{{mbsp_id}}</td>
-            <td>{{pro_num}}</td>
             <td>{{rev_title}}</td>
             <td>{{rev_content}}</td>
-            <td>{{rev_rate}}</td>
-            <td>{{rev_date}}</td>
+            <td>{{displayStar rev_rate}}</td>
+            <td>{{mbsp_id}}</td>
+            <td>{{convertDate rev_date}}</td>
+            <td>{{authControlView mbsp_id rev_code}}</td>
           </tr>
         {{/each}}
       </tbody>
@@ -86,7 +86,9 @@
             <p th:utext="${product.pro_content}"></p>
           </div>
           <div id="pro_review">
-            <div id="review_list"></div>
+            <p><button type="button" class="btn btn-link" style="text-align: center;" id="btn_review_modal">상품후기 작성</button></p>
+            <div id="review_list"></div> <!-- 핸들바를 사용한 상품후기 출력위치-->
+            <div id="review_paging" class="justify-content-center"></div> <!-- 페이징 출력위치 -->
           </div>
           <div id="pro_qna">
             <p>M</p>
@@ -96,9 +98,29 @@
     </div>
   </div>
   <div>
+</div>
 
-
+<!-- Button trigger modal -->
+<!-- 상품후기 작성 Modal -->
+<div class="modal fade" id="review_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Understood</button>
+      </div>
+    </div>
   </div>
+</div>
 
 </th:block>
 <th:block layout:fragment="script">
@@ -148,7 +170,7 @@
       let url = "/review/revlist/" + [[${product.pro_num}]] + "/" + reviewPage; // 상품후기와 페이징 정보를 요청하는 주소
       console.log("상품후기 주소", url);
 
-      getReviewList(url);
+      getReviewList(url); // page번호를 클릭 시 이 메서드가 다시 동작되도록 해야 함.
 
       // ajax 문법을 통한 주소요청 작업 $.ajax, load(), getJSON()
       function getReviewList(url) {
@@ -158,20 +180,119 @@
 
 //        print_reviewlist(reviewlist.revlist, "상품후기목록이 출력될 위치", "핸들바템플릿");
           print_reviewlist(reviewlist.revlist, $("#review_list"), $("#review-template"));
+          print_paging(reviewlist.pageMaker, $("#review_paging"));
         });
       }
 
-      // 상품후기 UI 작업
+      // 1) 상품후기 UI 작업 : handlebars template 사용
       let print_reviewlist = function(reviewData, target, template) {
         let templateObj = Handlebars.compile(template.html()); // 템플릿 문법 검사 및 참조
         let reviewHtml = templateObj(reviewData);
         target.children().remove(); // ajax가 계속 쌓이지 않도록
         target.append(reviewHtml);
+      }
+
+      // 2) 페이징 UI작업 : 로직으로 직접작업
+      let print_paging = function(pageData, target) {
+        let str = `<nav aria-label="Page navigation example">`;
+            str += `<ul class="pagination">`;
+
+        // 이전 표시
+        if(pageData.prev) {
+          str += `<li class="page-item">
+                    <a class="page-link" href="${pageData.startPage - 1}" aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                    </a>
+                  </li>`;
+        }
+
+        // 페이지 번호 표시
+        for(let i = pageData.startPage; i <= pageData.endPage; i++) {
+          let className = pageData.pageNum == i ? 'active' : '';
+          str += `<li class="page-item ${className}"><a class="page-link" href="${i}">${i}</a></li>`;
+        }
+
+        // 다음 표시
+        if(pageData.next) {
+          str += `<li class="page-item">
+                    <a class="page-link" href="${pageData.endPage + 1}" aria-label="Next">
+                      <span aria-hidden="true">&raquo;</span>
+                    </a>
+                  </li>`;
+        }
+
+        str += `</ul>`;
+        str += `</nav>`;
+
+        target.html(str); // append는 누적되어 제거시키는 경우가 있어 html 사용이 나음.
 
       }
 
 
-      // 페이징 UI작업
+
+      // 핸들바 함수. Handlebar template에서 사용 목적 ㅁ + 한자키
+      Handlebars.registerHelper("displayStar", function(rating) {
+        let star = "";
+        switch(rating) {
+          case 1:
+            star = "★☆☆☆☆";
+            break;
+          case 2:
+            star = "★★☆☆☆";
+            break;
+          case 3:
+            star = "★★★☆☆";
+            break;
+          case 4:
+            star = "★★★★☆";
+            break;
+          case 5:
+            star = "★★★★★";
+            break;
+          }
+          return star;
+      });
+
+      // 핸들바 함수. 날짜 포맷  2024/07/10
+      Handlebars.registerHelper("convertDate", function(rev_date) {
+        const d = new Date(rev_date);
+        let year = d.getFullYear();
+        let month = d.getMonth() + 1;
+        let date = d.getDate();
+        let hour = d.getHours();
+        let minute = d.getMinutes();
+
+        return `${year}/${month}/${date} ${hour}:${minute}`;
+      });
+
+      // 핸들바 함수 : 작성자와 로그인 사용자가 일치되는 경우 수정, 삭제버튼 표시
+      Handlebars.registerHelper("authControlView", function(mbsp_id, rev_code) {
+        let loginId = [[ ${session.login_status.mbsp_id} ]];
+        // console.log(loginId);
+
+        let str = "";
+        if(loginId == mbsp_id) {
+          str += `<button type="button" class="btn btn-link" data-rev_code="${rev_code}">edit</button>`;
+          str += `<button type="button" class="btn btn-link" data-rev_code="${rev_code}">delete</button>`;
+        }
+        return new Handlebars.SafeString(str); // 문자열에 태그효과를 줌.
+      });
+
+      // 페이징 클릭 이벤트
+      $("#review_paging").on("click", "nav ul.pagination a" ,function(e) {
+        e.preventDefault();
+        reviewPage = $(this).attr("href"); // 선택한 페이지 번호값
+
+        url = "/review/revlist/" + [[${product.pro_num}]] + "/" + reviewPage;
+        getReviewList(url);
+
+      });
+
+      // 상품후기 모달
+      $("#btn_review_modal").on("click", function() {
+        $("#review_modal").modal('show');
+      });
+
 
 
 

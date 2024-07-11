@@ -22,4 +22,13 @@ public class ReviewService {
 		return reviewMapper.getCountReviewByPro_num(pro_num);
 	}
 	
+	void review_save(ReviewVo vo) {
+		reviewMapper.review_save(vo);
+	}
+	
+	void review_delete(Long rev_code) {
+		reviewMapper.review_delete(rev_code);
+	}
+	
+	
 }

@@ -12,8 +12,9 @@ public interface ReviewMapper {
 	
 	int getCountReviewByPro_num(Integer pro_num); // 검색이 안 들어가니까 Criteria가 따라 들어오지 않음.
 	
+	void review_save(ReviewVo vo);
 	
-	
+	void review_delete(Long rev_code);
 	
 	
 }

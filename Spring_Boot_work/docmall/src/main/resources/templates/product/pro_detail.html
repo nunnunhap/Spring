@@ -6,6 +6,23 @@
 
 <th:block layout:fragment="css">
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+
+  <!-- 별 평점 css -->
+  <style>
+    /* 별 평점 기본 선택자 */
+    p#star_rev_rate a.rev_rate {
+      font-size: 22px;
+      text-decoration: none;
+      color : lightgray;
+    }
+
+    /* 별 평점 클릭 시 선택자 */
+    p#star_rev_rate a.rev_rate.on {
+      color: red;
+    }
+
+  </style>
+
   <!-- 1) Include Handlebars from a CDN -->
   <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
   
@@ -102,21 +119,40 @@
 
 <!-- Button trigger modal -->
 <!-- 상품후기 작성 Modal -->
-<div class="modal fade" id="review_modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="review_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">상품후기</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">제목</label>
+            <input type="text" class="form-control" id="rev_title">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">내용</label>
+            <textarea class="form-control" id="rev_content"></textarea>
+          </div>
+        </form>
+        <div class="form-group">
+          <label for="recipient-name" class="col-form-label">별평점</label>
+          <p id="star_rev_rate">
+            <a class="rev_rate" href="#">☆</a>
+            <a class="rev_rate" href="#">☆</a>
+            <a class="rev_rate" href="#">☆</a>
+            <a class="rev_rate" href="#">☆</a>
+            <a class="rev_rate" href="#">☆</a>
+          </p>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Understood</button>
+        <button type="button" id="btn_review_save" class="btn btn-primary" th:data-pro_num="${product.pro_num }" >상품후기저장</button>
       </div>
     </div>
   </div>
@@ -272,8 +308,8 @@
 
         let str = "";
         if(loginId == mbsp_id) {
-          str += `<button type="button" class="btn btn-link" data-rev_code="${rev_code}">edit</button>`;
-          str += `<button type="button" class="btn btn-link" data-rev_code="${rev_code}">delete</button>`;
+          str += `<button type="button" name="btn_review_edit" class="btn btn-link" data-rev_code="${rev_code}">edit</button>`;
+          str += `<button type="button" name="btn_review_delete" class="btn btn-link" data-rev_code="${rev_code}">delete</button>`;
         }
         return new Handlebars.SafeString(str); // 문자열에 태그효과를 줌.
       });
@@ -293,7 +329,95 @@
         $("#review_modal").modal('show');
       });
 
+      // 별 평점 클릭
+      $("p#star_rev_rate a.rev_rate").on("click", function(e) {
+        e.preventDefault();
+        $(this).parent().children().removeClass("on"); // 혹시라도 존재할 on 선택자 제거
+        $(this).addClass("on").prevAll("a").addClass("on"); // 현재 선택한 별과 이전 별까지 on 선택자 추가
 
+      });
+
+      // 상품후기 저장
+      $("button#btn_review_save").on("click", function() {
+        let pro_num = $(this).data("pro_num");
+        // console.log(pro_num);
+
+        let rev_title = $("#rev_title").val();
+        let rev_content = $("#rev_content").val();
+        let rev_rate = 0; // on이 몇 개가 붙어있나를 체크하면 평점 알 수 있음.
+
+        $("p#star_rev_rate a.rev_rate").each(function() {
+          if($(this).attr("class") == "rev_rate on") {
+            rev_rate += 1;
+          }
+        });
+
+        if(rev_title == "") {
+          alert("제목을 입력하세요.");
+          return;
+        }
+
+        if(rev_content == "") {
+          alert("내용을 입력하세요.");
+          return;
+        }
+
+        if(rev_rate == 0) {
+          alert("별 평점을 선택하세요.");
+          return;
+        }
+
+        let review_data = { // 자바스크립트 오브젝트 문법
+          pro_num : pro_num,
+          rev_title : rev_title,
+          rev_content : rev_content,
+          rev_rate : rev_rate
+        };
+
+        $.ajax({
+          url : '/review/review_save',
+          // 브라우저는 요청방식이 get, post만 지원을 함.
+          // rest api 개발에서는 get, post, delete, put, patch 요청방식을 지원하므로,
+          // 스프링 컨트롤러에서 rest api로 매핑주소가 설정되어 있으면,
+          // 아래와 같이 "X-HTTP-Method" : "요청방식" 으로 코드를 구성해줘야 정상적으로 스프링 주소 호출 가능
+          headers : { // rest api개발방식을 사용 안 한다면 "X-HTTP-Method" : "POST" 이걸 빼도 됨.
+            "Content-Type" : "application/json", "X-HTTP-Method" : "POST"
+          },
+          type : 'post',
+          data : JSON.stringify(review_data), // js object문법을(review_data)를 json으로 변환해줌.
+          dataType : 'text',
+          success : function(result) {
+            if(result == "success") {
+              alert("상품후기가 등록됨");
+              $("#review_modal").modal('hide');
+              getReviewList(url); // 상품후기 목록과 페이징 정보를 갱신
+            }
+          }
+        });
+      });
+
+      // 상품 후기 삭제 클릭
+      $("div#review_list").on("click", "button[name='btn_review_delete']", function() {
+        if(!confirm("삭제하시겠습니까?")) return;
+
+        let rev_code = $(this).data("rev_code");
+
+        $.ajax({
+          url : '/review/review_delete/' + rev_code,
+          headers : { // rest api개발방식을 사용 안 한다면 "X-HTTP-Method" : "POST" 이걸 빼도 됨.
+            "Content-Type" : "application/json", "X-HTTP-Method" : "DELETE"
+          },
+          type : 'delete',
+          dataType : 'text',
+          success : function(result) {
+            if(result == "success") {
+              alert("상품후기가 삭제됨");
+              getReviewList(url); // 상품후기 목록과 페이징 정보를 갱신
+            }
+          }
+        });
+
+      });
 
 
     }); // ready end

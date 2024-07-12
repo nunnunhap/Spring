@@ -55,9 +55,9 @@
         let cat_code = $(this).data("cat_code");
         let cat_name = encodeURIComponent($(this).html()); // 인코딩 작업
 
-//        console.log("2차 카테고리 코드", cat_code);
-//        console.log("2차 카테고리 이름", cat_name);
-
+        console.log("2차 카테고리 코드", cat_code);
+        console.log("2차 카테고리 이름", cat_name);
+        
         // cat_name=맨투맨&후드티 : &로 인하여 서버에서는 맨투맨 문자열만 인식됨.
         location.href = `/product/pro_list?cat_code=${cat_code}&cat_name=${cat_name}`;
       });

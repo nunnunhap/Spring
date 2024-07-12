@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -94,7 +95,26 @@ public class ReviewController {
 		return entity;
 	}
 	
+	// 상품후기 수정폼
+	@GetMapping("/review_modify/{rev_code}")
+	public ResponseEntity<ReviewVo> review_modify(@PathVariable("rev_code") Long rev_code) throws Exception {
+		ResponseEntity<ReviewVo> entity = null;
+		
+		entity = new ResponseEntity<ReviewVo> (reviewService.review_modify(rev_code), HttpStatus.OK);
+		
+		return entity;
+	}
 	
+	// 상품후기 수정 저장
+	@PutMapping("/review_modify")
+	public ResponseEntity<String> review_modify(@RequestBody ReviewVo vo, HttpSession session) throws Exception {
+		reviewService.review_update(vo);
+		
+		ResponseEntity<String> entity = null;
+		entity = new ResponseEntity<String> ("success", HttpStatus.OK);
+		
+		return entity;
+	}
 	
 	
 	

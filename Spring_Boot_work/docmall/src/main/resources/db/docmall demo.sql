@@ -702,10 +702,9 @@ CREATE TABLE ORDER_TBL(
         ORD_ADDR_DETAIL     VARCHAR2(50)            NOT NULL,
         ORD_TEL             VARCHAR2(20)            NOT NULL,
         ORD_PRICE           NUMBER                  NOT NULL, -- 총주문금액. 선택
+        ORD_DESC            VARCHAR2(300)           NULL, -- 주문 시 요청사항
         ORD_REGDATE         DATE DEFAULT SYSDATE    NOT NULL
 );
-
-
 
 CREATE SEQUENCE SEQ_ORD_CODE;
 
@@ -713,6 +712,20 @@ ALTER TABLE ORDER_TBL
 ADD CONSTRAINTS PK_ORD_CODE
 PRIMARY KEY(ORD_CODE);
 
+pk_ord_code
+SELECT
+    ord_code,
+    mbsp_id,
+    ord_name,
+    ord_addr_zipcode,
+    ord_addr_basic,
+    ord_addr_detail,
+    ord_tel,
+    ord_price,
+    ord_desc,
+    ord_regdate
+FROM
+    order_tbl;
 ALTER TABLE ORDER_TBL
 ADD CONSTRAINTS FK_ORDER_MBSP_ID
 FOREIGN KEY(MBSP_ID)

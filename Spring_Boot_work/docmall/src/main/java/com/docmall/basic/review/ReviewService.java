@@ -30,5 +30,13 @@ public class ReviewService {
 		reviewMapper.review_delete(rev_code);
 	}
 	
+	ReviewVo review_modify(Long rev_code) {
+		return reviewMapper.review_modify(rev_code);
+	}
+	
+	void review_update(ReviewVo vo) {
+		reviewMapper.review_update(vo);
+	}
+	
 	
 }

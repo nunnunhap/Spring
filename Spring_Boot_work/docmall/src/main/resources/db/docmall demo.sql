@@ -741,7 +741,13 @@ CREATE TABLE ORDETAIL_TBL(
         DT_AMOUNT       NUMBER      NOT NULL,
         DT_PRICE        NUMBER      NOT NULL  -- 단위별 가격 역정규화
 );
-
+SELECT
+    ord_code,
+    pro_num,
+    dt_amount,
+    dt_price
+FROM
+    ordetail_tbl;
 ALTER TABLE ORDETAIL_TBL
 ADD CONSTRAINTS PK_ORDETAIL_CODE_NUM
 PRIMARY KEY(ORD_CODE ,PRO_NUM);

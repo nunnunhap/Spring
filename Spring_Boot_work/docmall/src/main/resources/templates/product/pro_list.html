@@ -198,6 +198,17 @@
 //         });
 //       });
 
+  // 바로구매    id="btn_direct_buy"
+  $("#btn_direct_buy").on("click", function() {
+    console.log("바로구매");
+
+    let pro_num = $(this).data("pro_num");
+    let cart_amount = $("#btn_cart_amount").val();
+    let url = `/order/orderinfo?pro_num=${pro_num}&cart_amount=${cart_amount}`;
+
+    location.href = url;
+  });
+
 
       // 장바구니
       $("button[name='btn_cart_add']").on("click", function() {

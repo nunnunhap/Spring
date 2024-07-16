@@ -713,6 +713,7 @@ ADD CONSTRAINTS PK_ORD_CODE
 PRIMARY KEY(ORD_CODE);
 
 pk_ord_code
+seq_ord_code
 SELECT
     ord_code,
     mbsp_id,
@@ -748,6 +749,25 @@ SELECT
     dt_price
 FROM
     ordetail_tbl;
+    SELECT
+    cart_code,
+    pro_num,
+    mbsp_id,
+    cart_amount,
+    cart_date
+FROM
+    cart_tbl;
+
+INSERT INTO
+    ordetail_tbl(ord_code, pro_num, dt_amount, dt_price)
+    SELECT
+        #{주문번호}, pro_num, cart_amount, pro_num * cart_amount
+    FROM
+        cart_tbl
+    WHERE
+        mbsp_id = #{mbsp_id}
+
+
 ALTER TABLE ORDETAIL_TBL
 ADD CONSTRAINTS PK_ORDETAIL_CODE_NUM
 PRIMARY KEY(ORD_CODE ,PRO_NUM);
@@ -1075,6 +1095,37 @@ PRIMARY KEY (IDX);
 
 ALTER TABLE NOTICE ADD CONSTRAINT FK_NOTICE_WRITER
 FOREIGN KEY (MBSP_ID) REFERENCES ADMIN_TBL(ADMIN_ID);
+
+-- 11. 결제 테이블
+CREATE TABLE PAYINFO (
+    P_ID        NUMBER  NOT NULL,
+    ORD_CODE    NUMBER  NOT NULL,
+    PAYMETHOD   VARCHAR2(50)    NOT NULL,
+    P_PRICE     NUMBER  NOT NULL,
+    P_STATUS    VARCHAR2(10)    NOT NULL,
+    P_DATE      DATE    DEFAULT SYSDATE
+);
+SELECT
+    p_id,
+    ord_code,
+    paymethod,
+    p_price,
+    p_status,
+    p_date
+FROM
+    payinfo;
+seq_payinfo_id    
+
+    
+ALTER TABLE PAYINFO
+ADD CONSTRAINTS PK_PAYINFO_IDX
+PRIMARY KEY (P_ID);
+
+ALTER TABLE PAYINFO ADD CONSTRAINT FK_PAYINFO_ORD_CODE
+FOREIGN KEY (ORD_CODE) REFERENCES ORDER_TBL(ORD_CODE);
+
+CREATE SEQUENCE SEQ_PAYINFO_ID;
+
 
 
 

@@ -1097,26 +1097,29 @@ ALTER TABLE NOTICE ADD CONSTRAINT FK_NOTICE_WRITER
 FOREIGN KEY (MBSP_ID) REFERENCES ADMIN_TBL(ADMIN_ID);
 
 -- 11. 결제 테이블
+DROP TABLE PAYINFO;
 CREATE TABLE PAYINFO (
     P_ID        NUMBER  NOT NULL,
     ORD_CODE    NUMBER  NOT NULL,
-    PAYMETHOD   VARCHAR2(50)    NOT NULL,
-    P_PRICE     NUMBER  NOT NULL,
-    P_STATUS    VARCHAR2(10)    NOT NULL,
+    MBSP_ID     VARCHAR2(15)    NOT NULL,
+    PAYMETHOD   VARCHAR2(50)    NOT NULL, -- 카카오페이, 무통장입금, 카드결제 등
+    PAYINFO     VARCHAR2(100)   NULL, -- 무통장인 경우, 은행/ 계좌번호/ 예금주
+    P_PRICE     NUMBER  NOT NULL, -- 총 금액
+    P_STATUS    VARCHAR2(10)    NOT NULL, -- 완납/미납
     P_DATE      DATE    DEFAULT SYSDATE
 );
-SELECT
+COMMIT;
+  SELECT
     p_id,
     ord_code,
+    mbsp_id,
     paymethod,
+    payinfo,
     p_price,
     p_status,
     p_date
 FROM
-    payinfo;
-seq_payinfo_id    
-
-    
+    payinfo;  
 ALTER TABLE PAYINFO
 ADD CONSTRAINTS PK_PAYINFO_IDX
 PRIMARY KEY (P_ID);

@@ -6,11 +6,13 @@
 		INSERT INTO
 			payinfo(p_id,
 				    ord_code,
+				    mbsp_id,
 				    paymethod,
+				    payinfo,
 				    p_price,
 				    p_status)
 		VALUES
-			(seq_payinfo_id.NEXTVAL, #{ord_code}, #{paymethod}, #{p_price}, #{p_status})
+			(seq_payinfo_id.NEXTVAL, #{ord_code}, #{mbsp_id}, #{paymethod}, #{payinfo}, #{p_price}, #{p_status})
 	</insert>
 
 

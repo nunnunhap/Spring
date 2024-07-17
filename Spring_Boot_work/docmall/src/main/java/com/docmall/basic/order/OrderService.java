@@ -19,7 +19,7 @@ public class OrderService {
 	
 	
 	@Transactional
-	public void order_process(OrderVo vo, String mbsp_id) {
+	public void order_process(OrderVo vo, String mbsp_id, String paymethod, String p_status, String payinfo) {
 		// 1) 주문테이블(insert)
 		vo.setMbsp_id(mbsp_id);
 		orderMapper.order_insert(vo);
@@ -30,9 +30,11 @@ public class OrderService {
 		// 3) 결제 테이블(insert)
 		PayInfoVo p_vo = PayInfoVo.builder()
 				.ord_code(vo.getOrd_code())
+				.mbsp_id(mbsp_id)
 				.p_price(vo.getOrd_price())
-				.paymethod("kakaopay") // 무통장 입금
-				.p_status("완납") // 미납
+				.paymethod(paymethod) // 무통장 입금
+				.payinfo(payinfo)
+				.p_status(p_status) // 미납
 				.build();
 		
 		payInfoMapper.payInfo_insert(p_vo);

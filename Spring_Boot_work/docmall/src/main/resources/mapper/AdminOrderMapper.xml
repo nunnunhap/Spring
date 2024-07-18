@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.basic.admin.order.AdminOrderMapper">
+
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR"> <!-- prefixOverrides는 foreach결과 중 맨 앞 OR을 제거 -->
+			<foreach collection="typeArr" item="type"> <!-- 필드명을 쓰면 이게 getter로 인식됨. -->
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'N'.toString()">
+							ord_name like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							ord_code like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'I'.toString()">
+							mbsp_id like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<!-- 공통사항 : 검색조건 추가 / 인덱스힌트, 인라인뷰-->
+	<!-- getter에 의한 메서드 동작// 인라인 뷰/ 인덱스 힌트 -->
+	<select id="order_list" resultType="com.docmall.basic.order.OrderVo" parameterType="com.docmall.basic.order.OrderVo">
+			SELECT
+			    ord_code,
+			    mbsp_id,
+			    ord_name,
+			    ord_addr_zipcode,
+			    ord_addr_basic,
+			    ord_addr_detail,
+			    ord_tel,
+			    ord_price,
+			    ord_desc,
+			    ord_regdate
+			FROM (
+			    SELECT /*+ INDEX_DESC(order_tbl pk_ord_code) */
+			        ROWNUM AS rn,
+			        ord_code,
+				    mbsp_id,
+				    ord_name,
+				    ord_addr_zipcode,
+				    ord_addr_basic,
+				    ord_addr_detail,
+				    ord_tel,
+				    ord_price,
+				    ord_desc,
+				    ord_regdate
+			    FROM
+			        order_tbl
+			    WHERE
+					<include refid="criteria"></include>
+		<![CDATA[
+					ROWNUM <= (#{pageNum} * #{amount})
+		]]>
+			)
+			WHERE
+			    rn > (#{pageNum} - 1 ) * #{amount}
+	</select>
+	
+	<!-- 공통사항 : 검색조건 추가 -->
+	<!-- 사용자가 검색을 사용 안하면 ""이 반환되어 WHERE절 뒤에 붙는 코드가 없어서 에러맞음.
+		그래서 조건식을 추가로 넣어줘서 에러 맞지 않도록 함. -->
+	<select id="getTotalCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			order_tbl
+		WHERE
+			<include refid="criteria"></include>
+			ord_code > 0
+	</select>
+	
+	<select id="order_info" parameterType="Long" resultType="com.docmall.basic.order.OrderVo">
+		SELECT
+		    ord_code,
+		    mbsp_id,
+		    ord_name,
+		    ord_addr_zipcode,
+		    ord_addr_basic,
+		    ord_addr_detail,
+		    ord_tel,
+		    ord_price,
+		    ord_desc,
+		    ord_regdate
+		FROM
+		    order_tbl
+		WHERE
+			ord_code = #{ord_code}
+	</select>
+	
+	<select id="order_detail_info" parameterType="Long" resultType="com.docmall.basic.admin.order.OrderDetailInfoVo">
+		SELECT
+			ot.ord_code, ot.pro_num, ot.dt_amount, ot.dt_price, p.pro_name, p.pro_up_folder, p.pro_img
+		FROM
+			ordetail_tbl ot INNER JOIN product_tbl p
+		ON
+			ot.pro_num = p.pro_num
+		WHERE
+			ot.ord_code = #{ord_code}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+</mapper>

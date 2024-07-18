@@ -767,6 +767,14 @@ INSERT INTO
     WHERE
         mbsp_id = #{mbsp_id}
 
+-- 包府磊 林巩包府
+-- 林巩沥焊
+SELECT ot.ord_code, ot.pro_num, ot.dt_amount, ot.dt_price, p.pro_name, p.pro_up_folder, p.pro_img
+FROM ordetail_tbl ot INNER JOIN product_tbl p
+ON ot.pro_num = p.pro_num
+WHERE ot.ord_code = 29;
+
+
 
 ALTER TABLE ORDETAIL_TBL
 ADD CONSTRAINTS PK_ORDETAIL_CODE_NUM

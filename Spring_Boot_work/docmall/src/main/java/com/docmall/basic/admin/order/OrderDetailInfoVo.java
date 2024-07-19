@@ -16,3 +16,5 @@ public class OrderDetailInfoVo {
 	private String pro_img;
 
 }
+
+

@@ -1,7 +1,12 @@
 package com.docmall.basic.admin.order;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.docmall.basic.common.dto.Criteria;
 import com.docmall.basic.common.dto.PageDTO;
+import com.docmall.basic.common.util.FileManagerUtils;
 import com.docmall.basic.order.OrderVo;
+import com.docmall.basic.payinfo.PayInfoService;
+import com.docmall.basic.payinfo.PayInfoVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +29,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminOrderController {
 
 	private final AdminOrderService adminOrderService;
+	private final PayInfoService payInfoService;
+	
+	
+	// 상품 이미지 업로드 경로
+	@Value("${file.product.image.dir}")
+	private String uploadPath;
+	
 	
 	@GetMapping("order_list")
 	public void order_list(Criteria cri, Model model) {
@@ -34,21 +49,37 @@ public class AdminOrderController {
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
 	}
 	
-	// 주문상세 load()메서드를 사용하고 있기 때문에 ajax지만 thymeleaf작업을 하고 그것을 불러들이는 것임. 그래서 ResponseEntity를 사용하지 않음.
 	@GetMapping("/order_detail_info")
-	public void order_detail_info(Long ord_code, Model model) throws Exception {
-		// 주문자(수령인) 정보
+	public ResponseEntity<Map<String, Object>> order_detail_info(Long ord_code) throws Exception {
+		ResponseEntity<Map<String, Object>> entity = null;
+		Map<String, Object> map = new HashMap<>();
+		
+		// 1) 주문자(수령인) 정보
 		OrderVo vo = adminOrderService.order_info(ord_code);
+		map.put("ord_basic", vo);
 		
-		// 주문상세정보
-		List<OrderDetailInfoVo> dvo = adminOrderService.order_detail_info(ord_code);
+		// 2) 주문상품정보
+		List<OrderDetailInfoVo> ord_product_list = adminOrderService.order_detail_info(ord_code);
+		// 클라이언트에 \를 /로 변환하여 model작업 전에 처리
+		ord_product_list.forEach(ord_pro -> {
+			ord_pro.setPro_up_folder(ord_pro.getPro_up_folder().replace("\\", "/")); // 역슬래시 하나만 쓰면 에러맞음.
+		});
+		map.put("ord_pro_list", ord_product_list);
+
+		// 3) 결제정보
+		PayInfoVo p_vo = payInfoService.ord_pay_info(ord_code);
+		map.put("payinfo", p_vo);
 		
-		// 결제정보
-		
-		
+		entity = new ResponseEntity<Map<String,Object>> (map, HttpStatus.OK); 
+		return entity;
 	}
 	
-	
+	// 주문상세정보에서 주문상품 이미지 보여주기
+	@GetMapping("/image_display")
+	public ResponseEntity<byte[]> image_display(String dateFolderName, String fileName) throws Exception {
+		
+		return FileManagerUtils.getFile(uploadPath + dateFolderName, fileName);
+	}
 	
 	
 	

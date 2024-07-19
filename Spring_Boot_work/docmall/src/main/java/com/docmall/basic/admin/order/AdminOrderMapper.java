@@ -11,13 +11,11 @@ public interface AdminOrderMapper {
 	
 	int getTotalCount(Criteria cri);
 	
+	// 주문 기본정보(수령인)
 	OrderVo order_info(Long ord_code);
 	
+	// 주문 상품정보
 	List<OrderDetailInfoVo> order_detail_info(Long ord_code);
-	
-	
-	
-	
 	
 	
 }

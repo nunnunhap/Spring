@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value="fn_modify"/>
+		<item key="selection" value="payinfo"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="payinfo"/>
+			<item value="결제"/>
+			<item value="컨트롤러"/>
+			<item value="ord_code"/>
+			<item value="getint"/>
+			<item value="에서"/>
+			<item value="상품정보"/>
+			<item value="service에서"/>
+			<item value="service"/>
 			<item value="fn_modify"/>
 			<item value="주문정보"/>
-			<item value="payinfo"/>
 			<item value="정보1"/>
 			<item value="주문자 정보"/>
 			<item value="주문자"/>
 			<item value=","/>
-			<item value="최종"/>
-			<item value="vo"/>
-			<item value="this."/>
-			<item value="응답"/>
-			<item value="value"/>
-			<item value="최종결과"/>
-			<item value="후기코드"/>
-			<item value="후기"/>
 		</list>
 		<list key="replacehistory">
 			<item value=";"/>

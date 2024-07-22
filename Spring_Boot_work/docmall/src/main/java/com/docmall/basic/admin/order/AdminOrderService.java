@@ -2,6 +2,7 @@ package com.docmall.basic.admin.order;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import com.docmall.basic.common.dto.Criteria;
@@ -34,5 +35,15 @@ public class AdminOrderService {
 		log.info("상품정보 출력을 위한..." + adminOrderMapper.order_detail_info(ord_code));
 		return adminOrderMapper.order_detail_info(ord_code);
 	}
+	
+	void order_product_delete(@Param("ord_code")Long ord_code, @Param("pro_num")int pro_num ) {
+		adminOrderMapper.order_product_delete(ord_code, pro_num);
+	}
+	
+	void order_basic_modify(OrderVo vo) {
+		adminOrderMapper.order_basic_modify(vo);
+	}
+	
+	
 	
 }

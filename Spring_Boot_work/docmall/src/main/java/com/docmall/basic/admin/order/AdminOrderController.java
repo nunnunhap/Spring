@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.docmall.basic.common.dto.Criteria;
@@ -82,6 +83,27 @@ public class AdminOrderController {
 	}
 	
 	
+	@GetMapping("/order_product_delete")
+	public ResponseEntity<String> order_product_delete(Long ord_code, int pro_num) throws Exception {
+		ResponseEntity<String> entity = null;
+		
+		// db 연동
+		adminOrderService.order_product_delete(ord_code, pro_num);
+		
+		entity = new ResponseEntity<String> ("success", HttpStatus.OK);
+		return entity;
+	}
+	
+	@PostMapping("/order_basic_modify")
+	public ResponseEntity<String> order_basic_modify(OrderVo vo) throws Exception {
+		ResponseEntity<String> entity = null;
+		
+		// db 연동
+		adminOrderService.order_basic_modify(vo);
+		
+		entity = new ResponseEntity<String> ("success", HttpStatus.OK);
+		return entity;
+	}
 	
 	
 }

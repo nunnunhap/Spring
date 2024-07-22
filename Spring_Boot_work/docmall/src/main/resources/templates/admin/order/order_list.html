@@ -177,99 +177,91 @@
 
 
       <!-- Modal 주문상세정보 팝업 -->
-      <div class="modal fade" id="order_detail_info_popup" data-backdrop="static" data-keyboard="false" tabindex="-1" 
-      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal fade" id="order_detail_info_popup" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel2" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="staticBackdropLabel2">Modal title</h5>
+              <button type="button" id="btn_close" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
+            <!-- load()메서드를 이용하여, pro_info_2.html파일이 실행된 내용이 삽입된다. -->
             <div class="modal-body" id="popup_info">
-              <div id="order_product_info">
-                <!-- 주문상품정보 출력 위치 -->
-              </div>
-
-              <h3>[결제 정보]</h3>
-              <table class="table">
-                  <thead class="thead-dark">
-                      <tr>
-                          <th scope="col">결제방식</th>
-                          <td scope="col"><span id="paymethod"></span></td>
-                          <td scope="col">결제금액</td>
-                          <td scope="col"><span id="p_price"></span></td>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <th scope="row">입금자명</th>
-                          <td><span id="mbsp_id"></span></td><!-- 이번은 아이디로 대체함. -->
-                          <td>입금계좌</td>
-                          <td><span id="payinfo"></span></td>
-                      </tr>
-                      <tr>
-                        <th scope="row">입금상태</th>
-                        <td><span id="p_status"></span></td>
-                        <td>기타</td>
-                        <td><span id=""></span></td>
-                    </tr>
-                  </tbody>
-              </table>
-
-              <h3>[주문자(수령인) 정보]</h3>
-              <table class="table">
-                  <thead class="thead-dark">
-                      <tr>
-                          <th scope="col">수령인</th>
-                          <td scope="col">
-                              <input type="text" id="ord_name" name="ord_name">
-                          </td>
-                          <td scope="col">전화번호</td>
-                          <td scope="col">
-                              <input type="text" id="ord_tel" name="ord_tel">
-                          </td>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr>
-                          <th rowspan="3">주소</th>
-                          <td>
-                              <input type="text" class="form-control" id="sample2_postcode" name="ord_addr_zipcode">
-                              <button type="button" class="btn btn-outline-primary" onclick="sample2_execDaumPostcode()" >우편번호찾기</button>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <input type="text" class="form-control" id="sample2_address" name="ord_addr_basic">
-                          </td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <input type="text" class="form-control" id="sample2_detailAddress" name="ord_addr_detail">
-                          </td>
-                      </tr>
-                      <tr>
-                          <th scope="row">배송메모</th>
-                          <td colspan="3">
-                              <textarea name="ord_desc" id="ord_desc">배송메모 내용 ....</textarea>
-                          </td>
-                      </tr>
-                  </tbody>
-              </table>
-
-              <h3>[관리자메모]</h3>
-              <table class="table">
-                  <thead class="thead-dark">
-                      <tr>
-                          <td colspan="4">
-                              <textarea name="" id="" >관리내용 ....</textarea>
-                          </td>
-                      </tr>
-                  </thead>
-              </table>
+                
+                <!-- 주문상품정보 -->
+                <div id="order_product_info">
+                
+                </div>
+            
+            <hr>
+            <h5>[결제정보]</h5>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">결제방식</th>
+                  <td scope="col"><input type="text" id="paymethod" readonly></td>
+                  <th scope="col">결제금액</th>
+                  <td scope="col"><input type="text" id="p_price" readonly></td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">입금자명</th>
+                  <td><input type="text" id="mbsp_id" readonly></td>
+                  <th>입금계좌</th>
+                  <td><input type="text" id="payinfo" readonly></td>
+                </tr>
+                <tr>
+                  <th scope="row">입금상태</th>  <!--  <span id="p_status"></span> 인식이 안됨 -->
+                  <td><input type="text" id="p_status" readonly></td>
+                  <th>기타</th>
+                  <td><span>기타</span></td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <h5>[주문자(수령인)정보]</h5>
+            <table class="table">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">수령인</th>
+                  <td scope="col">
+                    <input type="text" id="ord_name" name="ord_name">
+                  </td>
+                  <th scope="col">전화번호</th>
+                  <td scope="col">
+                    <input type="text" id="ord_tel" name="ord_tel">
+                  </td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">주소</th>
+                  <td colspan="3"><!-- onclick="sample2_execDaumPostcode()" -->
+                    <button type="button" class="btn btn-outline-primary" onclick="sample2_execDaumPostcode()">우편번호</button>
+                    <input type="text" class="form-control" id="sample2_postcode" name="ord_addr_zipcode" placeholder="우편번호 입력하세요.">
+                    <input type="text" class="form-control" id="sample2_address" name="ord_addr_basic" placeholder="기본주소를 입력하세요.">
+                    <input type="text" class="form-control" id="sample2_detailAddress" name="ord_addr_detail" placeholder="상세주소를 입력하세요.">
+                    <input type="hidden" th:value="${mbsp_id}">
+                    <input type="hidden" id="sample2_extraAddress" placeholder="참고항목">
+                    
+                  </td>
+                </tr>
+                <tr>
+                  <th scope="row">배송메모</th>
+                  <td colspan="3">
+                    <textarea rows="3" cols="70" id="" name="">배송내용.....</textarea>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <hr>
+            <h3>관리자메모</h3>
+            <textarea rows="3" cols="85" id="ord_admin_memo">관리내용</textarea>
+            <button type="button" id="btn_order_basic_save" class="btn btn-secondary">수정</button>
             </div>
+            
           </div>
         </div>
       </div>
@@ -395,11 +387,73 @@
             actionForm.submit();
           });
 
+          let ord_code; // 주문번호 전역변수 작업
           // 주문 상세 보기
           $("button[name='btn_order_info']").on("click", function() {
-            let ord_code = $(this).data("ord_code");
+            ord_code = $(this).data("ord_code");
+            //console.log("주문상세 클릭", ord_code);
+            // return;
 
             // 주문상세정보
+            order_detail_info();
+          });
+
+          $("div#order_product_info").on("click", "button[name='order_product_detail']", function() {
+            if(!confirm("정말 삭제하시겠습니까?")) return;
+            
+            let pro_num = $(this).data("pro_num");
+            console.log("상품코드", pro_num);
+            console.log("주문번호", ord_code);
+            return;
+
+            $.ajax({
+              url : '/admin/order/order_product_delete',
+              type : 'get',
+              data : {ord_code : ord_code, pro_num : pro_num},
+              dataType : 'text',
+              success : function(result) {
+                if(result == "success") {
+                  alert("주문상품이 삭제되었습니다.");
+                }
+                order_detail_info();
+              }
+          });
+        });
+
+        // 기본 주문 정보 수정하기
+        $("button#btn_order_basic_save").on("click", function() {
+          // ord_code : 전역변수
+          // mbsp_id : 세션 참조하면 안됨.
+
+          let ord_basic_data = {
+            ord_code : ord_code,
+            ord_name : $("#ord_name").val(),
+            ord_addr_zipcode : $("#sample2_postcode").val(),
+            ord_addr_basic : $("#sample2_address").val(),
+            ord_addr_detail : $("#sample2_detailAddress").val(),
+            ord_tel : $("#ord_tel").val(),
+            ord_desc : $("#ord_desc").val(),
+            mbsp_id : $("#mbsp_id").val(),
+            ord_admin_memo : $("#ord_admin_memo").val();
+          };
+
+          $.ajax({
+            url : '/admin/order/order_basic_modify',
+            type : 'post',
+            data : ord_basic_data,
+            dataType : 'text',
+            success : function(result) {
+              if(result == "success") {
+                alert("주문정보가 수정되었습니다.");
+                order_detail_info();
+              }
+            }
+        });
+        });
+
+
+
+          function order_detail_info() {
             $("#order_detail_info_popup").modal('show');
 
             $.ajax({
@@ -432,7 +486,8 @@
               error : function() { // 스프링 쪽에서 error가 나서 에러정보가 클라이언트로 넘어오면 작동. 잘은 안 씀.
               }
             });
-          });
+          }
+
 
         }); // ready end
       </script>

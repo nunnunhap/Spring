@@ -9,9 +9,9 @@ import com.docmall.basic.order.OrderVo;
 
 public interface AdminOrderMapper {
 
-	List<OrderVo> order_list(Criteria cri);
+	List<OrderVo> order_list(@Param("cri") Criteria cri, @Param("start_date") String start_date, @Param("end_date") String end_date);
 	
-	int getTotalCount(Criteria cri);
+	int getTotalCount(@Param("cri") Criteria cri, @Param("start_date") String start_date, @Param("end_date") String end_date);
 	
 	// 주문 기본정보(수령인)
 	OrderVo order_info(Long ord_code);
@@ -24,6 +24,9 @@ public interface AdminOrderMapper {
 	
 	// 주문 기본정보 수정
 	void order_basic_modify(OrderVo vo);
+	
+	// 주문 테이블의 총 금액 변경
+	void order_tot_price_change(Long ord_code);
 	
 	
 }

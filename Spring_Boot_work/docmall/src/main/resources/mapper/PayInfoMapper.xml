@@ -31,6 +31,23 @@
 			ord_code = #{ord_code}
 	</select>
 
+	<update id="pay_tot_price_change">
+		UPDATE
+			payinfo
+		SET
+			p_price = (
+				SELECT
+					SUM(dt_amount * dt_price)
+				FROM
+					ordetail_tbl
+				WHERE
+					ord_code = #{ord_code}
+			)
+		WHERE
+			ord_code = #{ord_code}
+	
+	</update>
+
 	
 	
 </mapper>

@@ -728,7 +728,8 @@ SELECT
     ord_tel,
     ord_price,
     ord_desc,
-    ord_regdate
+    ord_regdate,
+    ord_admin_memo
 FROM
     order_tbl;
 ALTER TABLE ORDER_TBL
@@ -1141,8 +1142,16 @@ FOREIGN KEY (ORD_CODE) REFERENCES ORDER_TBL(ORD_CODE);
 
 CREATE SEQUENCE SEQ_PAYINFO_ID;
 
-
-
+-- 12. °Ô½ÃÆÇ qna_tbl
+CREATE TABLE qnaboard_tbl (
+    qna_idx     NUMBER,
+    pro_num     NUMBER  NOT NULL,
+    question    VARCHAR2(100)   NOT NULL,
+    answer      VARCHAR2(100)   NULL,
+    anscheck    CHAR(1) DEFAULT 'n',
+    question_date   DATE NOT NULL   DEFAULT SYSDATE,
+    answer_date DATE NOT NULL
+);
 
 
 

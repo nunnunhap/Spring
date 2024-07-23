@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -39,12 +40,13 @@ public class AdminOrderController {
 	
 	
 	@GetMapping("order_list")
-	public void order_list(Criteria cri, Model model) {
+	public void order_list(Criteria cri, 
+			@ModelAttribute("start_date") String start_date, @ModelAttribute("end_date") String end_date, Model model) {
 		log.info("Criteria : " + cri);
 		cri.setAmount(2);
 		
-		List<OrderVo> order_list = adminOrderService.order_list(cri);
-		int totalCount = adminOrderService.getTotalCount(cri);
+		List<OrderVo> order_list = adminOrderService.order_list(cri, start_date, end_date);
+		int totalCount = adminOrderService.getTotalCount(cri, start_date, end_date);
 		
 		model.addAttribute("order_list", order_list);
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));

@@ -6,6 +6,6 @@ public interface PayInfoMapper {
 	
 	PayInfoVo ord_pay_info(Long ord_code);
 	
-	
+	public void pay_tot_price_change(Long ord_code);
 	
 }

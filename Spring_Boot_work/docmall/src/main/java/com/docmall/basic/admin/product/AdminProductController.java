@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.docmall.basic.admin.category.AdminCategoryService;
 import com.docmall.basic.admin.category.AdminCategoryVo;
+import com.docmall.basic.common.constants.Constants;
 import com.docmall.basic.common.dto.Criteria;
 import com.docmall.basic.common.dto.PageDTO;
 import com.docmall.basic.common.util.FileManagerUtils;
@@ -147,7 +148,7 @@ public class AdminProductController {
 	@GetMapping("/pro_list")
 	public void pro_list(Criteria cri, Model model) throws Exception {
 		
-//		cri.setAmount(2); // Criteria를 직접 바꾸지 않고 페이징 기능 제대로 되는지 확인.
+		cri.setAmount(Constants.ADMIN_ORDERLIST_AMOUNT); // Criteria를 직접 바꾸지 않고 페이징 기능 제대로 되는지 확인.
 		log.info("Criteria : " + cri);
 		
 		List<ProductVo> pro_list = adminProductService.pro_list(cri);

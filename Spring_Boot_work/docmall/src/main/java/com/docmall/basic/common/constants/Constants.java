@@ -7,4 +7,9 @@ public final class Constants {
 	// 이걸로 한 번에 컨트롤 가능하여 유지보수의 편리성 증진
 	public static final String MAILFOLDERNAME = "mailtemplate";
 	
+	// 상품리스트 출력 갯수
+	public static final int ADMIN_PROLIST_AMOUNT = 2;
+	
+	// 상품리스트 출력 갯수
+	public static final int ADMIN_ORDERLIST_AMOUNT = 2;
 }

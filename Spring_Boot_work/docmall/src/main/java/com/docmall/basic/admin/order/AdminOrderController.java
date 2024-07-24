@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.docmall.basic.common.constants.Constants;
 import com.docmall.basic.common.dto.Criteria;
 import com.docmall.basic.common.dto.PageDTO;
 import com.docmall.basic.common.util.FileManagerUtils;
@@ -43,7 +44,7 @@ public class AdminOrderController {
 	public void order_list(Criteria cri, 
 			@ModelAttribute("start_date") String start_date, @ModelAttribute("end_date") String end_date, Model model) {
 		log.info("Criteria : " + cri);
-		cri.setAmount(2);
+		cri.setAmount(Constants.ADMIN_PROLIST_AMOUNT);
 		
 		List<OrderVo> order_list = adminOrderService.order_list(cri, start_date, end_date);
 		int totalCount = adminOrderService.getTotalCount(cri, start_date, end_date);

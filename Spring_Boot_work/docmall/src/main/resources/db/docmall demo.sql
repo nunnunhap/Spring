@@ -1153,6 +1153,34 @@ CREATE TABLE qnaboard_tbl (
     answer_date DATE NOT NULL
 );
 
+-- 13. 메일발송 mailmng_tbl(manage)
+CREATE TABLE MAILMNG_TBL (
+    M_IDX     NUMBER,
+    M_TITLE     VARCHAR2(200)   NOT NULL,
+    M_CONTENT    VARCHAR2(4000)   NOT NULL,
+    M_GUBUN      VARCHAR2(30)   NOT NULL, -- 광고/이벤트 OR 일반
+    REG_DATE DATE DEFAULT SYSDATE
+);
+
+ALTER TABLE mailmng_tbl
+ADD CONSTRAINTS PK_MAILMNG_IDX
+PRIMARY KEY (M_IDX);
+
+CREATE SEQUENCE seq_mailmng_tbl;
+SELECT
+    m_idx,
+    m_title,
+    m_content,
+    m_gubun,
+    reg_date
+FROM
+    mailmng_tbl;
+
+commit;
+
+
+
+
 
 
 

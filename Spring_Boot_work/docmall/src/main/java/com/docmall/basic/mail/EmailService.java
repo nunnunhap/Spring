@@ -61,6 +61,27 @@ public class EmailService {
 		}
 	}
 	
+	public void sendMail(EmailDTO dto, String[] emailArr) {
+		// 메일 구성정보 담당(받는 사람, 보내는 사람, 받는 사람 메일 주소, 본문 내용)
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+		
+		try {			
+			// 메일 템플릿으로 타임리프 사용목적으로 아래 코드가 구성됨.
+			MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, false, "UTF-8");
+			mimeMessageHelper.setTo(emailArr); // 메일 수신자
+			mimeMessageHelper.setFrom(new InternetAddress(dto.getSenderMail(), dto.getSenderName()));
+			mimeMessageHelper.setSubject(dto.getSubject()); // 메일 제목
+			mimeMessageHelper.setText(dto.getMessage(), true);
+			
+			// 메일 발송 기능
+			mailSender.send(mimeMessage); // send메서드 호출하고자 mimeMessage가 만들어짐.
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
 	// 인증번호 및 임시 비밀번호 생성 메서드
 	// public String createCode() {}
 	

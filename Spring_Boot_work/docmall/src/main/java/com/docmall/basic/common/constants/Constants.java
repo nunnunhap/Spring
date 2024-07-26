@@ -12,4 +12,7 @@ public final class Constants {
 	
 	// 상품리스트 출력 갯수
 	public static final int ADMIN_ORDERLIST_AMOUNT = 2;
+	
+	// 도메인 주소
+	public static final String ROOT_URL = "http://localhost:9095";
 }

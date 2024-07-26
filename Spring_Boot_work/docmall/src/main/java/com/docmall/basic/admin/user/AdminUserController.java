@@ -3,19 +3,23 @@ package com.docmall.basic.admin.user;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.docmall.basic.common.constants.Constants;
 import com.docmall.basic.common.dto.Criteria;
+import com.docmall.basic.common.dto.PageDTO;
 import com.docmall.basic.common.util.FileManagerUtils;
 import com.docmall.basic.mail.EmailDTO;
 import com.docmall.basic.mail.EmailService;
@@ -46,33 +50,75 @@ public class AdminUserController {
 	
 	// 메일발송 목록
 	@GetMapping("/mailinglist")
-	public void mailinglist(Criteria cri, Model model) throws Exception {
+	public void mailinglist(Criteria cri, String title, Model model) throws Exception {
+		List<MailMngVo> maillist = adminUserService.getMailInfoList(cri, title);
 		
+		int totalcount = adminUserService.getMailListCount(title);
+		PageDTO pageDto = new PageDTO(cri, totalcount);
 		
+		model.addAttribute("maillist", maillist);
+		model.addAttribute("pageMaker", pageDto);
 	}
 	
 	// 메일 발송 폼(ckeditor 사용)
 	@GetMapping("/mailingform")
-	public void mailingform() throws Exception {
+	public void mailingform(@ModelAttribute("vo") MailMngVo vo) throws Exception {
 		
 	}
 	
-	// 메일 발송 프로세스
-	@PostMapping("/mailingprocess") // 강사님이 Redirect만 쓰셨는데 이건 뭐지?
-	public String mailingprocess(MailMngVo vo, RedirectAttributes rttr) throws Exception {
+	// 메일 저장
+	@PostMapping("/mailingsave")
+	public String mailingsave(@ModelAttribute("vo") MailMngVo vo, Model model, RedirectAttributes rttr) throws Exception {
 		log.info("메일내용" + vo);
 		// 1) 메일내용 DB 저장
-		adminUserService.mailing_save(vo);
+		adminUserService.mailing_save(vo); // vo에 참조값, 주소값이 들어가 있음. 데이터가 들어간게 아님. 참조타입은 주소값임!
 		
-		// 2) 메일 발송
-		// 2.1) 회원테이블에서 전체회원 메일정보를 읽어오는 작업
+		log.info("시퀀스 : " + vo.getIdx());
+		
+		model.addAttribute("idx", vo.getIdx()); // 메일보내기 횟수 작업에 사용
+		
+		//rttr.addFlashAttribute("msg", "save"); // redirect가 아니면 이것이 작동 안함... 그래서 현재 null로 처리됨.
+		model.addAttribute("msg", "save");
+		
+		// redirect는 새로운 요청발생. 지우면 thymeleaf 페이지로 인식되어서 위의 @ModelAttribute의 vo 파라미터를 그대로 사용 가능.
+		return "/admin/user/mailingform";
+	}
+	
+	// 메일 발송
+	@PostMapping("/mailingsend")
+	public String mailingsend(@ModelAttribute("vo") MailMngVo vo, RedirectAttributes rttr) throws Exception {
+		log.info("메일내용" + vo);
+		// 메일 발송
+		// 회원테이블에서 전체회원 메일정보를 읽어오는 작업
 		String[] emailArr = adminUserService.getAllMailAddress();
 		EmailDTO dto = new EmailDTO("DocMall", "DocMall", "", vo.getTitle(), vo.getContent());
 		
 		emailService.sendMail(dto, emailArr);
 		
+		// 메일 발송횟수 업데이트
+		adminUserService.mailSendCountUpdate(vo.getIdx());
+		
+		rttr.addFlashAttribute("msg", "send");
+		
 		return "redirect:/admin/user/mailinglist";
 	}
+	
+	@GetMapping("/mailingsendform")
+	public void mailsendform(int idx, Model model) throws Exception {
+		MailMngVo vo = adminUserService.getMailSendInfo(idx);
+		
+		model.addAttribute("vo", vo);
+	}
+	
+	@PostMapping("/mailingedit")
+	public String mailingedit(@ModelAttribute("vo") MailMngVo vo, Model model) throws Exception {
+		adminUserService.mailingedit(vo);
+		
+		model.addAttribute("msg", "modify");
+		
+		return "/admin/user/mailingsendform";
+	}
+	
 	
 	// CKEditor 상품설명 이미지 업로드
 	// MultipartFile upload : CKeditor의 업로드탭에서 나온 파일첨부 <input type="file" name="upload"> 을 참조함.
@@ -101,8 +147,10 @@ public class AdminUserController {
 			
 			printWriter = response.getWriter();
 			
+			String fileUrl = Constants.ROOT_URL + "/admin/product/display/" + fileName; // 이미지 깨짐 방지
 			
-			String fileUrl = "/admin/product/display/" + fileName; // 매핑주소/이미지파일명
+			
+			// String fileUrl = "/admin/product/display/" + fileName; // 매핑주소/이미지파일명
 //					String fileUrl = fileName;
 			
 			

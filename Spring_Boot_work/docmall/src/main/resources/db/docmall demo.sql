@@ -1154,11 +1154,13 @@ CREATE TABLE qnaboard_tbl (
 );
 
 -- 13. 메일발송 mailmng_tbl(manage)
+DROP TABLE MAILMNG_TBL;
 CREATE TABLE MAILMNG_TBL (
     M_IDX     NUMBER,
     M_TITLE     VARCHAR2(200)   NOT NULL,
     M_CONTENT    VARCHAR2(4000)   NOT NULL,
     M_GUBUN      VARCHAR2(30)   NOT NULL, -- 광고/이벤트 OR 일반
+    M_sendcount NUMBER  DEFAULT 0,
     REG_DATE DATE DEFAULT SYSDATE
 );
 

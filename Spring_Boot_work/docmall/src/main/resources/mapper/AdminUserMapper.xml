@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.docmall.basic.admin.user.AdminUserMapper">
+
+	<resultMap type="MailMngVo" id="mailmngMap">
+		<id property="idx" column="m_idx"/>
+		<id property="title" column="m_title"/>
+		<id property="content" column="m_content"/>
+		<id property="gubun" column="m_gubun"/>
+		<id property="sendcount" column="m_sendcount"/>
+		<id property="regDate" column="reg_date"/>
+	</resultMap>
+
 	
 	<insert id="mailing_save" parameterType="MailMngVo">
+		<selectKey keyProperty="idx" resultType="Integer" order="BEFORE">
+			SELECT
+				seq_mailmng_tbl.NEXTVAL
+			FROM
+				dual
+		</selectKey>
 		INSERT INTO
 			mailmng_tbl (
 				m_idx,
@@ -10,11 +26,12 @@
 			    m_content,
 			    m_gubun)
 		VALUES (
-			seq_mailmng_tbl.NEXTVAL,
+			#{idx},
 			#{title},
 			#{content},
 			#{gubun})
 	</insert>
+	
 	
 	<select id="getAllMailAddress" resultType="String">
 		SELECT
@@ -23,11 +40,107 @@
 			mbsp_tbl
 	</select>
 	
+	<update id="mailSendCountUpdate">
+		UPDATE
+			mailmng_tbl
+		SET
+			m_sendcount = m_sendcount + 1
+		WHERE
+			m_idx = m_idx
+	</update>
+	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND" prefixOverrides="OR"> <!-- prefixOverrides는 foreach결과 중 맨 앞 OR을 제거 -->
+			<foreach collection="typeArr" item="type"> <!-- 필드명을 쓰면 이게 getter로 인식됨. -->
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'N'.toString()">
+							pro_name like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'P'.toString()">
+							pro_publisher like '%' || #{keyword} || '%'
+						</when>
+						<when test="type == 'C'.toString()">
+							pro_content like '%' || #{keyword} || '%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+	
+	<!-- 공통사항 : 검색조건 추가 / 인덱스힌트, 인라인뷰-->
+	<!-- getter에 의한 메서드 동작 -->
+	<select id="getMailInfoList" resultMap="mailmngMap" parameterType="Criteria">
+			SELECT
+			    m_idx,
+			    m_title,
+			    m_content,
+			    m_gubun,
+			    m_sendcount,
+			    reg_date
+			FROM (
+			    SELECT /*+ INDEX_DESC(mailmng_tbl PK_MAILMNG_IDX) */
+			        ROWNUM AS rn,
+			        m_idx,
+				    m_title,
+				    m_content,
+				    m_gubun,
+				    m_sendcount,
+				    reg_date
+			    FROM
+			        mailmng_tbl
+			    WHERE
+			    	1 = 1
+					<include refid="mailsearch"></include>
+		<![CDATA[
+					AND ROWNUM <= (#{cri.pageNum} * #{cri.amount})
+		]]>
+			)
+			WHERE
+			    rn > (#{cri.pageNum} - 1 ) * #{cri.amount}
+	</select>
+	
+	<select id="getMailListCount" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			mailmng_tbl
+		WHERE
+			1 = 1
+			<include refid="mailsearch"></include>
+	</select>
+	
+	<sql id="mailsearch">
+		<if test="title != null and !title.equals('')">AND m_title like '%' || #{title} || '%'</if>
+	</sql>
+	
+	<select id="getMailSendInfo" resultMap="mailmngMap">
+		SELECT
+		    m_idx,
+		    m_title,
+		    m_content,
+		    m_gubun,
+		    m_sendcount,
+		    reg_date
+		FROM
+		    mailmng_tbl
+		WHERE
+			m_idx = #{idx}
+	</select>
+	
+	<update id="mailingedit" parameterType="MailMngVo">
+		UPDATE
+			mailmng_tbl
+		SET
+			m_title = #{title},
+			m_content = #{content},
+			m_gubun  = #{gubun},
+			reg_date = SYSDATE
+		WHERE
+			m_idx = #{idx}
+	</update>
 	
 	
 	
-	
-	
-
-
 </mapper>

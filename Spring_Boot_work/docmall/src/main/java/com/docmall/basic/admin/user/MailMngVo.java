@@ -16,6 +16,7 @@ public class MailMngVo {
     private String title;
     private String content;
     private String gubun;
+    private int sendcount;
     private Date regDate;
 	
 }

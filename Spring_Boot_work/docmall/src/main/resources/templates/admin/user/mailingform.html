@@ -31,32 +31,35 @@
                   <h3 class="box-title">상품 수정</h3>
                 </div><!-- /.box-header -->
                 <!-- form start -->
-                <form action="/admin/user/mailingprocess" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <form action="/admin/user/mailingprocess" name="mailingfrom" id="mailingfrom" method="post" enctype="multipart/form-data" class="form-horizontal">
                   <div class="box-body">
                     <div class="form-group row">
                       <label for="title" class="col-sm-1 col-form-label">구분</label>
                       <div class="col-sm-11">
-                        <input type="radio" id="gubun1" name="gubun" class="custom-control-input" value="광고/이벤트">
+                        <input type="radio" id="gubun1" name="gubun" class="custom-control-input" value="광고/이벤트" th:checked="${vo.gubun eq '광고/이벤트'}">
                         <label class="custom-control-label" for="customRadioInline1">광고/이벤트</label>
-                        <input type="radio" id="gubun2" name="gubun" class="custom-control-input" value="일반">
+                        <input type="radio" id="gubun2" name="gubun" class="custom-control-input" value="일반" th:checked="${vo.gubun eq '일반'}">
                         <label class="custom-control-label" for="customRadioInline1">일반</label>
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="title" class="col-sm-1 col-form-label">메일링제목</label>
                       <div class="col-sm-11">
-                        <input type="text" class="form-control" name="title" id="title">
+                        <input type="hidden" name="idx" th:value="${idx}">
+                        <input type="text" class="form-control" name="title" id="title" th:value="${vo.title}">
                       </div>
                     </div>
                     <div class="form-group row">
                       <label for="content" class="col-sm-1 col-form-label">메일링 내용</label>
                       <div class="col-sm-11">
-                        <textarea class="form-control" name="content" id="content" rows="3"></textarea>
+                        <textarea class="form-control" name="content" id="content" rows="3" th:text="${vo.content}"></textarea>
                       </div>
                     </div>
                   </div><!-- /.box-body -->
                   <div class="box-footer">
-                    <button type="submit" class="btn btn-primary">메일내용 저장 및 보내기</button>
+                    <button type="button" id="btn_mail_save" class="btn btn-primary">메일저장</button>
+                    <button type="button" id="btn_mail_send" class="btn btn-primary">메일발송</button>
+                    <button type="button" id="btn_mail_list" class="btn btn-primary">목록</button>
                   </div><!-- /.box-footer -->
                 </form>
               </div>
@@ -67,6 +70,14 @@
     </th:block>
     <th:block layout:fragment="script">
       <!-- 각각의 페이지에서 필요한 자바스크립트 작성 -->
+      <script th:inline="javascript">
+        let msg = [[${msg}]];
+        if(msg == 'save') {
+          alert("메일 정보가 저장됨.");
+        }
+
+      </script>
+
       <script>
         $(document).ready(function() {
           
@@ -83,6 +94,29 @@
 
         CKEDITOR.replace("content", ckeditor_config);
         console.log("ckediotr 버전: ", CKEDITOR.version);  // ckediotr 버전:  4.12.1 (Standard)
+
+        let mailingfrom = $("#mailingfrom");
+        // 메일 저장
+        $("#btn_mail_save").on("click", function() {
+          mailingfrom.attr("action", "/admin/user/mailingsave");
+          mailingfrom.submit();
+        });
+
+        // 메일 보내기
+        $("#btn_mail_send").on("click", function() {
+          mailingfrom.attr("action", "/admin/user/mailingsend");
+          mailingfrom.submit();
+        });
+
+        // 메일 목록
+        $("#btn_mail_list").on("click", function() {
+          mailingfrom.attr("method", "get");
+          mailingfrom.attr("action", "/admin/user/mailinglist");
+          location.href = "/admin/user/mailinglist";
+        });
+
+
+
 
         });
       </script>

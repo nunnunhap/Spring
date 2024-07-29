@@ -1,6 +1,7 @@
 package com.docmall.basic.admin.order;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class AdminOrderService {
 	
 	List<OrderVo> order_list(Criteria cri, String start_date, String end_date) {
 		return adminOrderMapper.order_list(cri, start_date, end_date);
+	}
+	
+	List<Map<String, Object>> order_list2() {
+		return adminOrderMapper.order_list2();
 	}
 	
 	int getTotalCount(Criteria cri, String start_date, String end_date) {

@@ -73,6 +73,41 @@
 			    rn > (#{cri.pageNum} - 1 ) * #{cri.amount}
 	</select>
 	
+	
+		<!--  2번째 : 페이징 없이 그냥 보여줄 예정 -->
+	<select id="order_list2" resultType="hashmap">
+	    SELECT
+	        o.ord_code,
+		    o.mbsp_id,
+		    o.ord_name,
+		    o.ord_addr_zipcode,
+		    o.ord_addr_basic,
+		    o.ord_addr_detail,
+		    o.ord_tel,
+		    o.ord_price,
+		    o.ord_desc,
+		    o.ord_regdate,
+		    o.ord_admin_memo,
+		    ot.pro_num,
+		    ot.dt_amount,
+		    ot.dt_amount * ot.dt_price AS totprice,
+		    p.pro_name,
+		    p.pro_up_folder,
+		    p.pro_img
+	    FROM
+	        ORDER_TBL o
+	    INNER JOIN
+	    	ORDETAIL_TBL ot
+		ON
+			o.ord_code = ot.ord_code
+		INNER JOIN
+			product_tbl p
+		ON
+			ot.pro_num = p.pro_num
+</select>
+	
+	
+	
 	<!-- 공통사항 : 검색조건 추가 -->
 	<!-- 사용자가 검색을 사용 안하면 ""이 반환되어 WHERE절 뒤에 붙는 코드가 없어서 에러맞음.
 		그래서 조건식을 추가로 넣어줘서 에러 맞지 않도록 함. -->

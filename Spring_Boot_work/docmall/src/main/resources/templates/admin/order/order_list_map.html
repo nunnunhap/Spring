@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <th scope="col">주문번호</th>
+          <th scope="col">아이디</th>
+          <th scope="col">주문금액</th>
+          <th scope="col">상품명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 지금 여기서 #{order_list}는 List<Map<>>인데, order은 Map<> 인 것임. -->
+        <tr th:each="order : ${order_list}">
+          <th th:text="${order['ord_code']}"></th>
+          <th th:text="${order['mbsp_id']}"></th>
+          <th th:text="${order['ord_price']}"></th>
+          <th th:text="${order['pro_name']}"></th>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>

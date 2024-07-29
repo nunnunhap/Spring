@@ -1174,6 +1174,7 @@ SELECT
     m_title,
     m_content,
     m_gubun,
+    m_sendcount,
     reg_date
 FROM
     mailmng_tbl;
@@ -1182,6 +1183,31 @@ commit;
 
 
 
+-- 주문목록
+-- 주문테이블, 주문상세테이블, 상품테이블 3개 테이블을 조인
+SELECT
+    o.ord_code,
+    o.mbsp_id,
+    o.ord_name,
+    o.ord_addr_zipcode,
+    o.ord_addr_basic,
+    o.ord_addr_detail,
+    o.ord_tel,
+    o.ord_price,
+    o.ord_desc,
+    o.ord_regdate,
+    o.ord_admin_memo,
+    ot.pro_num,
+    ot.dt_amount,
+    ot.dt_price,
+    ot.dt_amount * ot.dt_price AS totprice,
+    p.pro_name,
+    p.pro_up_folder,
+    p.pro_img
+FROM ORDER_TBL o INNER JOIN ORDETAIL_TBL ot
+ON o.ord_code = ot.ord_code
+INNER JOIN product_tbl p
+ON ot.pro_num = p.pro_num;
 
 
 

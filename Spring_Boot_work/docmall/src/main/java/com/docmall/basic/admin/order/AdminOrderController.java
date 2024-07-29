@@ -52,6 +52,19 @@ public class AdminOrderController {
 		model.addAttribute("order_list", order_list);
 		model.addAttribute("pageMaker", new PageDTO(cri, totalCount));
 	}
+
+	
+	// 주문목록2 mybatis resultype = "hashmap" 사용 예제
+	@GetMapping("order_list2")
+	public String order_list2(Model model) throws Exception {
+		List<Map<String, Object>> order_list2 = adminOrderService.order_list2();
+		
+		model.addAttribute("order_list", order_list2);
+		
+		return "/admin/order/order_list_map";
+	}
+	
+	
 	
 	@GetMapping("/order_detail_info")
 	public ResponseEntity<Map<String, Object>> order_detail_info(Long ord_code) throws Exception {

@@ -13,10 +13,10 @@
       <tbody>
         <!-- 지금 여기서 #{order_list}는 List<Map<>>인데, order은 Map<> 인 것임. -->
         <tr th:each="order : ${order_list}">
-          <th th:text="${order['ord_code']}"></th>
-          <th th:text="${order['mbsp_id']}"></th>
-          <th th:text="${order['ord_price']}"></th>
-          <th th:text="${order['pro_name']}"></th>
+          <th th:text="${order['ORD_CODE']}"></th>
+          <th th:text="${order['MBSP_ID']}"></th>
+          <th th:text="${order['ORD_PRICE']}"></th>
+          <th th:text="${order['PRO_NAME']}"></th>
         </tr>
       </tbody>
     </table>

@@ -747,6 +747,8 @@ CREATE TABLE ORDETAIL_TBL(
         DT_AMOUNT       NUMBER      NOT NULL,
         DT_PRICE        NUMBER      NOT NULL  -- 단위별 가격 역정규화
 );
+
+
 SELECT
     ord_code,
     pro_num,
@@ -1208,6 +1210,63 @@ FROM ORDER_TBL o INNER JOIN ORDETAIL_TBL ot
 ON o.ord_code = ot.ord_code
 INNER JOIN product_tbl p
 ON ot.pro_num = p.pro_num;
+
+-- 1차 카테고리 월별 매출(주문)현황 : 1차 카테고리 이름 , 매출현황(주문현황)
+select
+    c.cat_name primary_cd, sum(d.dt_amount * d.dt_price) sales_p
+from
+    product_tbl p inner join ordetail_tbl d
+on
+    p.pro_num=d.pro_num
+inner join -- 아래는 셀프조인()
+    (select c2.cat_name, c1.cat_code from category_tbl c1, category_tbl c2 where c1.cat_prtcode = c2.cat_code ) c
+on
+    p.cat_code=c.cat_code
+inner join
+    order_tbl o
+on
+    o.ord_code=d.ord_code
+and
+    TO_CHAR(o.ord_regdate, 'YYYY/MM') =  '2024/07'               --TO_CHAR(#{ord_date}, 'YYYY/MM')
+group by
+    c.cat_name, TO_CHAR(o.ord_regdate, 'YYYY/MM')
+order by
+    c.cat_name;
+
+-- (select c2.cat_name, c1.cat_code from category_tbl c1, category_tbl c2 where c1.cat_prtcode = c2.cat_code ) c
+/*
+    c2.cat_name : 1차 카테고리 이름
+    c1.cat_code : 1차 카테고리를 참조하는 2차 카테고리 코드(상품테이블에 2차 카테고리 코드가 존재하여 조인하기 위함)
+*/
+-- 검산
+SELECT p.cat_code, d.pro_num, d.dt_amount * d.dt_price sales_p
+FROM product_tbl p inner join ordetail_tbl d
+on
+    p.pro_num=d.pro_num
+and p.cat_code = 8;
+
+SELECT sum(d.dt_amount * d.dt_price) sales_p
+FROM product_tbl p inner join ordetail_tbl d
+on
+    p.pro_num=d.pro_num
+and p.cat_code = 8;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

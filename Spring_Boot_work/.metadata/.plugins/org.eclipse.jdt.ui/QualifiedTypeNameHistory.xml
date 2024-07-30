@@ -32,7 +32,6 @@
     <fullyQualifiedTypeName name="groovy.util.logging.Log"/>
     <fullyQualifiedTypeName name="groovy.util.logging.Log.JavaUtilLoggingStrategy"/>
     <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="java.util.HashMap"/>
     <fullyQualifiedTypeName name="com.docmall.basic.payinfo.PayInfoVo"/>
     <fullyQualifiedTypeName name="org.springframework.http.ResponseEntity"/>
@@ -54,10 +53,11 @@
     <fullyQualifiedTypeName name="com.docmall.basic.common.dto.Criteria"/>
     <fullyQualifiedTypeName name="org.apache.ibatis.annotations.Param"/>
     <fullyQualifiedTypeName name="com.docmall.basic.common.dto.PageDTO"/>
-    <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.GetMapping"/>
     <fullyQualifiedTypeName name="com.docmall.basic.admin.user.MailMngVo"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.PostMapping"/>
     <fullyQualifiedTypeName name="org.springframework.ui.Model"/>
     <fullyQualifiedTypeName name="org.springframework.web.bind.annotation.ModelAttribute"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

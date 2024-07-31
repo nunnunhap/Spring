@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.docmall.basic.order.OrderMapper">
+
+	<insert id="order_insert" parameterType="OrderVo"> <!-- Before는 아래 insert문이 작동되기 전 이란 뜻 -->
+		<selectKey keyProperty="ord_code" resultType="Long" order="BEFORE">
+			SELECT
+				seq_ord_code.NEXTVAL
+			FROM
+				dual
+		</selectKey>
+		INSERT INTO order_tbl(
+			ord_code,
+		    mbsp_id,
+		    ord_name,
+		    ord_addr_zipcode,
+		    ord_addr_basic,
+		    ord_addr_detail,
+		    ord_tel,
+		    ord_price,
+		    ord_desc)
+		VALUES (
+			#{ord_code}, -- 이 곳엔 원래 null 상태였는데 위의 selectkey에 의하여 시퀀스 값을 가지고 있는 상태로 이곳에 적용됨.
+			#{mbsp_id},
+		    #{ord_name},
+		    #{ord_addr_zipcode},
+		    #{ord_addr_basic},
+		    #{ord_addr_detail},
+		    #{ord_tel},
+		    #{ord_price},
+		    #{ord_desc}
+		    )
+	</insert>
+
+	<insert id="orderDetail_insert" parameterType="map">
+		INSERT INTO
+	    	ordetail_tbl(ord_code, pro_num, dt_amount, dt_price)
+	    SELECT
+	        #{ord_code}, p.pro_num, c.cart_amount, p.pro_price
+	    FROM
+	        cart_tbl c
+	    INNER JOIN
+	    	product_tbl p
+	    ON
+	    	c.pro_num = p.pro_num
+	    WHERE
+	        mbsp_id = #{mbsp_id}
+	</insert>
+
+
+
+
+
+
+</mapper>

@@ -1,11 +1,15 @@
 package com.mysite.sbb.question;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysite.sbb.DataNotFoundException;
 
@@ -17,8 +21,17 @@ public class QuestionService {
 	
 	private final QuestionRepository questionRepository;
 	
+	// 페이징 없음
 	public List<Question> getList() {
 		return questionRepository.findAll();
+	}
+	
+	// 페이징 및 정렬 작업
+	public Page<Question> getList(int page) {
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("createDate"));
+		Pageable pageable = PageRequest.of(page, 2, Sort.by(sorts));
+		return this.questionRepository.findAll(pageable);
 	}
 	
 	public Question getQuestion(Integer id) {
@@ -37,6 +50,8 @@ public class QuestionService {
 		q.setCreateDate(LocalDateTime.now());
 		this.questionRepository.save(q);
 	}
+	
+
 	
 	
 	

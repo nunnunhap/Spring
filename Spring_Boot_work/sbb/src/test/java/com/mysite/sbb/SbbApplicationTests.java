@@ -16,12 +16,14 @@ import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.answer.AnswerRepository;
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionRepository;
+import com.mysite.sbb.question.QuestionService;
 
 @SpringBootTest // 스프링부트의 테스트용 클래스라는 것을 의미
 class SbbApplicationTests {
 	
 	@Autowired // lombok 어노테이션 사용불가.
-	private QuestionRepository questionRepository;
+	//private QuestionRepository questionRepository;
+	private QuestionService questionService;
 	
 	@Autowired
 	private AnswerRepository answerRepository;
@@ -94,7 +96,6 @@ class SbbApplicationTests {
 		assertTrue(oa.isPresent());
 		Answer a = oa.get();
 		assertEquals(4, a.getQuestion().getId()); // 질문글의 3번글을 보고 답변글 저장
-				*/
 		
 		// 답변 데이터를 통해 질문 데이터 찾기 vs 질문 데이터를 통해 답변 데이터 찾기
 		Optional<Question> oq = this.questionRepository.findById(4);
@@ -114,6 +115,15 @@ class SbbApplicationTests {
 		
 		assertEquals(1, answerList.size());
 		assertEquals("네, 자동으로 생성됩니다.", answerList.get(0).getContent());
+		*/
+		
+		for(int i = 1; i <= 300; i++) {
+			// 마이바티스는 db에 직접 insert했는데 jpa에선 이런 작업을 많이 하게 됨.
+			String subject = String.format("테스트 데이터입니다 : [%03d]", i);
+			String content = "내용무";
+			this.questionService.create(subject, content);
+		}
+		
 		
 	}
 	

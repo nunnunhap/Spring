@@ -10,13 +10,41 @@
             </tr>
         </thead>
         <tbody>
-            <tr th:each="question, loop : ${questionList}">
-                <td th:text="${loop.count}"></td>
-                <td><a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a></td>
+            <tr th:each="question, loop : ${paging}"><!--th:each="변수, 상태변수 : 컬렉션"-->
+                <td th:text="${paging.getTotalElements - (paging.number * paging.size) - loop.index}"></td>
+                <td>
+                    <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+                    <span class="text-danger small ms-2"
+                        th:if="${#lists.size(question.answerList) > 0}"
+                        th:text="${#lists.size(question.answerList)}">
+                    </span>
+                </td>
                 <td th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></td>
             </tr>
         </tbody>
     </table>
+    <!-- 페이징 작업 시작 : JPA는 기본 성격이 페이징이 0부터 시작해서 따로 고쳐주어야 함. -->
+    <div th:if="${!paging.isEmpty()}">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${!paging.hasPrevious} ? 'disable'">
+                    <a class="page-link" th:href="@{|?page=${paging.number-1}|}" aria-label="Previous">
+                        <span aria-hidden="true">이전</span>
+                    </a>
+                </li>
+                <li th:each="page : ${#numbers.sequence(0, paging.totalPages - 1)}"
+                    th:if="${page >= paging.number-5 and page <= paging.number+5}"
+                    th:classappend="${page == paging.number} ? 'active'" class="page-item">
+                    <a class="page-link" th:text="${page}" th:href="@{|?page=${page}|}"></a>
+                </li>
+                <li class="page-item" th:classappend="${!paging.hasNext} ? 'disable'">
+                    <a class="page-link" th:href="@{|?page=${paging.number+1}|}" aria-label="Next">
+                        <span aria-hidden="true">이후</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
     <a th:href="@{/question/create}">질문등록하기</a>
 </div>
 </html>

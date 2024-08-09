@@ -56,6 +56,7 @@ public class UserController {
 		return "login_form";
 	}
 	
+	// 로그아웃 주소는 작업하지 않음. 어디서? SecurityConfig.java 스프링 시큐리티에서 설정
 	
 	
 	

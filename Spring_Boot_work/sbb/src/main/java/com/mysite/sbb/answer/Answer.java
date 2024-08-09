@@ -3,6 +3,7 @@ package com.mysite.sbb.answer;
 import java.time.LocalDateTime;
 
 import com.mysite.sbb.question.Question;
+import com.mysite.sbb.user.SiteUser;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,5 +32,11 @@ public class Answer {
 	// Answer 입장에서 Question은 부모임. 참조되는 클래스가 참조하는 클래스 안에 들어와 있어야 함.
 	@ManyToOne // N : 1 관계 ==> 많은 Answer 당 Question 하나
 	private Question question; // 질문 데이터는  1개이므로 List컬렉션 사용 안함.
+	
+	// 답글 작성자. 한 사용자가 여러개 게시글 작성(1 : N)
+	@ManyToOne // many : Answer, one : author
+	private SiteUser author;
+	
+	
 	
 }

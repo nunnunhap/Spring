@@ -115,16 +115,15 @@ class SbbApplicationTests {
 		
 		assertEquals(1, answerList.size());
 		assertEquals("네, 자동으로 생성됩니다.", answerList.get(0).getContent());
-		*/
 		
 		for(int i = 1; i <= 300; i++) {
 			// 마이바티스는 db에 직접 insert했는데 jpa에선 이런 작업을 많이 하게 됨.
 			String subject = String.format("테스트 데이터입니다 : [%03d]", i);
 			String content = "내용무";
-			this.questionService.create(subject, content);
+			this.questionService.create(subject, content, );
 		}
 		
-		
+		*/
 	}
 	
 	

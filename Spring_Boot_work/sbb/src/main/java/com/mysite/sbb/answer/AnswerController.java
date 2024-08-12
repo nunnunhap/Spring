@@ -2,13 +2,16 @@ package com.mysite.sbb.answer;
 
 import java.security.Principal;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.mysite.sbb.question.Question;
 import com.mysite.sbb.question.QuestionService;
@@ -28,7 +31,7 @@ public class AnswerController {
 	private final UserService userService;
 	
 	
-	@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()") // 인증되지 않은 사용자가 접근 시 login페이지로 Redirect
 	@PostMapping("/create/{id}")
 	public String createAnswer(Model model, @PathVariable("id") Integer id,
 			@Valid AnswerForm answerForm, BindingResult bindingResult,
@@ -50,7 +53,53 @@ public class AnswerController {
 		return String.format("redirect:/question/detail/%s", id);
 	}
 	
+	// 수정폼
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/modify/{id}")
+	public String answerModify(AnswerForm answerForm, @PathVariable("id") Integer id, Principal principal) {
+		// 수정하고자 하는 내용을 db에서 읽어옴.
+		Answer answer = this.answerService.getAnswer(id);
+		if(!answer.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+		}
+		
+		answerForm.setContent(answer.getContent());		
+		
+		return "answer_form";
+	}
 	
+	// 수정하기
+	@PreAuthorize("isAuthenticated()")
+	@PostMapping("/modify/{id}")
+	public String answerModify(@Valid AnswerForm answerForm, BindingResult bindingResult,
+			@PathVariable("id") Integer id, Principal principal) {
+		if(bindingResult.hasErrors()) {
+			return "answer_form";
+		}
+		// 수정하고자 하는 답변글
+		Answer answer = this.answerService.getAnswer(id);
+		if(!answer.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+		}
+		this.answerService.modify(answer, answerForm.getContent());
+		
+		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+	}
+	
+	// 답변 삭제
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/delete/{id}")
+	public String answerDelete(Principal principal, @PathVariable("id") Integer id) {
+		// 삭제하고자 하는 entity(내용)을 db에서 읽어옴.
+		Answer answer = this.answerService.getAnswer(id);
+		if(!answer.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+		}
+		
+		this.answerService.delete(answer);
+		
+		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+	}
 	
 	
 	

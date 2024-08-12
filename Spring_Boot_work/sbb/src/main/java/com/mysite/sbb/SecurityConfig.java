@@ -2,6 +2,7 @@ package com.mysite.sbb;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -41,7 +42,7 @@ public class SecurityConfig { // 암기할 필요 없이 참조할 것.
 		return http.build();
 	}
 	
-	@Bean // 로그인 인증 시 사용하는 bean
+	@Bean // 로그인 인증 시 사용하는 bean  @PreAuthorize("isAuthenticated()")
 	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
 		return authenticationConfiguration.getAuthenticationManager();
 	}

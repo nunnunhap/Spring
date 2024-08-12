@@ -37,6 +37,6 @@ public class Answer {
 	@ManyToOne // many : Answer, one : author
 	private SiteUser author;
 	
-	
+	private LocalDateTime modifyDate;
 	
 }

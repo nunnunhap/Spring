@@ -35,6 +35,7 @@ public class QuestionService {
 		return this.questionRepository.findAll(pageable);
 	}
 	
+	// 수정, 삭제
 	public Question getQuestion(Integer id) {
 		Optional<Question> question = this.questionRepository.findById(id);
 		if(question.isPresent()) {
@@ -53,7 +54,23 @@ public class QuestionService {
 		this.questionRepository.save(q);
 	}
 	
-
+	// 수정하기
+	public void modify(Question question, String subject, String content) {
+		question.setSubject(subject);
+		question.setContent(content);
+		question.setModifyDate(LocalDateTime.now());
+		this.questionRepository.save(question);
+	}
+	
+	// 삭제하기 // entity가 필요함을 꼭 기억하기
+	public void delete(Question question) {
+		this.questionRepository.delete(question);
+	}
+	
+	
+	
+	
+	
 	
 	
 	

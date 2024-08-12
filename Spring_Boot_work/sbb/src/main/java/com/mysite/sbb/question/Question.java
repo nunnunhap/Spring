@@ -44,6 +44,8 @@ public class Question { // 이걸 entity 클래스로 만듦. 여기서 만들�
 	@ManyToOne // many : question, one은 author
 	private SiteUser author;
 	
+	private LocalDateTime modifyDate;
+	
 	
 	
 }

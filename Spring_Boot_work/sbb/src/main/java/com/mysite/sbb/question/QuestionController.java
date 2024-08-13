@@ -144,6 +144,18 @@ public class QuestionController {
 		return "redirect:/";
 	}
 	
+	// 추천하기
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/vote/{id}")
+	public String questionVote(Principal principal, @PathVariable("id") Integer id) {
+		Question question = this.questionService.getQuestion(id); // 추천 대상의 질문글
+		SiteUser siteUser = this.userService.getUser(principal.getName()); // 추천사용자(인증 받은 사용자)
+
+		this.questionService.vote(question, siteUser);
+		
+		return String.format("redirect:/question/detail/%s", id);
+	}
+	
 	
 	
 	

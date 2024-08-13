@@ -54,5 +54,13 @@ public class AnswerService {
 		this.answerRepository.save(answer);
 	}
 	
+	// 추천하기   entity를 테이블로 바라보자. Answer
+	public void vote(Answer answer, SiteUser siteUser) {
+		answer.getVoter().add(siteUser);
+		this.answerRepository.save(answer);
+	}
+	
+	
+	
 	
 }

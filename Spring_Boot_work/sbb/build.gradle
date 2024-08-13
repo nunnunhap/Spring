@@ -36,16 +36,18 @@ dependencies {
 	   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	   runtimeOnly 'com.h2database:h2'
 	   testImplementation 'org.junit.jupiter:junit-jupiter' 
-	    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-	    
-	    implementation 'org.springframework.boot:spring-boot-starter-validation'
-	    implementation 'org.springframework.boot:spring-boot-starter-security'
-	    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-	    
-	    implementation 'org.springframework.boot:spring-boot-starter'
-	    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	   testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	   
+	   implementation 'org.springframework.boot:spring-boot-starter-validation'
+	   implementation 'org.springframework.boot:spring-boot-starter-security'
+	   implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	   
+	   implementation 'org.springframework.boot:spring-boot-starter'
+	   implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	   implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-	    runtimeOnly 'com.mysql:mysql-connector-j'
+	   runtimeOnly 'com.mysql:mysql-connector-j'
+	   
+	   implementation 'org.commonmark:commonmark:0.21.0'
 }
 
 tasks.named('test') {

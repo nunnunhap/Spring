@@ -2,6 +2,7 @@ package com.mysite.sbb.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.user.SiteUser;
@@ -12,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -46,6 +48,9 @@ public class Question { // 이걸 entity 클래스로 만듦. 여기서 만들�
 	
 	private LocalDateTime modifyDate;
 	
+	// 추천(좋아요) 기능 // Set은 중복이 안되니 같은 질문글에 같은 사용자가 반복해서 클릭하면 안됨.
+	@ManyToMany
+	Set<SiteUser> voter; // 한 게시글에 대하여 여러 사람이 추천을 하니 복수 개념이 들어가야 함. N : N 관계
 	
 	
 }

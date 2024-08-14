@@ -17,8 +17,8 @@ public class AnswerService {
 	
 	private final AnswerRepository answerRepository;
 	
-	// 질문 글에 대한 답변저장
-	public void create(Question question, String content, SiteUser author) {
+	// 질문글에 대한 답변저장 후 답변 엔티티를 리턴
+	public Answer create(Question question, String content, SiteUser author) {
 		Answer answer = new Answer();
 		answer.setContent(content);
 		answer.setCreateDate(LocalDateTime.now());
@@ -30,6 +30,8 @@ public class AnswerService {
 		answer.setAuthor(author);
 		
 		this.answerRepository.save(answer);
+		
+		return answer;
 	}
 	
 	// 답변글 조회(삭제 또는 수정작업)

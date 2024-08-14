@@ -31,6 +31,7 @@ public class AnswerController {
 	private final UserService userService;
 	
 	
+	// 답변하기
 	@PreAuthorize("isAuthenticated()") // 인증되지 않은 사용자가 접근 시 login페이지로 Redirect
 	@PostMapping("/create/{id}")
 	public String createAnswer(Model model, @PathVariable("id") Integer id,
@@ -48,9 +49,9 @@ public class AnswerController {
 		}
 		
 		// 답변저장 // answerForm.getContent()이 답변글
-		this.answerService.create(question, answerForm.getContent(), siteUser);
+		Answer answer = this.answerService.create(question, answerForm.getContent(), siteUser);
 		
-		return String.format("redirect:/question/detail/%s", id);
+		return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
 	}
 	
 	// 수정폼
@@ -83,7 +84,8 @@ public class AnswerController {
 		}
 		this.answerService.modify(answer, answerForm.getContent());
 		
-		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+		// 앵커기능을 포함한 주소
+		return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
 	}
 	
 	// 답변 삭제

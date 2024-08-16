@@ -2,6 +2,7 @@ package com.mysite.sbb.question;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 // JpaRepository<엔티티, 프라이머리키> : 테이블에 대하여 삽입, 삭제, 수정, 조회 작업을 가능하게 해주는 인터페이스
@@ -15,9 +16,11 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	Question findBySubject(String subject);
 	Question findBySubjectAndContent(String subject, String content);
 	
+	// 목록과 페이징 처리
 	Page<Question> findAll(Pageable pageable);
 	
-	
+	// 목록과 페이징 처리. 검색추가
+	Page<Question> findAll(Specification<Question> spec, Pageable pageable);
 	
 	
 	

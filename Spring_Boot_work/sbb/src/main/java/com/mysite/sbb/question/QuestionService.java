@@ -9,11 +9,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.mysite.sbb.DataNotFoundException;
+import com.mysite.sbb.answer.Answer;
 import com.mysite.sbb.user.SiteUser;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -28,11 +36,12 @@ public class QuestionService {
 	}
 	
 	// 페이징 및 정렬 작업
-	public Page<Question> getList(int page) {
+	public Page<Question> getList(int page, String kw) { // kw는 검색어를 입력받는 파라미터
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("createDate"));
-		Pageable pageable = PageRequest.of(page, 2, Sort.by(sorts));
-		return this.questionRepository.findAll(pageable);
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		Specification<Question> spec = search(kw);
+		return this.questionRepository.findAll(spec, pageable);
 	}
 	
 	// 수정, 삭제
@@ -74,7 +83,32 @@ public class QuestionService {
 	}
 	
 	
-	
+	private Specification<Question> search(String kw) {
+		// Specification 재정의
+		// 자바 익명객체. new 인터페이스명() { // 재정의 }
+		// 보통 class로 만드나, 이번 건은 한 번 쓰고 끝나기 때문에 이렇게 사용함.
+        return new Specification<>() {
+            private static final long serialVersionUID = 1L;
+            @Override
+            public Predicate toPredicate(Root<Question> q, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                query.distinct(true);  // 중복을 제거 
+                
+                // Join 시 JOIN조건식 ON절에 해당하는 의미.
+                Join<Question, SiteUser> u1 = q.join("author", JoinType.LEFT);
+                
+                Join<Question, Answer> a = q.join("answerList", JoinType.LEFT);
+                
+                Join<Answer, SiteUser> u2 = a.join("author", JoinType.LEFT);
+                
+                // 검색조건 추가 LIKE 패턴 매칭
+                return cb.or(cb.like(q.get("subject"), "%" + kw + "%"), // 제목 
+                        cb.like(q.get("content"), "%" + kw + "%"),      // 내용 
+                        cb.like(u1.get("username"), "%" + kw + "%"),    // 질문 작성자 
+                        cb.like(a.get("content"), "%" + kw + "%"),      // 답변 내용 
+                        cb.like(u2.get("username"), "%" + kw + "%"));   // 답변 작성자 
+            }
+        };
+    }
 	
 	
 	

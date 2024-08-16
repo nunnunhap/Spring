@@ -35,13 +35,14 @@ public class QuestionController {
 		
 	@GetMapping("/list")
 	// @ResponseBody // 아래 리턴값을 순수한 데이터로 인식
-	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page) {
+	public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "kw", defaultValue = "") String kw) {
 		
 		// List<Question> questionList = this.questionService.getList(); // 페이징 기능이 없는 메서드임.
 		// model.addAttribute("questionList", questionList);
 		
 		// 목록과 페이징 정보 둘 다 존재함.
-		Page<Question> paging = this.questionService.getList(page);
+		Page<Question> paging = this.questionService.getList(page, kw);
 		model.addAttribute("paging", paging);
 		
 		return "question_list";
